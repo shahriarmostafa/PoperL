@@ -40,6 +40,7 @@ section{
                         transition: 0.5s;
                         width: 100%;
                         border-radius: 50%;
+                        border: 5px solid $orange;
                         &:hover{
                             transform: scale(1.1);
                             filter: grayscale(50%)
@@ -77,6 +78,27 @@ section{
                     background: linear-gradient(#FDE78E, #FEF2C3);
                     .icon{
                         background: #D97706;
+                    }
+                }
+                .this-month{
+                    border-bottom: 4px solid #2563eb;
+                    background: linear-gradient(#C1DCFE, #DAEAFE);
+                    .icon{
+                        background: #2563EB;
+                    }
+                }
+                .last-month{
+                    border-bottom: 4px solid #4f46e5;
+                    background: linear-gradient(#C8D3FE, #DEE5FF);
+                    .icon{
+                        background: #4F46E5;
+                    }
+                }
+                .difference{
+                    border-bottom: 4px solid #DC2626;
+                    background: linear-gradient(#FECACA, #FEE1E1);
+                    .icon{
+                        background: #DC2626;
                     }
                 }
                 .box{
