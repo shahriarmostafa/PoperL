@@ -3,7 +3,7 @@
 $gray: #34495E;
 $orange: #FF834F;
 $white: #ffffff;
-$purple: #7E53CD;
+$blue: #4E73DF;
 $shadow: #E6E9EA;
 $background: #EEF2F7;
 section{
@@ -11,133 +11,6 @@ section{
     width: 100%;
     height: 100vh;
     font-family: 'Poppins', sans-serif;
-    .view{
-        width: 80%;
-        background: $background;
-        nav{
-            width: 100%;
-            box-shadow: 0px 1px 5px $shadow;
-            background: $white;
-            .container{
-                justify-content: space-between;
-                align-items: center;
-                .logo{
-                    width: 150px;
-                    img{
-                        width: 100%;
-                    }
-                }
-                // .username{
-                //     h3{
-                //         font-weight: 800;
-                //         margin: 0px;
-                //         color: $orange;
-                //     }
-                // }
-                .profile{
-                    width: 50px;
-                    img{
-                        transition: 0.5s;
-                        width: 100%;
-                        border-radius: 50%;
-                        border: 5px solid $orange;
-                        &:hover{
-                            transform: scale(1.1);
-                            filter: grayscale(50%)
-                        }
-                        &:active{
-                            transform: scale(1);
-                        }
-                    }
-                }
-            }
-        }
-        .analytics{
-            .st-and-te{
-                padding-top: 50px;
-                display: flex;
-                justify-content: space-around;
-                flex-wrap: wrap;
-                .Revenue{
-                    border-bottom: 4px solid #059669;
-                    background: linear-gradient(#AAF4D1, #CFFAE4);
-                    .icon{
-                        background: #059669;
-                    }
-                }
-                .total-students{
-                    border-bottom: 4px solid #DB2777;
-                    background: linear-gradient(#FBD1E9, #FCE7F3);
-                    .icon{
-                        background: #DB2777;
-                        
-                    }
-                }
-                .total-teachers{
-                    border-bottom: 4px solid #D97706;
-                    background: linear-gradient(#FDE78E, #FEF2C3);
-                    .icon{
-                        background: #D97706;
-                    }
-                }
-                .this-month{
-                    border-bottom: 4px solid #2563eb;
-                    background: linear-gradient(#C1DCFE, #DAEAFE);
-                    .icon{
-                        background: #2563EB;
-                    }
-                }
-                .last-month{
-                    border-bottom: 4px solid #4f46e5;
-                    background: linear-gradient(#C8D3FE, #DEE5FF);
-                    .icon{
-                        background: #4F46E5;
-                    }
-                }
-                .difference{
-                    border-bottom: 4px solid #DC2626;
-                    background: linear-gradient(#FECACA, #FEE1E1);
-                    .icon{
-                        background: #DC2626;
-                    }
-                }
-                .box{
-                    border-radius: 10px;
-                    box-shadow: 1px 1px 25px rgb(0, 0, 0, 0.2);
-                    justify-content: space-between;
-                    width: 28%;
-                    padding: 18px 30px;
-                    .icon{
-                        width: 70px;
-                        height: 70px;
-                        border-radius: 50%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        align-items: center;
-                        img{
-                            width: 30px;
-                        }
-                    }
-                    .subject{
-                        margin-top: 10px;
-                        text-align: center;
-                        .text{
-                            h4{
-                                font-size: 15px;
-                                font-weight: 800;
-                                color: $gray;
-                            }
-                        }
-                        .number{
-                            font-size: 30px;
-                            font-weight: 700;
-                        }                       
-                    }
-                }
-            }
-        }
-    }
     .display{
         .sidebar{
             overflow: hidden;
@@ -145,33 +18,218 @@ section{
             height: 100vh;
             background: $gray;
             .display-names{
-                .item{
-                    transition: 1s;
-                    padding: 15px 30px;
-                    border-bottom: 1px solid $gray;
-                    align-items: center;
-                    color: $white;
-                    &:hover{
-                        background: $white;
-                        color: $gray;
-                        transform: scale(1.05);
+                a{
+                    text-decoration: none;
+                    .item{
+                        transition: 1s;
+                        padding: 15px 30px;
+                        border-bottom: 1px solid $gray;
+                        align-items: center;
+                        color: $white;
+                        .icon{
+                            width: 20px;
+                            margin-right: 10px;
+                            svg{
+                                width: 100%;
+                                fill: $white;
+                                transition: 1s;
+                            }
+                        }
+                        p{
+                            margin: 0;
+                            font-weight: 500;
+                            font-size: 12px;
+                        }
+                        &:hover{
+                            background: $white;
+                            color: $gray;
+                            transform: scale(1.05);
+                            svg{
+                                fill: $gray;
+                            }
+                        }
                     }
-                    .icon{
-                        width: 20px;
-                        margin-right: 10px;
+                }
+            }
+        }
+        .view{
+            width: 80%;
+            background: $background;
+            height: 100vh;
+            overflow: scroll;
+            &::-webkit-scrollbar-thumb {
+                width: 3px;
+                background: $blue;
+            }
+            &::-webkit-scrollbar {
+                width: 3px;
+            }
+            nav{
+                width: 100%;
+                box-shadow: 0px 1px 5px $shadow;
+                background: $white;
+                .container{
+                    justify-content: space-between;
+                    align-items: center;
+                    .logo{
+                        width: 150px;
                         img{
                             width: 100%;
                         }
                     }
-                    p{
-                        margin: 0;
-                        font-weight: 500;
-                        font-size: 12px;
+    
+                    .profile{
+                        width: 50px;
+                        img{
+                            transition: 0.5s;
+                            width: 100%;
+                            border-radius: 50%;
+                            border: 5px solid $orange;
+                            &:hover{
+                                transform: scale(1.1);
+                                filter: grayscale(50%)
+                            }
+                            &:active{
+                                transform: scale(1);
+                            }
+                        }
                     }
-                    
+                }
+            }
+            .analytics{
+                padding: 50px 30px;
+                .st-and-te{
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    margin-bottom: 50px;
+                    .Revenue{
+                        border-bottom: 4px solid #059669;
+                        background: linear-gradient(#AAF4D1, #CFFAE4);
+                        .icon{
+                            background: #059669;
+                        }
+                    }
+                    .total-students{
+                        border-bottom: 4px solid #DB2777;
+                        background: linear-gradient(#FBD1E9, #FCE7F3);
+                        .icon{
+                            background: #DB2777;
+                            
+                        }
+                    }
+                    .total-teachers{
+                        border-bottom: 4px solid #D97706;
+                        background: linear-gradient(#FDE78E, #FEF2C3);
+                        .icon{
+                            background: #D97706;
+                        }
+                    }
+                    .this-month{
+                        border-bottom: 4px solid #2563eb;
+                        background: linear-gradient(#C1DCFE, #DAEAFE);
+                        .icon{
+                            background: #2563EB;
+                        }
+                    }
+                    .last-month{
+                        border-bottom: 4px solid #4f46e5;
+                        background: linear-gradient(#C8D3FE, #DEE5FF);
+                        .icon{
+                            background: #4F46E5;
+                        }
+                    }
+                    .difference{
+                        border-bottom: 4px solid #DC2626;
+                        background: linear-gradient(#FECACA, #FEE1E1);
+                        .icon{
+                            background: #DC2626;
+                        }
+                    }
+                    .box{
+                        border-radius: 10px;
+                        box-shadow: 1px 1px 25px rgb(0, 0, 0, 0.2);
+                        justify-content: space-between;
+                        width: 28%;
+                        padding: 18px 30px;
+                        .icon{
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            align-items: center;
+                            img{
+                                width: 30px;
+                            }
+                        }
+                        .subject{
+                            margin-top: 10px;
+                            text-align: center;
+                            .text{
+                                h4{
+                                    font-size: 15px;
+                                    font-weight: 800;
+                                    color: $gray;
+                                }
+                            }
+                            .number{
+                                font-size: 30px;
+                                font-weight: 700;
+                            }                       
+                        }
+                    }
+                }
+
+
+                //  history page
+                .revenue-table{
+                    margin-bottom: 35px;
+                    table{
+                        box-shadow: 1px 1px 20px $shadow;
+                        border: none;
+                        width: 100%;
+                        text-align: center;
+                        border-radius: 5px;
+                        overflow: hidden;
+                        background: $white;
+                        tr{
+                            &:nth-child(odd){
+                                background:$background;
+                            }
+                        }
+                        th{
+                            border: none;
+                            color: $white;
+                            font-size: 12px;
+                            background: $blue;
+                        }
+                        td{
+                            border: none;
+                            font-size: 12px;
+                            padding: 20px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+                //  history page
+
+            }
+            .redi-buttons{
+                justify-content: end;
+                button{
+                    margin-left: 15px;
+                    border: none;
+                    background: $blue;
+                    color: $white;
+                    padding: 12px 70px;
+                    border-radius: 5px;
+                    font-weight: 500;
+                    font-size: 12px;
+                    outline: none;
                 }
             }
         }
-        
     }
 }
