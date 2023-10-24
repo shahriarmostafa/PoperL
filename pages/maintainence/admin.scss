@@ -130,7 +130,6 @@ section{
                             border: 5px solid $orange;
                             &:hover{
                                 transform: scale(1.1);
-                                filter: grayscale(50%);
                             }
                             &:active{
                                 transform: scale(1);
@@ -284,6 +283,17 @@ section{
                             font-size: 12px;
                             padding: 20px;
                             font-weight: 600;
+                            button{
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 50%;
+                                padding: 0;
+                                margin: 0;
+                                svg{
+                                    fill: $white;
+                                    width: 15px;
+                                }
+                            }
                         }
                         .icon{
                             width: 20px;
@@ -298,20 +308,9 @@ section{
                 //  history page
 
                 // admin page
-                .admin-table{
+                .admin-table, .complain-table{
                     tr, td{
                         width: 50%;
-                        button{
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            padding: 0;
-                            margin: 0;
-                            svg{
-                                fill: $white;
-                                width: 15px;
-                            }
-                        }
                     }
                 }
                 .form{
@@ -326,12 +325,13 @@ section{
                             box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
                             border: none;
                             outline: none;
-                            padding: 15px 20px;
+                            padding: 10px 20px;
                             font-weight: 600;
-                            border-radius: 10px;
+                            border-radius: 4px;
                             background: #e3edf7;
                             width: 100%;
                             margin: 10px 0;
+                            font-size: 12px;
                             &[type="submit"]{
                                 background: $blue;
                                 box-shadow: none;
@@ -342,6 +342,35 @@ section{
                     }
                 // admin page
 
+                // packages page
+                .packages{
+                    display: flex;
+                    width: 100%;
+                    flex-wrap: wrap;
+                    justify-content: space-evenly;
+                    .package{
+                        width: 30%;
+                        background: #E3EDF7;
+                        box-shadow: 8px 8px 8px $shadow, -8px -8px 8px $white;
+                        padding: 55px 55px;
+                        border-radius: 8px;
+                        margin-bottom: 40px;
+                        ul{
+                            font-weight: 600;
+                            font-size: 12;
+                            margin: 25px 0 40px 0;
+                            li{
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }    
+                }
+                // packages page
+
+                // complainn page
+
+                // complainn page
+                
 
             }
             

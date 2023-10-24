@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="../admin.css">
+    <link rel="stylesheet" href="../../admin.css">
 </head>
 <body>
     <section class="admin owner">
@@ -13,7 +13,7 @@
         <div class="display d-flex">
             <div class="sidebar">
                 <div class="display-names">
-                    <a href="../admin.html">
+                    <a href="../dashboard.html">
                         <div class="item container  d-flex">
                             <div class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path  d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>
@@ -70,22 +70,32 @@
                 <nav class="admin-nav owner-nav p-3">
                     <div class="container d-flex">
                         <div class="logo">
-                            <img src="../../../logo/logo.png" alt="">
+                            <img src="../../../../logo/logo.png" alt="">
                         </div>
 
                         <div class="profile">
                             <img src="../temp-image/328039808_553574763481911_1410511776054264885_n.jpg" alt="">
+                            <div class="dropdown">
+                                <ul>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">List</a></li>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Account</a></li>
+                                    <li><a color="text-danger" href="#">Logout</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </nav>
                 <div class="analytics">
                     <div class="form add-admin">
-                        <h3 class="headline">Add Admin</h3>
+                        <h3 class="headline">Change Your Password</h3>
                         <form action="">
-                            <input type="text" placeholder="Enter username">
                             <input type="email" placeholder="Enter Your Email">
                             <input type="text" placeholder="Enter password">
-                            <input type="submit" class="show-all">
+                            <input type="password" placeholder="Enter password">
+                            <input type="password" placeholder="Confirm password">
+                            <input value="Change Password" type="submit">
                         </form>
                     </div>
                 </div>

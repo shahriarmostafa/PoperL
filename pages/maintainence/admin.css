@@ -121,7 +121,6 @@ section .display .view nav .container .profile img {
 }
 section .display .view nav .container .profile img:hover {
   transform: scale(1.1);
-  filter: grayscale(50%);
 }
 section .display .view nav .container .profile img:active {
   transform: scale(1);
@@ -262,6 +261,17 @@ section .display .view .analytics .table table td {
   padding: 20px;
   font-weight: 600;
 }
+section .display .view .analytics .table table td button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+}
+section .display .view .analytics .table table td button svg {
+  fill: #ffffff;
+  width: 15px;
+}
 section .display .view .analytics .table table .icon {
   width: 20px;
   margin: auto;
@@ -270,19 +280,8 @@ section .display .view .analytics .table table .icon svg {
   width: 100%;
   fill: #4E73DF;
 }
-section .display .view .analytics .admin-table tr, section .display .view .analytics .admin-table td {
+section .display .view .analytics .admin-table tr, section .display .view .analytics .admin-table td, section .display .view .analytics .complain-table tr, section .display .view .analytics .complain-table td {
   width: 50%;
-}
-section .display .view .analytics .admin-table tr button, section .display .view .analytics .admin-table td button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 0;
-  margin: 0;
-}
-section .display .view .analytics .admin-table tr button svg, section .display .view .analytics .admin-table td button svg {
-  fill: #ffffff;
-  width: 15px;
 }
 section .display .view .analytics .form {
   width: 50%;
@@ -296,15 +295,38 @@ section .display .view .analytics .form form input {
   box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
   border: none;
   outline: none;
-  padding: 15px 20px;
+  padding: 10px 20px;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #e3edf7;
   width: 100%;
   margin: 10px 0;
+  font-size: 12px;
 }
 section .display .view .analytics .form form input[type=submit] {
   background: #4E73DF;
   box-shadow: none;
   color: #ffffff;
+}
+section .display .view .analytics .packages {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+section .display .view .analytics .packages .package {
+  width: 30%;
+  background: #E3EDF7;
+  box-shadow: 8px 8px 8px rgba(78, 114, 223, 0.3882352941), -8px -8px 8px #ffffff;
+  padding: 55px 55px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+section .display .view .analytics .packages .package ul {
+  font-weight: 600;
+  font-size: 12;
+  margin: 25px 0 40px 0;
+}
+section .display .view .analytics .packages .package ul li {
+  margin-bottom: 10px;
 }/*# sourceMappingURL=admin.css.map */
