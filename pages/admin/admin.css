@@ -5,6 +5,14 @@ section {
   height: 100vh;
   font-family: "Poppins", sans-serif;
 }
+section a {
+  text-decoration: none;
+}
+section .headline {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4E73DF;
+}
 section .display .sidebar {
   overflow: hidden;
   width: 20%;
@@ -58,7 +66,7 @@ section .display .view::-webkit-scrollbar {
 }
 section .display .view nav {
   width: 100%;
-  box-shadow: 0px 1px 5px #E6E9EA;
+  box-shadow: 0px 1px 5px rgba(78, 114, 223, 0.3882352941);
   background: #ffffff;
 }
 section .display .view nav .container {
@@ -66,13 +74,44 @@ section .display .view nav .container {
   align-items: center;
 }
 section .display .view nav .container .logo {
-  width: 150px;
+  width: 240px;
 }
 section .display .view nav .container .logo img {
   width: 100%;
 }
 section .display .view nav .container .profile {
   width: 50px;
+}
+section .display .view nav .container .profile .dropdown {
+  display: none;
+  position: absolute;
+  right: 50px;
+  transition: 0.1s;
+  padding: 18px 55px;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: -8px -8px 8px rgba(78, 114, 223, 0.3882352941), 8px 8px 8px rgba(78, 114, 223, 0.3882352941);
+  text-align: center;
+}
+section .display .view nav .container .profile .dropdown ul {
+  padding-left: 0;
+}
+section .display .view nav .container .profile .dropdown ul li {
+  transition: 0.5s;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+section .display .view nav .container .profile .dropdown ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  color: black;
+}
+section .display .view nav .container .profile .dropdown ul li:last-child a {
+  color: red;
+  font-weight: 700;
+}
+section .display .view nav .container .profile .dropdown ul li:hover {
+  transform: scale(1.1);
 }
 section .display .view nav .container .profile img {
   transition: 0.5s;
@@ -86,6 +125,10 @@ section .display .view nav .container .profile img:hover {
 }
 section .display .view nav .container .profile img:active {
   transform: scale(1);
+}
+section .display .view nav .container .profile:hover .dropdown {
+  display: block;
+  transform: scale(1.1);
 }
 section .display .view .analytics {
   padding: 50px 30px;
@@ -170,44 +213,98 @@ section .display .view .analytics .st-and-te .box .subject .number {
   font-size: 30px;
   font-weight: 700;
 }
-section .display .view .analytics .revenue-table {
-  margin-bottom: 35px;
-}
-section .display .view .analytics .revenue-table table {
-  box-shadow: 1px 1px 20px #E6E9EA;
-  border: none;
-  width: 100%;
-  text-align: center;
-  border-radius: 5px;
-  overflow: hidden;
-  background: #ffffff;
-}
-section .display .view .analytics .revenue-table table tr:nth-child(odd) {
-  background: #EEF2F7;
-}
-section .display .view .analytics .revenue-table table th {
-  border: none;
-  color: #ffffff;
-  font-size: 12px;
-  background: #4E73DF;
-}
-section .display .view .analytics .revenue-table table td {
-  border: none;
-  font-size: 12px;
-  padding: 20px;
-  font-weight: 500;
-}
-section .display .view .redi-buttons {
+section .display .view .analytics .redi-buttons {
   justify-content: end;
 }
-section .display .view .redi-buttons button {
+section .display .view .analytics .redi-buttons button {
   margin-left: 15px;
+  transition: 0.8s;
   border: none;
   background: #4E73DF;
   color: #ffffff;
-  padding: 12px 70px;
+  padding: 10px 70px;
   border-radius: 5px;
   font-weight: 500;
   font-size: 12px;
   outline: none;
+}
+section .display .view .analytics .redi-buttons button a {
+  color: #ffffff;
+}
+section .display .view .analytics .redi-buttons button:hover {
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
+  transform: scale(1.08);
+}
+section .display .view .analytics .table {
+  margin-bottom: 35px;
+}
+section .display .view .analytics .table table {
+  box-shadow: 1px 1px 20px rgba(78, 114, 223, 0.3882352941);
+  border: none;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+}
+section .display .view .analytics .table table tr:nth-child(odd) {
+  background: #EEF2F7;
+}
+section .display .view .analytics .table table th {
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  background: #4E73DF;
+}
+section .display .view .analytics .table table td {
+  border: none;
+  font-size: 12px;
+  padding: 20px;
+  font-weight: 600;
+}
+section .display .view .analytics .table table .icon {
+  width: 20px;
+  margin: auto;
+}
+section .display .view .analytics .table table .icon svg {
+  width: 100%;
+  fill: #4E73DF;
+}
+section .display .view .analytics .admin-table tr, section .display .view .analytics .admin-table td {
+  width: 50%;
+}
+section .display .view .analytics .admin-table tr button, section .display .view .analytics .admin-table td button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+}
+section .display .view .analytics .admin-table tr button svg, section .display .view .analytics .admin-table td button svg {
+  fill: #ffffff;
+  width: 15px;
+}
+section .display .view .analytics .form {
+  width: 50%;
+  margin: 60px auto;
+  background: #e3edf7;
+  padding: 45px;
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
+  border-radius: 10px;
+}
+section .display .view .analytics .form form input {
+  box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
+  border: none;
+  outline: none;
+  padding: 15px 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  background: #e3edf7;
+  width: 100%;
+  margin: 10px 0;
+}
+section .display .view .analytics .form form input[type=submit] {
+  background: #4E73DF;
+  box-shadow: none;
+  color: #ffffff;
 }/*# sourceMappingURL=admin.css.map */

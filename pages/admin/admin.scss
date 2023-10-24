@@ -4,13 +4,22 @@ $gray: #34495E;
 $orange: #FF834F;
 $white: #ffffff;
 $blue: #4E73DF;
-$shadow: #E6E9EA;
+$shadow: #4e72df63;
 $background: #EEF2F7;
+$red: #BD2130;
 section{
     line-height: 1;
     width: 100%;
     height: 100vh;
     font-family: 'Poppins', sans-serif;
+    a{
+        text-decoration: none;
+    }
+    .headline{
+        font-size: 28px;
+        font-weight: 700;
+        color: $blue;
+    }
     .display{
         .sidebar{
             overflow: hidden;
@@ -72,7 +81,7 @@ section{
                     justify-content: space-between;
                     align-items: center;
                     .logo{
-                        width: 150px;
+                        width: 240px;
                         img{
                             width: 100%;
                         }
@@ -80,6 +89,40 @@ section{
     
                     .profile{
                         width: 50px;
+                        .dropdown{
+                            display: none;
+                            position: absolute;
+                            right: 50px;
+                            transition: 0.1s;
+                            padding: 18px 55px;
+                            border-radius: 4px;
+                            background: $white;
+                            box-shadow: -8px -8px 8px $shadow, 8px 8px 8px $shadow;
+                            text-align: center;
+                            ul{
+                                padding-left: 0;
+                                li{
+                                    transition: 0.5s;
+                                    list-style-type: none;
+                                    margin-bottom: 10px;
+                                    a{
+                                        text-decoration: none;
+                                        font-weight: 600;
+                                        color: black;
+                                        
+                                    }
+                                    &:last-child{
+                                        a{
+                                            color: red;
+                                            font-weight: 700;
+                                        }
+                                    }
+                                    &:hover{
+                                        transform: scale(1.1);
+                                    }
+                                }
+                            }
+                        }
                         img{
                             transition: 0.5s;
                             width: 100%;
@@ -87,10 +130,16 @@ section{
                             border: 5px solid $orange;
                             &:hover{
                                 transform: scale(1.1);
-                                filter: grayscale(50%)
+                                filter: grayscale(50%);
                             }
                             &:active{
                                 transform: scale(1);
+                            }
+                        }
+                        &:hover{
+                            .dropdown{
+                                display: block;
+                                transform: scale(1.1);
                             }
                         }
                     }
@@ -181,17 +230,42 @@ section{
                         }
                     }
                 }
+                // button-edit
+                .redi-buttons{
+                    justify-content: end;
+                    button{
+                        margin-left: 15px;
+                        transition: 0.8s;
+                        border: none;
+                        background: $blue;
+                        color: $white;
+                        padding: 10px 70px;
+                        border-radius: 5px;
+                        font-weight: 500;
+                        font-size: 12px;
+                        outline: none;
+                        a{
+                            color: $white;
+                        }
+                        &:hover{
+                            box-shadow: 8px 8px 16px $shadow, -10px -10px 10px $white;
+                            transform: scale(1.08);
+
+                        }
+                    }
+                }
+                // button-edit
 
 
                 //  history page
-                .revenue-table{
+                .table{
                     margin-bottom: 35px;
                     table{
                         box-shadow: 1px 1px 20px $shadow;
                         border: none;
                         width: 100%;
                         text-align: center;
-                        border-radius: 5px;
+                        border-radius: 6px;
                         overflow: hidden;
                         background: $white;
                         tr{
@@ -209,27 +283,68 @@ section{
                             border: none;
                             font-size: 12px;
                             padding: 20px;
-                            font-weight: 500;
+                            font-weight: 600;
+                        }
+                        .icon{
+                            width: 20px;
+                            margin: auto;
+                            svg{
+                                width: 100%;
+                                fill: $blue;
+                            }
                         }
                     }
                 }
                 //  history page
 
-            }
-            .redi-buttons{
-                justify-content: end;
-                button{
-                    margin-left: 15px;
-                    border: none;
-                    background: $blue;
-                    color: $white;
-                    padding: 12px 70px;
-                    border-radius: 5px;
-                    font-weight: 500;
-                    font-size: 12px;
-                    outline: none;
+                // admin page
+                .admin-table{
+                    tr, td{
+                        width: 50%;
+                        button{
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            padding: 0;
+                            margin: 0;
+                            svg{
+                                fill: $white;
+                                width: 15px;
+                            }
+                        }
+                    }
                 }
+                .form{
+                    width: 50%;
+                    margin: 60px auto;
+                    background: #e3edf7;
+                    padding: 45px;
+                    box-shadow: 8px 8px 16px $shadow, -10px -10px 10px $white;
+                    border-radius: 10px;
+                    form{
+                        input{
+                            box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
+                            border: none;
+                            outline: none;
+                            padding: 15px 20px;
+                            font-weight: 600;
+                            border-radius: 10px;
+                            background: #e3edf7;
+                            width: 100%;
+                            margin: 10px 0;
+                            &[type="submit"]{
+                                background: $blue;
+                                box-shadow: none;
+                                color: $white;
+                            }
+                        }
+                    }
+                    }
+                // admin page
+
+
             }
+            
         }
     }
 }
