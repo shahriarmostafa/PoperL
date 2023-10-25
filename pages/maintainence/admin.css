@@ -258,7 +258,6 @@ section .display .view .analytics .table table th {
 section .display .view .analytics .table table td {
   border: none;
   font-size: 12px;
-  padding: 20px;
   font-weight: 600;
 }
 section .display .view .analytics .table table td button {
@@ -271,6 +270,11 @@ section .display .view .analytics .table table td button {
 section .display .view .analytics .table table td button svg {
   fill: #ffffff;
   width: 15px;
+}
+section .display .view .analytics .table table td img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 section .display .view .analytics .table table .icon {
   width: 20px;

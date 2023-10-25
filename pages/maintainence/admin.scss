@@ -281,7 +281,6 @@ section{
                         td{
                             border: none;
                             font-size: 12px;
-                            padding: 20px;
                             font-weight: 600;
                             button{
                                 width: 40px;
@@ -293,6 +292,11 @@ section{
                                     fill: $white;
                                     width: 15px;
                                 }
+                            }
+                            img{
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 50%;
                             }
                         }
                         .icon{
