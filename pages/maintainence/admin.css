@@ -17,7 +17,7 @@ section .display .sidebar {
   overflow: hidden;
   width: 20%;
   height: 100vh;
-  background: #34495E;
+  background: #4E73DF;
 }
 section .display .sidebar .display-names a {
   text-decoration: none;
@@ -25,7 +25,6 @@ section .display .sidebar .display-names a {
 section .display .sidebar .display-names a .item {
   transition: 1s;
   padding: 15px 30px;
-  border-bottom: 1px solid #34495E;
   align-items: center;
   color: #ffffff;
 }
@@ -45,11 +44,11 @@ section .display .sidebar .display-names a .item p {
 }
 section .display .sidebar .display-names a .item:hover {
   background: #ffffff;
-  color: #34495E;
+  color: #4E73DF;
   transform: scale(1.05);
 }
 section .display .sidebar .display-names a .item:hover svg {
-  fill: #34495E;
+  fill: #4E73DF;
 }
 section .display .view {
   width: 80%;

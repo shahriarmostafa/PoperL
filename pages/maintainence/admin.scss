@@ -25,14 +25,13 @@ section{
             overflow: hidden;
             width: 20%;
             height: 100vh;
-            background: $gray;
+            background: $blue;
             .display-names{
                 a{
                     text-decoration: none;
                     .item{
                         transition: 1s;
                         padding: 15px 30px;
-                        border-bottom: 1px solid $gray;
                         align-items: center;
                         color: $white;
                         .icon{
@@ -51,10 +50,10 @@ section{
                         }
                         &:hover{
                             background: $white;
-                            color: $gray;
+                            color: $blue;
                             transform: scale(1.05);
                             svg{
-                                fill: $gray;
+                                fill: $blue;
                             }
                         }
                     }
