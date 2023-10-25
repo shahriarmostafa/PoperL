@@ -80,6 +80,7 @@ section .display .view nav .container .logo img {
 }
 section .display .view nav .container .profile {
   width: 50px;
+  position: relative;
 }
 section .display .view nav .container .profile .dropdown {
   display: none;
@@ -256,6 +257,7 @@ section .display .view .analytics .table table th {
 }
 section .display .view .analytics .table table td {
   border: none;
+  vertical-align: middle;
   font-size: 12px;
   font-weight: 600;
 }

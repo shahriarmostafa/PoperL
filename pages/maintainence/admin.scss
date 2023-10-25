@@ -88,6 +88,7 @@ section{
     
                     .profile{
                         width: 50px;
+                        position: relative;
                         .dropdown{
                             display: none;
                             position: absolute;
@@ -279,6 +280,7 @@ section{
                         }
                         td{
                             border: none;
+                            vertical-align: middle;
                             font-size: 12px;
                             font-weight: 600;
                             button{
