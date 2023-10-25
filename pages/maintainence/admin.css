@@ -18,6 +18,7 @@ section .display .sidebar {
   width: 20%;
   height: 100vh;
   background: #4E73DF;
+  resize: horizontal;
 }
 section .display .sidebar .display-names a {
   text-decoration: none;

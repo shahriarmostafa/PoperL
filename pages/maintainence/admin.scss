@@ -26,6 +26,7 @@ section{
             width: 20%;
             height: 100vh;
             background: $blue;
+            resize: horizontal;
             .display-names{
                 a{
                     text-decoration: none;
