@@ -128,7 +128,7 @@ section{
                             transition: 0.5s;
                             width: 100%;
                             border-radius: 50%;
-                            border: 5px solid $orange;
+                            border: 5px solid $blue;
                             &:hover{
                                 transform: scale(1.1);
                             }
@@ -284,15 +284,18 @@ section{
                             vertical-align: middle;
                             font-size: 12px;
                             font-weight: 600;
-                            button{
-                                width: 40px;
-                                height: 40px;
-                                border-radius: 50%;
-                                padding: 0;
-                                margin: 0;
-                                svg{
-                                    fill: $white;
-                                    width: 15px;
+                            .redi-buttons{
+                                justify-content: center;
+                                button{
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    padding: 0;
+                                    margin: 0;
+                                    svg{
+                                        fill: $white;
+                                        width: 15px;
+                                    }
                                 }
                             }
                             img{
@@ -376,6 +379,35 @@ section{
                 // complainn page
 
                 // complainn page
+
+
+                // admin dashboard
+                .close-calculation-btn{
+                    justify-content: center;
+                    button{
+                        width: 60%;
+                        margin-top: 100px;
+                        padding: 50px;
+                        font-size: 30px;
+                        text-transform: uppercase;
+                        box-shadow: none;
+                        transition: 0.2s;
+                        &:hover{
+                            box-shadow: none;
+                        }
+                        &:active{
+                            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.5), 
+                            inset 0px 4px 8px rgba(0, 0, 0, 0.5), 
+                            inset 0px 8px 16px rgba(0,0,0,0.5);
+                            transform: translateY(10px);
+                        }
+                    }
+                }
+                // admin dashboard
+
+
+
+                
                 
 
             }

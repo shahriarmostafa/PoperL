@@ -118,7 +118,7 @@ section .display .view nav .container .profile img {
   transition: 0.5s;
   width: 100%;
   border-radius: 50%;
-  border: 5px solid #FF834F;
+  border: 5px solid #4E73DF;
 }
 section .display .view nav .container .profile img:hover {
   transform: scale(1.1);
@@ -262,14 +262,17 @@ section .display .view .analytics .table table td {
   font-size: 12px;
   font-weight: 600;
 }
-section .display .view .analytics .table table td button {
+section .display .view .analytics .table table td .redi-buttons {
+  justify-content: center;
+}
+section .display .view .analytics .table table td .redi-buttons button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   padding: 0;
   margin: 0;
 }
-section .display .view .analytics .table table td button svg {
+section .display .view .analytics .table table td .redi-buttons button svg {
   fill: #ffffff;
   width: 15px;
 }
@@ -335,4 +338,23 @@ section .display .view .analytics .packages .package ul {
 }
 section .display .view .analytics .packages .package ul li {
   margin-bottom: 10px;
+}
+section .display .view .analytics .close-calculation-btn {
+  justify-content: center;
+}
+section .display .view .analytics .close-calculation-btn button {
+  width: 60%;
+  margin-top: 100px;
+  padding: 50px;
+  font-size: 30px;
+  text-transform: uppercase;
+  box-shadow: none;
+  transition: 0.2s;
+}
+section .display .view .analytics .close-calculation-btn button:hover {
+  box-shadow: none;
+}
+section .display .view .analytics .close-calculation-btn button:active {
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5), inset 0px 4px 8px rgba(0, 0, 0, 0.5), inset 0px 8px 16px rgba(0, 0, 0, 0.5);
+  transform: translateY(10px);
 }/*# sourceMappingURL=admin.css.map */
