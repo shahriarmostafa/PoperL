@@ -16,6 +16,22 @@ nav .container {
   justify-content: space-between;
   align-items: center;
 }
+nav .container .logo {
+  width: 140px;
+}
+nav .container .logo img {
+  width: 100%;
+}
+nav .container .profile-pic {
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+}
+nav .container .profile-pic img {
+  width: 100%;
+}
 nav .container .pages {
   margin-right: 25px;
 }
@@ -35,22 +51,6 @@ nav .container .pages ul li a {
 }
 
 @media only screen and (min-width: 601px) {
-  nav .logo {
-    width: 120px;
-  }
-  nav .logo img {
-    width: 100%;
-  }
-  nav .profile-pic {
-    width: 45px;
-    height: 45px;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 3px solid #D40A6C;
-  }
-  nav .profile-pic img {
-    width: 100%;
-  }
   nav .mobile {
     display: none;
   }
@@ -69,22 +69,6 @@ nav .container .pages ul li a {
   }
 }
 @media only screen and (max-width: 600px) {
-  .logo {
-    width: 100px;
-  }
-  .logo img {
-    width: 100%;
-  }
-  .profile-pic {
-    width: 35px;
-    height: 35px;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 3px solid #ffffff;
-  }
-  .profile-pic img {
-    width: 100%;
-  }
   .pages {
     position: fixed;
     bottom: 0;

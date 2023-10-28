@@ -27,6 +27,23 @@ nav{
     .container{
         justify-content: space-between;
         align-items: center;
+        .logo{
+            width: 140px;
+            img{
+                width: 100%;
+            }
+        }
+        .profile-pic{
+            width: 45px;
+            height: 45px;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 3px solid $white;
+            img{
+                width: 100%;
+            }
+
+        }
         .pages{
             margin-right: 25px;
             ul{
@@ -53,23 +70,6 @@ nav{
 
 @media only screen and (min-width: 601px) {
     nav{
-        .logo{
-            width: 120px;
-            img{
-                width: 100%;
-            }
-        }
-        .profile-pic{
-            width: 45px;
-            height: 45px;
-            overflow: hidden;
-            border-radius: 50%;
-            border: 3px solid $pinkish;
-            img{
-                width: 100%;
-            }
-
-        }
         .mobile{
             display: none;
         }
@@ -95,23 +95,6 @@ nav{
 
 
 @media only screen and (max-width: 600px) {
-    .logo{
-        width: 100px;
-        img{
-            width: 100%;
-        }
-    }
-    .profile-pic{
-        width: 35px;
-        height: 35px;
-        overflow: hidden;
-        border-radius: 50%;
-        border: 3px solid $white;
-        img{
-            width: 100%;
-        }
-
-    }
     .pages{
         position: fixed;
         bottom: 0;
