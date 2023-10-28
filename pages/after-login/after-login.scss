@@ -34,8 +34,8 @@ nav{
             }
         }
         .profile-pic{
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             overflow: hidden;
             border-radius: 50%;
             border: 3px solid $white;
@@ -54,7 +54,7 @@ nav{
                     list-style-type: none;                    
                     a{
                         text-decoration: none;
-                        font-weight: 500;
+                        font-weight: 600;
                         font-size: 14px;
                         transition: 0.2s ease-out;                 
                     }
@@ -67,40 +67,37 @@ nav{
 
 // Responsive
 
-
 @media only screen and (min-width: 601px) {
     nav{
-        .mobile{
+        .mobile-nav{
             display: none;
         }
-        .pc{
-            a{
-                display: flex;
-                padding: 15px 15px;
-                color: $white;
-                &:hover{
-                    background: $pinkish;
-                    border-radius: 3px;
-                    transform: scale(1.1);
+        .pc-nav{
+            li{
+                padding: 3px;
+                overflow: hidden;
+                z-index: 1;
+                list-style-type: none;
+                a{
+                    inset: 12px;
+                    display: block;
+                    padding: 15px 15px;
+                    color: $white;
+                    border-radius: 4px;
+                    &:hover{
+                        background: $pinkish;
+                    }
                 }
-                &::before{
-                    content: '';
-                }   
             }
         }
     }
 }
-
-// Responsive
-
-
 @media only screen and (max-width: 600px) {
     .pages{
         position: fixed;
         bottom: 0;
         width: 100%;
         left: 0;
-        // background: linear-gradient(to right bottom, $blue, $pinkish);
         background: $blue;
         ul{
             width: 100%;
@@ -132,7 +129,7 @@ nav{
                     justify-content: center;
                     border-radius: 50%;
                     svg{
-                        width: 22px;
+                        width: 25px;
                         fill: $white;
                     }
                     &::before{
@@ -167,12 +164,13 @@ nav{
             }
         }
     }
-    .pc{
+    .pc-nav{
         display: none;
       }
-    .mobile{
+    .mobile-nav{
         display: block;
     }
 }
-  
+// Responsive
+
 // common setup
