@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
+* {
+  font-family: "Poppins", sans-serif;
+  line-height: 1;
+}
+
+.d-flex {
+  align-items: center;
+}
+
+nav {
+  background: #4E73DF;
+  padding: 12px 5px;
+}
+nav .container {
+  justify-content: space-between;
+  align-items: center;
+}
+nav .container .pages {
+  margin-right: 25px;
+}
+nav .container .pages ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+nav .container .pages ul li {
+  list-style-type: none;
+}
+nav .container .pages ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: 0.25s ease-out;
+}
+
+@media only screen and (min-width: 601px) {
+  nav .logo {
+    width: 120px;
+  }
+  nav .logo img {
+    width: 100%;
+  }
+  nav .profile-pic {
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+  }
+  nav .profile-pic img {
+    width: 100%;
+  }
+  nav .mobile {
+    display: none;
+  }
+  nav .pc a {
+    padding: 5px 15px;
+  }
+  nav .pc a:hover {
+    background: #ffffff;
+    color: #4E73DF;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .logo {
+    width: 100px;
+  }
+  .logo img {
+    width: 100%;
+  }
+  .profile-pic {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+  }
+  .profile-pic img {
+    width: 100%;
+  }
+  .pages {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background: #4E73DF;
+  }
+  .pages ul {
+    width: 100%;
+    padding: 0;
+    justify-content: space-around;
+    max-width: 500px;
+    margin-left: 0;
+    align-items: center;
+  }
+  .pages ul li {
+    margin: 0;
+  }
+  .pages ul li a {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .pages ul li a svg {
+    width: 18px;
+    fill: #ffffff;
+  }
+  .pages ul li a:hover {
+    transform: translateY(-20px);
+    background: linear-gradient(to right bottom, #D40A6C, #4E73DF);
+    border: 4px solid #ffffff;
+  }
+  .pc {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}/*# sourceMappingURL=after-login.css.map */

@@ -32,11 +32,11 @@ section{
                     text-decoration: none;
                     .item{
                         transition: 1s;
-                        padding: 15px 30px;
+                        padding: 20px 30px;
                         align-items: center;
                         color: $white;
                         .icon{
-                            width: 20px;
+                            width: 15px;
                             margin-right: 10px;
                             svg{
                                 width: 100%;
@@ -81,7 +81,7 @@ section{
                     justify-content: space-between;
                     align-items: center;
                     .logo{
-                        width: 240px;
+                        width: 200px;
                         img{
                             width: 100%;
                         }
@@ -93,11 +93,11 @@ section{
                         .dropdown{
                             display: none;
                             position: absolute;
-                            right: 50px;
+                            right: 20px;
                             transition: 0.1s;
                             padding: 18px 55px;
                             border-radius: 4px;
-                            background: $white;
+                            background: $blue;
                             box-shadow: -8px -8px 8px $shadow, 8px 8px 8px $shadow;
                             text-align: center;
                             ul{
@@ -109,7 +109,7 @@ section{
                                     a{
                                         text-decoration: none;
                                         font-weight: 600;
-                                        color: black;
+                                        color: $white;
                                         
                                     }
                                     &:last-child{

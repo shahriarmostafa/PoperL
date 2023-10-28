@@ -25,12 +25,12 @@ section .display .sidebar .display-names a {
 }
 section .display .sidebar .display-names a .item {
   transition: 1s;
-  padding: 15px 30px;
+  padding: 20px 30px;
   align-items: center;
   color: #ffffff;
 }
 section .display .sidebar .display-names a .item .icon {
-  width: 20px;
+  width: 15px;
   margin-right: 10px;
 }
 section .display .sidebar .display-names a .item .icon svg {
@@ -74,7 +74,7 @@ section .display .view nav .container {
   align-items: center;
 }
 section .display .view nav .container .logo {
-  width: 240px;
+  width: 200px;
 }
 section .display .view nav .container .logo img {
   width: 100%;
@@ -86,11 +86,11 @@ section .display .view nav .container .profile {
 section .display .view nav .container .profile .dropdown {
   display: none;
   position: absolute;
-  right: 50px;
+  right: 20px;
   transition: 0.1s;
   padding: 18px 55px;
   border-radius: 4px;
-  background: #ffffff;
+  background: #4E73DF;
   box-shadow: -8px -8px 8px rgba(78, 114, 223, 0.3882352941), 8px 8px 8px rgba(78, 114, 223, 0.3882352941);
   text-align: center;
 }
@@ -105,7 +105,7 @@ section .display .view nav .container .profile .dropdown ul li {
 section .display .view nav .container .profile .dropdown ul li a {
   text-decoration: none;
   font-weight: 600;
-  color: black;
+  color: #ffffff;
 }
 section .display .view nav .container .profile .dropdown ul li:last-child a {
   color: red;
