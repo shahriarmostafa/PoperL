@@ -10,7 +10,7 @@
 
 nav {
   background: #4E73DF;
-  padding: 12px 5px;
+  padding: 8px 5px;
 }
 nav .container {
   justify-content: space-between;
@@ -28,11 +28,10 @@ nav .container .pages ul li {
   list-style-type: none;
 }
 nav .container .pages ul li a {
-  color: #fff;
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
-  transition: 0.25s ease-out;
+  transition: 0.2s ease-out;
 }
 
 @media only screen and (min-width: 601px) {
@@ -47,7 +46,7 @@ nav .container .pages ul li a {
     height: 45px;
     overflow: hidden;
     border-radius: 50%;
-    border: 3px solid #ffffff;
+    border: 3px solid #D40A6C;
   }
   nav .profile-pic img {
     width: 100%;
@@ -56,11 +55,17 @@ nav .container .pages ul li a {
     display: none;
   }
   nav .pc a {
-    padding: 5px 15px;
+    display: flex;
+    padding: 15px 15px;
+    color: #ffffff;
   }
   nav .pc a:hover {
-    background: #ffffff;
-    color: #4E73DF;
+    background: #D40A6C;
+    border-radius: 3px;
+    transform: scale(1.1);
+  }
+  nav .pc a::before {
+    content: "";
   }
 }
 @media only screen and (max-width: 600px) {
@@ -98,21 +103,56 @@ nav .container .pages ul li a {
   .pages ul li {
     margin: 0;
   }
+  .pages ul li:hover a::after {
+    box-shadow: -1px -10px #ffffff;
+  }
+  .pages ul li:hover a::before {
+    box-shadow: 1px -10px #ffffff;
+  }
+  .pages ul li:hover a {
+    transform: translateY(-35px);
+    background: linear-gradient(to right bottom, #D40A6C, #4E73DF);
+    border: 6px solid #ffffff;
+  }
   .pages ul li a {
+    position: relative;
     display: flex;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     justify-content: center;
     border-radius: 50%;
   }
   .pages ul li a svg {
-    width: 18px;
+    width: 22px;
     fill: #ffffff;
   }
-  .pages ul li a:hover {
-    transform: translateY(-20px);
-    background: linear-gradient(to right bottom, #D40A6C, #4E73DF);
-    border: 4px solid #ffffff;
+  .pages ul li a::before {
+    content: "";
+    position: absolute;
+    background: transparent;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: -22px;
+    border-top-right-radius: 20px;
+    transition: 0.4s;
+  }
+  .pages ul li a::after {
+    content: "";
+    position: absolute;
+    background: transparent;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    right: -22px;
+    border-top-left-radius: 20px;
+    transition: 0.7s;
+  }
+  .pages ul li a:hover::after {
+    box-shadow: -1px -10px #ffffff;
+  }
+  .pages ul .indicator {
+    position: relative;
   }
   .pc {
     display: none;
