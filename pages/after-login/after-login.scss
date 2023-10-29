@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
 // basic setup
-$gray: #34495E;
-$orange: #FF834F;
 $white: #ffffff;
 $blue: #4E73DF;
 $shadow: #4e72df63;
@@ -28,15 +26,15 @@ nav{
         justify-content: space-between;
         align-items: center;
         .logo{
-            width: 150px;
+            width: 160px;
             img{
                 width: 100%;
             }
         }
         .profile-pic{
             position: relative;
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             overflow: hidden;
             background: #3333331f;
@@ -44,7 +42,7 @@ nav{
             &::after{
                 content: '';
                 position: absolute;
-                width: 60px;
+                width: 65px;
                 height: 18px;
                 background: linear-gradient(transparent,$lt-blue,$lt-blue,$lt-blue, transparent);
                 margin: auto;
@@ -52,16 +50,16 @@ nav{
                 bottom: 0;
                 left: 0;
                 right: 0;
-                animation: theAnim 8s linear infinite;
+                animation: theAnim 16s linear infinite;
             }
             &:hover{
-                transform: scale(1.1);
+                transform: scale(1.2);
             }
             .inner{
                 display: block;
                 position: absolute;
-                width: 52px;
-                height: 52px;
+                width: 55px;
+                height: 55px;
                 border-radius: 50%;
                 margin: auto;
                 top: 0;
@@ -77,22 +75,68 @@ nav{
 
         }
         .pages{
-            margin-right: 25px;
             ul{
                 display: flex;
                 align-items: center;
-                margin: 0;
                 li{
                     list-style-type: none;                    
                     a{
                         text-decoration: none;
                         font-weight: 600;
-                        font-size: 14px;
-                        transition: 0.2s ease-out;                 
+                        font-size: 16px;
                     }
                 }
             }
         }
+    }
+}
+
+section.profile{
+    .background{
+        width: 100%;
+        height: 400px;
+        clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
+        background: url(../../images/profile-bg.jpg) center center no-repeat;
+        background-size: cover;
+    }
+    .profile-pic{
+        position: relative;
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        background: #1a1313cc;
+        transition: 0.5s;
+        margin: -150px auto 0 auto;
+        &::after{
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 80px;
+            background: linear-gradient(transparent,$lt-blue,$lt-blue,$lt-blue, transparent);
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            animation: theAnim 4s linear infinite;
+        }
+        .inner{
+            display: block;
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: 345;
+            img{
+                width: 100%;
+            }
+        }
+
     }
 }
 
@@ -118,32 +162,39 @@ nav{
 
 // Responsive
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 1001px) {
     nav{
         .mobile-nav{
             display: none;
         }
         .pc-nav{
-            li{
-                padding: 3px;
-                overflow: hidden;
-                z-index: 1;
-                list-style-type: none;
-                a{
-                    inset: 12px;
-                    display: block;
-                    padding: 15px 15px;
-                    color: $white;
-                    border-radius: 4px;
-                    &:hover{
-                        background: $pinkish;
+            margin-right: 25px;
+            ul{
+                margin: 0;
+                li{
+                    padding: 3px;
+                    z-index: 1;
+                    list-style-type: none;
+                    border-radius: 15px;
+                    a{
+                        inset: 12px;
+                        display: block;
+                        padding: 15px 15px;
+                        transition: 1s;                 
+                        color: $white;
+                        border-radius: 4px;
+                        &:hover{
+                            background: linear-gradient(to right bottom, $lt-blue, $purple);
+                            transform: scale(1.2);
+                        }
                     }
                 }
             }
+            
         }
     }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1000px) {
     .pages{
         position: fixed;
         bottom: 0;
@@ -151,11 +202,9 @@ nav{
         left: 0;
         background: $blue;
         ul{
-            width: 100%;
+            margin: 0 auto;
             padding: 0;
             justify-content: space-around;
-            max-width: 500px;
-            margin-left: 0;
             align-items: center;
             li{
                 margin: 0;
@@ -179,6 +228,7 @@ nav{
                     height: 70px;
                     justify-content: center;
                     border-radius: 50%;
+                    transition: 0.2s ease-out;                 
                     svg{
                         width: 25px;
                         fill: $white;
