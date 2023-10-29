@@ -77,6 +77,9 @@ nav .container .pages ul li a {
   font-size: 16px;
 }
 
+section.profile {
+  background: #EAEEF2;
+}
 section.profile .background {
   width: 100%;
   height: 400px;
@@ -123,6 +126,71 @@ section.profile .profile-pic .inner {
 section.profile .profile-pic .inner img {
   width: 100%;
 }
+section.profile .name {
+  margin-top: 5px;
+}
+section.profile .name h2 {
+  text-align: center;
+  color: #4E73DF;
+  font-weight: 700;
+}
+section.profile .informations {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 80px 0;
+  justify-content: space-around;
+}
+section.profile .informations .personal-info {
+  width: 45%;
+}
+section.profile .informations .personal-info h3 {
+  color: #4E73DF;
+  font-weight: 600;
+}
+section.profile .informations .personal-info .icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #EAEEF2;
+  justify-content: center;
+  margin-right: 10px;
+  box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
+}
+section.profile .informations .personal-info .icon svg {
+  width: 50%;
+  fill: #4E73DF;
+}
+section.profile .informations .personal-info b {
+  font-size: 18px;
+  color: #34495E;
+}
+section.profile .informations .personal-info .user-email svg {
+  fill: #BD2130;
+}
+section.profile .informations .personal-info .phone-number svg {
+  fill: #1E7E34;
+}
+section.profile .informations .personal-info .id svg {
+  fill: #34495E;
+}
+section.profile .informations .personal-info .edit-profile button {
+  padding: 16px 35px;
+  border: none;
+  background: linear-gradient(to right bottom, #D40A6C, #039DEB);
+  color: #ffffff;
+  border-radius: 30px;
+  font-weight: 600;
+}
+section.profile .informations .about-us {
+  width: 45%;
+}
+section.profile .informations .about-us h3 {
+  color: #4E73DF;
+  font-weight: 600;
+}
+section.profile .informations .about-us p {
+  font-weight: 500;
+}
 
 @keyframes theAnim {
   0% {
@@ -141,7 +209,7 @@ section.profile .profile-pic .inner img {
     transform: scale(1) rotate(720deg);
   }
 }
-@media only screen and (min-width: 1001px) {
+@media only screen and (min-width: 701px) {
   nav .mobile-nav {
     display: none;
   }
@@ -170,7 +238,7 @@ section.profile .profile-pic .inner img {
     transform: scale(1.2);
   }
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 700px) {
   .pages {
     position: fixed;
     bottom: 0;
@@ -238,6 +306,9 @@ section.profile .profile-pic .inner img {
   }
   .pages ul .indicator {
     position: relative;
+  }
+  .informations .about-us, .informations .personal-info {
+    width: 100%;
   }
   .pc-nav {
     display: none;
