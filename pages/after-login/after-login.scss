@@ -6,10 +6,17 @@ $shadow: #4e72df63;
 $background: #EAEEF2;
 $red: #BD2130;
 $purple: #8043DC;
-$lt-blue: #039DEB;
+$lt-blue: #54FFFB;
+$d-blue: #039DEB;
 $pinkish: #D40A6C;
 $green: #1E7E34;
 $gray: #34495E;
+
+
+
+// border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
+
+
 *{
     font-family: 'Poppins', sans-serif;
     line-height: 1;
@@ -41,18 +48,14 @@ nav{
             overflow: hidden;
             background: #3333331f;
             transition: 0.5s;
+            justify-content: center;
             &::after{
                 content: '';
                 position: absolute;
                 width: 65px;
-                height: 18px;
+                height: 45px;
                 background: linear-gradient(transparent,$lt-blue,$lt-blue,$lt-blue, transparent);
-                margin: auto;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                animation: theAnim 16s linear infinite;
+                animation: theAnim 20s linear infinite;
             }
             &:hover{
                 transform: scale(1.2);
@@ -63,13 +66,9 @@ nav{
                 width: 55px;
                 height: 55px;
                 border-radius: 50%;
-                margin: auto;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
                 overflow: hidden;
                 z-index: 2342;
+                justify-content: center;
                 img{
                     width: 100%;
                 }
@@ -99,40 +98,31 @@ section.profile{
         width: 100%;
         height: 400px;
         clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
-        background: url(../../images/profile-bg.jpg) center center no-repeat;
+        background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),url(../../images/profile-bg.jpg) center center no-repeat;
         background-size: cover;
     }
     .profile-pic{
         position: relative;
         width: 200px;
         height: 200px;
-        overflow: hidden;
         background: #1a1313cc;
         transition: 0.5s;
         margin: -150px auto 0 auto;
+        overflow: hidden;
+        justify-content: center;
         &::after{
             content: '';
             position: absolute;
-            width: 200px;
-            height: 80px;
-            background: linear-gradient(transparent,$lt-blue,$lt-blue,$lt-blue, transparent);
-            margin: auto;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            animation: theAnim 4s linear infinite;
+            width: 290px;
+            height: 100px;
+            background: linear-gradient(transparent,$lt-blue ,$lt-blue,$lt-blue, transparent);
+            animation: theAnim 3.5s linear infinite;
+            
         }
         .inner{
-            display: block;
             position: absolute;
             width: 190px;
             height: 190px;
-            margin: auto;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
             overflow: hidden;
             z-index: 345;
             img{
@@ -196,7 +186,7 @@ section.profile{
                 button{
                     padding: 16px 35px;
                     border: none;
-                    background: linear-gradient(to right bottom, $pinkish, $lt-blue);
+                    background: linear-gradient(to right bottom, $pinkish, $d-blue);
                     color: $white;
                     border-radius: 30px;
                     font-weight: 600;
@@ -219,19 +209,10 @@ section.profile{
 // animation
 @keyframes theAnim {
     0%   {
-        transform: scale(1) rotate(0deg);
-    }
-    25% {
-        transform: scale(3) rotate(180deg);
-    }
-    50% {
-        transform: scale(4) rotate(360deg);
-    }
-    75% {
-        transform: scale(3) rotate(560deg);
+        transform: rotate(0deg);
     }
     100% {
-        transform: scale(1) rotate(720deg);
+        transform: rotate(720deg);
     }
   }
 // animation
@@ -293,7 +274,7 @@ section.profile{
                 &:hover{
                     a{
                         transform: translateY(-35px);
-                        background: linear-gradient(to right bottom, $pinkish, $blue);
+                        background: linear-gradient(to right bottom, $pinkish, $d-blue);
                         border: 6px solid $white;
                     }
                 } 
@@ -335,9 +316,6 @@ section.profile{
                         box-shadow: -1px -10px $white;
                     }
                 }
-            }
-            .indicator{
-                position: relative;
             }
         }
     }

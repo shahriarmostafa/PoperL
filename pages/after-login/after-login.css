@@ -30,19 +30,15 @@ nav .container .profile-pic {
   overflow: hidden;
   background: rgba(51, 51, 51, 0.1215686275);
   transition: 0.5s;
+  justify-content: center;
 }
 nav .container .profile-pic::after {
   content: "";
   position: absolute;
   width: 65px;
-  height: 18px;
-  background: linear-gradient(transparent, #039DEB, #039DEB, #039DEB, transparent);
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  animation: theAnim 16s linear infinite;
+  height: 45px;
+  background: linear-gradient(transparent, #54FFFB, #54FFFB, #54FFFB, transparent);
+  animation: theAnim 20s linear infinite;
 }
 nav .container .profile-pic:hover {
   transform: scale(1.2);
@@ -53,13 +49,9 @@ nav .container .profile-pic .inner {
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   overflow: hidden;
   z-index: 2342;
+  justify-content: center;
 }
 nav .container .profile-pic .inner img {
   width: 100%;
@@ -85,41 +77,31 @@ section.profile .background {
   height: 400px;
   -webkit-clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
           clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
-  background: url(../../images/profile-bg.jpg) center center no-repeat;
+  background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url(../../images/profile-bg.jpg) center center no-repeat;
   background-size: cover;
 }
 section.profile .profile-pic {
   position: relative;
   width: 200px;
   height: 200px;
-  overflow: hidden;
   background: rgba(26, 19, 19, 0.8);
   transition: 0.5s;
   margin: -150px auto 0 auto;
+  overflow: hidden;
+  justify-content: center;
 }
 section.profile .profile-pic::after {
   content: "";
   position: absolute;
-  width: 200px;
-  height: 80px;
-  background: linear-gradient(transparent, #039DEB, #039DEB, #039DEB, transparent);
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  animation: theAnim 4s linear infinite;
+  width: 290px;
+  height: 100px;
+  background: linear-gradient(transparent, #54FFFB, #54FFFB, #54FFFB, transparent);
+  animation: theAnim 3.5s linear infinite;
 }
 section.profile .profile-pic .inner {
-  display: block;
   position: absolute;
   width: 190px;
   height: 190px;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   overflow: hidden;
   z-index: 345;
 }
@@ -194,19 +176,10 @@ section.profile .informations .about-us p {
 
 @keyframes theAnim {
   0% {
-    transform: scale(1) rotate(0deg);
-  }
-  25% {
-    transform: scale(3) rotate(180deg);
-  }
-  50% {
-    transform: scale(4) rotate(360deg);
-  }
-  75% {
-    transform: scale(3) rotate(560deg);
+    transform: rotate(0deg);
   }
   100% {
-    transform: scale(1) rotate(720deg);
+    transform: rotate(720deg);
   }
 }
 @media only screen and (min-width: 701px) {
@@ -234,7 +207,7 @@ section.profile .informations .about-us p {
     border-radius: 4px;
   }
   nav .pc-nav ul li a:hover {
-    background: linear-gradient(to right bottom, #039DEB, #8043DC);
+    background: linear-gradient(to right bottom, #54FFFB, #8043DC);
     transform: scale(1.2);
   }
 }
@@ -263,7 +236,7 @@ section.profile .informations .about-us p {
   }
   .pages ul li:hover a {
     transform: translateY(-35px);
-    background: linear-gradient(to right bottom, #D40A6C, #4E73DF);
+    background: linear-gradient(to right bottom, #D40A6C, #039DEB);
     border: 6px solid #ffffff;
   }
   .pages ul li a {
@@ -303,9 +276,6 @@ section.profile .informations .about-us p {
   }
   .pages ul li a:hover::after {
     box-shadow: -1px -10px #ffffff;
-  }
-  .pages ul .indicator {
-    position: relative;
   }
   .informations .about-us, .informations .personal-info {
     width: 100%;
