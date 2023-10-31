@@ -3,7 +3,8 @@
 $white: #ffffff;
 $blue: #4E73DF;
 $shadow: #4e72df63;
-$background: #EAEEF2;
+// $background: #EAEEF2;
+$background: rgba(234, 238, 242, 0.9);
 $red: #BD2130;
 $purple: #8043DC;
 $lt-blue: #54FFFB;
@@ -15,14 +16,15 @@ $gray: #34495E;
 
 
 // border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
-
-
 *{
     font-family: 'Poppins', sans-serif;
     line-height: 1;
 }
 .d-flex{
     align-items: center;
+}
+.drop-down-opacity{
+    opacity: 1 !important;
 }
 // basic setup
 
@@ -32,12 +34,68 @@ nav{
     background: $blue;
     padding: 8px 5px;
     .container{
+        position: relative;
         justify-content: space-between;
         align-items: center;
         .logo{
             width: 160px;
             img{
                 width: 100%;
+            }
+        }
+        .pages{
+            ul{
+                display: flex;
+                align-items: center;
+                li{
+                    list-style-type: none;                    
+                    a{
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+        .dropdown{
+            right: 10px;
+            position: absolute;
+            top: 80px;
+            background: $blue;
+            box-shadow: 8px 8px 16px $shadow;
+            transition: 0.3s;
+            z-index: 978986;
+            opacity: 0;
+            ul{
+                padding: 0;
+                margin: 0;
+                li{
+                    list-style: none;
+                    padding: 20px 25px;
+                    color: $white;
+                    transition: 0.5s;
+                    &:hover{
+                        background: $d-blue;
+                    }
+                    a{
+                        text-decoration: none;
+                        display: flex;
+                        align-items: end;
+                        color: $white;
+                        svg{
+                            width: 15px;
+                            fill: $white;
+                            margin-right: 10px;
+                        }
+                    }
+                    input{
+                        margin-right: 10px;
+                    }
+                }
+                hr{
+                    color: $white;
+                    margin: 0;
+                }
             }
         }
         .profile-pic{
@@ -60,6 +118,9 @@ nav{
             &:hover{
                 transform: scale(1.2);
             }
+            &:active{
+                transform: scale(0.8);
+            }
             .inner{
                 display: block;
                 position: absolute;
@@ -75,25 +136,14 @@ nav{
             }
 
         }
-        .pages{
-            ul{
-                display: flex;
-                align-items: center;
-                li{
-                    list-style-type: none;                    
-                    a{
-                        text-decoration: none;
-                        font-weight: 600;
-                        font-size: 16px;
-                    }
-                }
-            }
-        }
     }
 }
+// common setup
 
+
+// profile page
 section.profile{
-    background: $background;
+    background: url(../../images/QeVXaw01.svg) repeat, linear-gradient(rgba(234, 238, 242, 0.9), rgba(234, 238, 242, 0.9));
     .background{
         width: 100%;
         height: 400px;
@@ -157,7 +207,7 @@ section.profile{
                 background: $background;
                 justify-content: center;
                 margin-right: 10px;
-                box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
+                box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px $white;
                 svg{
                     width: 50%;
                     fill: $blue;
@@ -192,6 +242,21 @@ section.profile{
                     font-weight: 600;
                 }
             }
+            .user-level{
+                svg{
+                    fill: $pinkish;
+                }
+            }
+            .user-percentage{
+                svg{
+                    fill: $purple;
+                }
+            }
+            .user-group{
+                svg{
+                    fill: $d-blue;
+                }
+            }
         }
         .about-us{
             width: 45%;
@@ -205,6 +270,10 @@ section.profile{
         }
     }
 }
+// profile page
+  
+
+
 
 // animation
 @keyframes theAnim {
@@ -219,7 +288,7 @@ section.profile{
 
 // Responsive
 
-@media only screen and (min-width: 701px) {
+@media screen and (min-width: 701px) {
     nav{
         .mobile-nav{
             display: none;
@@ -251,7 +320,7 @@ section.profile{
         }
     }
 }
-@media only screen and (max-width: 700px) {
+@media screen and (max-width: 700px) {
     .pages{
         position: fixed;
         bottom: 0;
@@ -319,9 +388,14 @@ section.profile{
             }
         }
     }
-    .informations .about-us, .informations .personal-info{
-        width: 100%;
-    }
+    .informations{
+        width: 90%;
+        margin: auto;
+        .personal-info, .about-us{
+            width: 100% !important;
+            margin-bottom: 50px;
+        }
+    } 
     .pc-nav{
         display: none;
       }

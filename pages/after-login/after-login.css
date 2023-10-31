@@ -8,11 +8,16 @@
   align-items: center;
 }
 
+.drop-down-opacity {
+  opacity: 1 !important;
+}
+
 nav {
   background: #4E73DF;
   padding: 8px 5px;
 }
 nav .container {
+  position: relative;
   justify-content: space-between;
   align-items: center;
 }
@@ -21,6 +26,59 @@ nav .container .logo {
 }
 nav .container .logo img {
   width: 100%;
+}
+nav .container .pages ul {
+  display: flex;
+  align-items: center;
+}
+nav .container .pages ul li {
+  list-style-type: none;
+}
+nav .container .pages ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+nav .container .dropdown {
+  right: 10px;
+  position: absolute;
+  top: 80px;
+  background: #4E73DF;
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941);
+  transition: 0.3s;
+  z-index: 978986;
+  opacity: 0;
+}
+nav .container .dropdown ul {
+  padding: 0;
+  margin: 0;
+}
+nav .container .dropdown ul li {
+  list-style: none;
+  padding: 20px 25px;
+  color: #ffffff;
+  transition: 0.5s;
+}
+nav .container .dropdown ul li:hover {
+  background: #039DEB;
+}
+nav .container .dropdown ul li a {
+  text-decoration: none;
+  display: flex;
+  align-items: end;
+  color: #ffffff;
+}
+nav .container .dropdown ul li a svg {
+  width: 15px;
+  fill: #ffffff;
+  margin-right: 10px;
+}
+nav .container .dropdown ul li input {
+  margin-right: 10px;
+}
+nav .container .dropdown ul hr {
+  color: #ffffff;
+  margin: 0;
 }
 nav .container .profile-pic {
   position: relative;
@@ -43,6 +101,9 @@ nav .container .profile-pic::after {
 nav .container .profile-pic:hover {
   transform: scale(1.2);
 }
+nav .container .profile-pic:active {
+  transform: scale(0.8);
+}
 nav .container .profile-pic .inner {
   display: block;
   position: absolute;
@@ -56,21 +117,9 @@ nav .container .profile-pic .inner {
 nav .container .profile-pic .inner img {
   width: 100%;
 }
-nav .container .pages ul {
-  display: flex;
-  align-items: center;
-}
-nav .container .pages ul li {
-  list-style-type: none;
-}
-nav .container .pages ul li a {
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 16px;
-}
 
 section.profile {
-  background: #EAEEF2;
+  background: url(../../images/QeVXaw01.svg) repeat, linear-gradient(rgba(234, 238, 242, 0.9), rgba(234, 238, 242, 0.9));
 }
 section.profile .background {
   width: 100%;
@@ -133,7 +182,7 @@ section.profile .informations .personal-info .icon {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: #EAEEF2;
+  background: rgba(234, 238, 242, 0.9);
   justify-content: center;
   margin-right: 10px;
   box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
@@ -163,6 +212,15 @@ section.profile .informations .personal-info .edit-profile button {
   border-radius: 30px;
   font-weight: 600;
 }
+section.profile .informations .personal-info .user-level svg {
+  fill: #D40A6C;
+}
+section.profile .informations .personal-info .user-percentage svg {
+  fill: #8043DC;
+}
+section.profile .informations .personal-info .user-group svg {
+  fill: #039DEB;
+}
 section.profile .informations .about-us {
   width: 45%;
 }
@@ -182,7 +240,7 @@ section.profile .informations .about-us p {
     transform: rotate(720deg);
   }
 }
-@media only screen and (min-width: 701px) {
+@media screen and (min-width: 701px) {
   nav .mobile-nav {
     display: none;
   }
@@ -211,7 +269,7 @@ section.profile .informations .about-us p {
     transform: scale(1.2);
   }
 }
-@media only screen and (max-width: 700px) {
+@media screen and (max-width: 700px) {
   .pages {
     position: fixed;
     bottom: 0;
@@ -277,8 +335,13 @@ section.profile .informations .about-us p {
   .pages ul li a:hover::after {
     box-shadow: -1px -10px #ffffff;
   }
-  .informations .about-us, .informations .personal-info {
-    width: 100%;
+  .informations {
+    width: 90%;
+    margin: auto;
+  }
+  .informations .personal-info, .informations .about-us {
+    width: 100% !important;
+    margin-bottom: 50px;
   }
   .pc-nav {
     display: none;
