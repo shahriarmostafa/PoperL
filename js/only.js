@@ -9,15 +9,17 @@ profilePic.addEventListener("click", dropDownFunc);
  
 
 
-// night videw
+// night view
 
-const section = document.getElementsByTagName("section")[0];
+var section = document.getElementsByTagName("section")[0];
+var bottomNav = document.getElementsByClassName("mobile-nav")[0];
 const switcher = document.getElementsByClassName("slider")[0];
-
 
 function nightMode(){
     section.classList.toggle("day-view");
     section.classList.toggle("night-view");
+    bottomNav.classList.toggle("shadow-fix");
 }
 switcher.addEventListener("click", nightMode);
+
 

@@ -26,7 +26,7 @@
   background: #02031b;
 }
 .night-view .icon {
-  background: url(../../images/bg.svg) no-repeat, linear-gradient(#02031b, #02031b);
+  background: linear-gradient(#02031b, #02031b);
   box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
 }
 .night-view b, .night-view p {
@@ -41,7 +41,7 @@
 }
 .day-view .icon {
   background: #EAEEF2;
-  box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
+  box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
 }
 .day-view b, .day-view p {
   color: #34495E;
@@ -78,9 +78,10 @@ nav .container .pages ul li a {
   font-size: 16px;
 }
 nav .container .dropdown {
-  right: 10px;
   position: absolute;
+  right: 10px;
   top: 80px;
+  width: 250px;
   background: #4E73DF;
   box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941);
   transition: 0.3s;
@@ -93,36 +94,51 @@ nav .container .dropdown ul {
 }
 nav .container .dropdown ul li {
   list-style: none;
-  padding: 20px 25px;
+  padding: 20px;
   color: #ffffff;
   transition: 0.5s;
 }
 nav .container .dropdown ul li:hover {
-  background: #34495E;
+  transform: scale(1.1);
+  background: #ffffff;
+}
+nav .container .dropdown ul li:hover a, nav .container .dropdown ul li:hover span {
+  color: #4E73DF;
+  font-weight: 500;
+}
+nav .container .dropdown ul li:hover svg {
+  fill: #4E73DF;
 }
 nav .container .dropdown ul li a {
   text-decoration: none;
   display: flex;
-  align-items: end;
+  align-items: center;
   color: #ffffff;
 }
 nav .container .dropdown ul li a svg {
-  width: 15px;
+  width: 18px;
   fill: #ffffff;
-  margin-right: 10px;
+  margin-right: 38px;
 }
 nav .container .dropdown ul li .switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 21px;
+  margin-right: 13px;
 }
 nav .container .dropdown ul li .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-nav .container .dropdown ul li .slider {
+nav .container .dropdown ul li .switch input:checked + .slider {
+  background-color: #02031b;
+}
+nav .container .dropdown ul li .switch input:checked + .slider:before {
+  transform: translateX(17px);
+}
+nav .container .dropdown ul li .switch .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -133,25 +149,16 @@ nav .container .dropdown ul li .slider {
   transition: 0.4s;
   border-radius: 20px;
 }
-nav .container .dropdown ul li .slider:before {
+nav .container .dropdown ul li .switch .slider:before {
   position: absolute;
   content: "";
   height: 15px;
   width: 15px;
   left: 4px;
   bottom: 3px;
-  background-color: #2196F3;
+  background-color: #4E73DF;
   transition: 0.4s;
   border-radius: 50%;
-}
-nav .container .dropdown ul li input:checked + .slider {
-  background-color: #02031b;
-}
-nav .container .dropdown ul li input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-nav .container .dropdown ul li input:checked + .slider:before {
-  transform: translateX(17px);
 }
 nav .container .dropdown ul hr {
   color: #ffffff;
@@ -259,7 +266,6 @@ section.profile .informations .personal-info .icon {
   border-radius: 50%;
   justify-content: center;
   margin-right: 10px;
-  box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
 }
 section.profile .informations .personal-info .icon svg {
   width: 50%;
@@ -359,15 +365,15 @@ section.profile .informations .about-us p {
     margin: 0;
   }
   .pages ul li:hover a::after {
-    box-shadow: -1px -10px #ffffff;
+    box-shadow: -1px -10px #EAEEF2;
   }
   .pages ul li:hover a::before {
-    box-shadow: 1px -10px #ffffff;
+    box-shadow: 1px -10px #EAEEF2;
   }
   .pages ul li:hover a {
     transform: translateY(-35px);
     background: linear-gradient(to right bottom, #D40A6C, #2196F3);
-    border: 6px solid #ffffff;
+    border: 6px solid #EAEEF2;
   }
   .pages ul li a {
     position: relative;
@@ -404,9 +410,6 @@ section.profile .informations .about-us p {
     border-top-left-radius: 20px;
     transition: 0.7s;
   }
-  .pages ul li a:hover::after {
-    box-shadow: -1px -10px #ffffff;
-  }
   .informations {
     width: 90%;
     margin: auto;
@@ -420,5 +423,14 @@ section.profile .informations .about-us p {
   }
   .mobile-nav {
     display: block;
+  }
+  .shadow-fix li:hover a::after {
+    box-shadow: -1px -10px #02031b !important;
+  }
+  .shadow-fix li:hover a::before {
+    box-shadow: 1px -10px #02031b !important;
+  }
+  .shadow-fix li:hover a {
+    border-color: #02031b !important;
   }
 }/*# sourceMappingURL=after-login.css.map */
