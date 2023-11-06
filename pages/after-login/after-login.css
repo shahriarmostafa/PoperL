@@ -12,6 +12,44 @@
   opacity: 1 !important;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  background: #34495E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D40A6C;
+  border-radius: 5px;
+}
+
+.night-view {
+  background: #02031b;
+}
+.night-view .icon {
+  background: url(../../images/bg.svg) no-repeat, linear-gradient(#02031b, #02031b);
+  box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
+}
+.night-view b, .night-view p {
+  color: #ffffff;
+}
+.night-view h3, .night-view h2, .night-view h1 {
+  color: #54FFFB;
+}
+
+.day-view {
+  background: url(../../images/QeVXaw01.svg) repeat, linear-gradient(#EAEEF2, #EAEEF2);
+}
+.day-view .icon {
+  background: #EAEEF2;
+  box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
+}
+.day-view b, .day-view p {
+  color: #34495E;
+}
+.day-view h3, .day-view h2, .day-view h1 {
+  color: #4E73DF;
+}
+
 nav {
   background: #4E73DF;
   padding: 8px 5px;
@@ -60,7 +98,7 @@ nav .container .dropdown ul li {
   transition: 0.5s;
 }
 nav .container .dropdown ul li:hover {
-  background: #039DEB;
+  background: #34495E;
 }
 nav .container .dropdown ul li a {
   text-decoration: none;
@@ -73,8 +111,47 @@ nav .container .dropdown ul li a svg {
   fill: #ffffff;
   margin-right: 10px;
 }
-nav .container .dropdown ul li input {
-  margin-right: 10px;
+nav .container .dropdown ul li .switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 21px;
+}
+nav .container .dropdown ul li .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+nav .container .dropdown ul li .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #EAEEF2;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+nav .container .dropdown ul li .slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 3px;
+  background-color: #2196F3;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+nav .container .dropdown ul li input:checked + .slider {
+  background-color: #02031b;
+}
+nav .container .dropdown ul li input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+nav .container .dropdown ul li input:checked + .slider:before {
+  transform: translateX(17px);
 }
 nav .container .dropdown ul hr {
   color: #ffffff;
@@ -119,7 +196,7 @@ nav .container .profile-pic .inner img {
 }
 
 section.profile {
-  background: url(../../images/QeVXaw01.svg) repeat, linear-gradient(rgba(234, 238, 242, 0.9), rgba(234, 238, 242, 0.9));
+  background-size: cover;
 }
 section.profile .background {
   width: 100%;
@@ -162,7 +239,6 @@ section.profile .name {
 }
 section.profile .name h2 {
   text-align: center;
-  color: #4E73DF;
   font-weight: 700;
 }
 section.profile .informations {
@@ -175,14 +251,12 @@ section.profile .informations .personal-info {
   width: 45%;
 }
 section.profile .informations .personal-info h3 {
-  color: #4E73DF;
   font-weight: 600;
 }
 section.profile .informations .personal-info .icon {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: rgba(234, 238, 242, 0.9);
   justify-content: center;
   margin-right: 10px;
   box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
@@ -193,7 +267,6 @@ section.profile .informations .personal-info .icon svg {
 }
 section.profile .informations .personal-info b {
   font-size: 18px;
-  color: #34495E;
 }
 section.profile .informations .personal-info .user-email svg {
   fill: #BD2130;
@@ -207,7 +280,7 @@ section.profile .informations .personal-info .id svg {
 section.profile .informations .personal-info .edit-profile button {
   padding: 16px 35px;
   border: none;
-  background: linear-gradient(to right bottom, #D40A6C, #039DEB);
+  background: linear-gradient(to right bottom, #D40A6C, #2196F3);
   color: #ffffff;
   border-radius: 30px;
   font-weight: 600;
@@ -219,13 +292,12 @@ section.profile .informations .personal-info .user-percentage svg {
   fill: #8043DC;
 }
 section.profile .informations .personal-info .user-group svg {
-  fill: #039DEB;
+  fill: #2196F3;
 }
 section.profile .informations .about-us {
   width: 45%;
 }
 section.profile .informations .about-us h3 {
-  color: #4E73DF;
   font-weight: 600;
 }
 section.profile .informations .about-us p {
@@ -294,7 +366,7 @@ section.profile .informations .about-us p {
   }
   .pages ul li:hover a {
     transform: translateY(-35px);
-    background: linear-gradient(to right bottom, #D40A6C, #039DEB);
+    background: linear-gradient(to right bottom, #D40A6C, #2196F3);
     border: 6px solid #ffffff;
   }
   .pages ul li a {

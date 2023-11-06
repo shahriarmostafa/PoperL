@@ -3,16 +3,15 @@
 $white: #ffffff;
 $blue: #4E73DF;
 $shadow: #4e72df63;
-// $background: #EAEEF2;
-$background: rgba(234, 238, 242, 0.9);
+$background: #EAEEF2;
+$night-background: #02031b;
 $red: #BD2130;
 $purple: #8043DC;
 $lt-blue: #54FFFB;
-$d-blue: #039DEB;
+$d-blue: #2196F3;
 $pinkish: #D40A6C;
 $green: #1E7E34;
 $gray: #34495E;
-
 
 
 // border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
@@ -25,6 +24,42 @@ $gray: #34495E;
 }
 .drop-down-opacity{
     opacity: 1 !important;
+}
+::-webkit-scrollbar{
+    width: 5px;
+    background: $gray;
+}
+::-webkit-scrollbar-thumb{
+    background: $pinkish;
+    border-radius: 5px;
+}
+
+
+.night-view{
+    background: $night-background;
+    .icon{
+        background: url(../../images/bg.svg) no-repeat, linear-gradient($night-background, $night-background);
+        box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
+    }
+    b, p{
+        color: $white;
+    }
+    h3, h2, h1{
+        color: $lt-blue;
+    }
+}
+.day-view{
+    background: url(../../images/QeVXaw01.svg) repeat, linear-gradient($background, $background);
+    .icon{
+        background: $background;
+        box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
+    }
+    b, p{
+        color: $gray;
+    }
+    h3, h2, h1{
+        color: $blue;
+    }
 }
 // basic setup
 
@@ -75,7 +110,7 @@ nav{
                     color: $white;
                     transition: 0.5s;
                     &:hover{
-                        background: $d-blue;
+                        background: $gray;
                     }
                     a{
                         text-decoration: none;
@@ -88,8 +123,57 @@ nav{
                             margin-right: 10px;
                         }
                     }
-                    input{
-                        margin-right: 10px;
+
+                    .switch {
+                        position: relative;
+                        display: inline-block;
+                        width: 40px;
+                        height: 21px;
+                    }
+
+                    .switch input { 
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                    }
+
+                    .slider {
+                        position: absolute;
+                        cursor: pointer;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: $background;
+                        -webkit-transition: .4s;
+                        transition: .4s;
+                        border-radius: 20px;
+                    }
+
+                    .slider:before {
+                        position: absolute;
+                        content: "";
+                        height: 15px;
+                        width: 15px;
+                        left: 4px;
+                        bottom: 3px;
+                        background-color: $d-blue;
+                        -webkit-transition: .4s;
+                        transition: .4s;
+                        border-radius: 50%;
+                    }
+
+                    input:checked + .slider {
+                        background-color: $night-background;
+                    }
+
+                    input:focus + .slider {
+                        box-shadow: 0 0 1px $d-blue;
+                    }
+                    input:checked + .slider:before {
+                        -webkit-transform: translateX(17px);
+                        -ms-transform: translateX(17px);
+                        transform: translateX(17px);
                     }
                 }
                 hr{
@@ -143,7 +227,7 @@ nav{
 
 // profile page
 section.profile{
-    background: url(../../images/QeVXaw01.svg) repeat, linear-gradient(rgba(234, 238, 242, 0.9), rgba(234, 238, 242, 0.9));
+    background-size: cover;
     .background{
         width: 100%;
         height: 400px;
@@ -185,7 +269,6 @@ section.profile{
         margin-top: 5px;
         h2{
             text-align: center;
-            color: $blue;
             font-weight: 700;
         }
     }
@@ -197,14 +280,12 @@ section.profile{
         .personal-info{
             width: 45%;
             h3{
-                color: $blue;
                 font-weight: 600;
             }
             .icon{
                 width: 35px;
                 height: 35px;
                 border-radius: 50%;
-                background: $background;
                 justify-content: center;
                 margin-right: 10px;
                 box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px $white;
@@ -215,7 +296,6 @@ section.profile{
             }
             b{
                 font-size: 18px;
-                color: $gray;
             }
             .user-email{
                 svg{
@@ -261,7 +341,6 @@ section.profile{
         .about-us{
             width: 45%;
             h3{
-                color: $blue;
                 font-weight: 600;
             }
             p{
