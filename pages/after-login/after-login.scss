@@ -350,36 +350,51 @@ section.education-page{
         justify-content: space-evenly;
         flex-wrap: wrap;
         .box{
-            width: 300px;
-            max-width: 300px;
+            width: 200px;
+            max-width: 200px;
             background: $white;
-            min-height: 30px;
-            border-radius: 28px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 2px 2px 2px $lt-blue, -2px -2px 2px $blue, 2px -2px 2px $lt-blue, -2px 2px 2px $blue;
+            box-shadow: 4px 4px 4px $lt-blue, -4px -4px 4px $blue, 4px -4px 4px $lt-blue, -4px 4px 4px $blue;
             margin-bottom: 40px;
-            img{
-                z-index: 1;
+            .photo{
                 width: 100%;
-                border-radius: 0% 0% 40% 0%;
+                height: 200px;
+                overflow: hidden;
+                min-height: 160px;
+                background: linear-gradient($pinkish, $d-blue);
+                img{
+                    z-index: 1;
+                    width: 100%;
+                }
             }
             .info{
-                padding: 25px;
+                padding: 14px;
                 h3{
-                    font-size: 25px;
+                    font-size: 20px;
                     font-weight: 700;
-                    text-align: center;
                     color: $blue;
                 }
+                span{
+                    font-size: 14px;
+                    font-weight: 800;
+                    display: block;
+                    margin-bottom: 5px;
+                }
+                .level{
+                    background: linear-gradient(to right, gold, $pinkish);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
                 button{
-                    padding: 16px;
+                    padding: 12px 20px;
                     background: $blue;
                     border: none;
                     color: $white;
                     width: 100%;
                     font-size: 14px;
                     font-weight: 500;
-                    border-radius: 35px;
+                    border-radius: 5px;
                     box-shadow: 4px 4px 8px $background;
                 }
             }
@@ -397,7 +412,7 @@ section.education-page{
     100% {
         transform: rotate(720deg);
     }
-  }
+}
 // animation
 
 // Responsive
