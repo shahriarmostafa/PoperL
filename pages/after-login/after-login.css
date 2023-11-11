@@ -296,6 +296,9 @@ section.profile .informations .about-us p {
   font-weight: 500;
 }
 
+section.education-page {
+  min-height: calc(100% - 81px);
+}
 section.education-page .container {
   padding: 80px 10px;
   display: flex;
@@ -446,16 +449,6 @@ section.education-page .container .box .info button {
   font-size: 12px;
   color: #54FFFB;
 }
-.chat-page section.chat .chat-box .conversation .all-message .my-message .image, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .image {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-}
-.chat-page section.chat .chat-box .conversation .all-message .my-message .image img, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .image img {
-  width: 100%;
-}
 .chat-page section.chat .chat-box .conversation .all-message .my-message .photo, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .photo {
   width: 180px;
   margin-left: 15px;
@@ -492,6 +485,18 @@ section.education-page .container .box .info button {
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message {
   justify-content: start;
 }
+.chat-page section.chat .chat-box .conversation .all-message .incoming-message .image {
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  border: 3px solid #54FFFB;
+}
+.chat-page section.chat .chat-box .conversation .all-message .incoming-message .image img {
+  width: 100%;
+}
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .name {
   margin: 0 0 0 15px;
 }
@@ -521,7 +526,7 @@ section.education-page .container .box .info button {
   fill: #ffffff;
 }
 .chat-page section.chat .chat-box .typing-area .inbox {
-  width: 85%;
+  width: 60%;
 }
 .chat-page section.chat .chat-box .typing-area .inbox input {
   width: 100%;
@@ -542,24 +547,85 @@ section.education-page .container .box .info button {
   justify-content: space-between;
 }
 .chat-page.mobile-chat-page section.chat .topper .container .back-btn a svg {
-  width: 25px;
+  width: 20px;
   fill: #fff;
 }
-.chat-page.mobile-chat-page section.chat .topper .container .profile-photo {
-  width: 50px;
-  height: 50px;
+.chat-page.mobile-chat-page section.chat .topper .container .call-audio button, .chat-page.mobile-chat-page section.chat .topper .container .call-video button {
+  border: none;
+  background: none;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #54FFFB;
+  margin: 0 5px;
 }
-.chat-page.mobile-chat-page section.chat .topper .container .profile-photo img {
-  width: 100%;
+.chat-page.mobile-chat-page section.chat .topper .container .call-audio button:hover, .chat-page.mobile-chat-page section.chat .topper .container .call-video button:hover {
+  background: rgba(250, 250, 250, 0.2);
+}
+.chat-page.mobile-chat-page section.chat .topper .container .call-audio button svg, .chat-page.mobile-chat-page section.chat .topper .container .call-video button svg {
+  width: 20px;
+  fill: #ffffff;
 }
 .chat-page.mobile-chat-page section.chat .chat-box {
   width: 100%;
 }
 .chat-page.mobile-chat-page section.chat .chat-box .conversation {
-  height: calc(100% - 132px);
+  height: calc(100% - 122px);
+}
+
+section.subscription .container .title h2 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+section.subscription .container .packages {
+  justify-content: space-between;
+}
+section.subscription .container .packages .pack {
+  max-width: 350px;
+  width: 350px;
+  padding: 55px 35px;
+  margin-bottom: 35px;
+  border-radius: 15px;
+  box-shadow: -2px -2px 4px #292727, 2px 2px 8px #000000;
+}
+section.subscription .container .packages .pack .name {
+  margin-bottom: 20px;
+}
+section.subscription .container .packages .pack .name h4 {
+  font-weight: 700;
+  font-size: 25px;
+  color: #54FFFB;
+}
+section.subscription .container .packages .pack ul li {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+section.subscription .container .packages .pack .coupon-link {
+  margin-left: 16px;
+}
+section.subscription .container .packages .pack .coupon-link a {
+  text-decoration: none;
+  color: #D40A6C;
+  font-size: 14px;
+  font-weight: 600;
+}
+section.subscription .container .packages .pack .coupon-link a:hover {
+  text-decoration: underline;
+}
+section.subscription .container .packages .pack .procceed {
+  padding: 20px 0 0 0;
+}
+section.subscription .container .packages .pack .procceed button {
+  padding: 14px 65px;
+  background: linear-gradient(to right bottom, #D40A6C, #2196F3);
+  border: none;
+  border-radius: 5px;
+  margin-left: 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .modal {
@@ -660,6 +726,9 @@ section.education-page .container .box .info button {
   nav .pc-nav ul li a:hover {
     background: linear-gradient(to right bottom, #54FFFB, #8043DC);
     transform: scale(1.2);
+  }
+  .mobile-chat-page .chat-box {
+    display: none;
   }
 }
 @media screen and (max-width: 700px) {
