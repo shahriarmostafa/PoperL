@@ -650,8 +650,7 @@ section.subscription{
             }
         }
         .packages{
-            justify-content: space-between;
-            
+            justify-content: space-evenly;
             .pack{
                 max-width: 350px;
                 width: 350px;
@@ -673,6 +672,9 @@ section.subscription{
                         font-size: 15px;
                         font-weight: 600;
                         margin-bottom: 4px;
+                        span{
+                            color: $lt-blue;
+                        }
                     }
                 }
                 .coupon-link{
@@ -693,12 +695,27 @@ section.subscription{
                         padding: 14px 65px;
                         background: linear-gradient(to right bottom, $pinkish, $d-blue);
                         border: none;
-                        border-radius: 5px;
+                        border-radius: 25px;
                         margin-left: 16px;
                         color: $white;
                         font-size: 14px;
                         font-weight: 600;
 
+                    }
+                }
+                &:last-child{
+                    .name{
+                        h4{
+                            background: linear-gradient(to right, gold, $pinkish, gold);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                        }
+                    }
+                    span.success{
+                        background: linear-gradient(to right, gold, $pinkish);
+                        -webkit-background-clip: text !important;
+                        -webkit-text-fill-color: transparent;
+                        
                     }
                 }
             }
@@ -851,19 +868,6 @@ section.subscription{
             align-items: center;
             li{
                 margin: 0;
-                &:hover a::after{
-                    box-shadow: -1px -10px $background;
-                }
-                &:hover a::before{
-                    box-shadow: 1px -10px $background;
-                }
-                &:hover{
-                    a{
-                        transform: translateY(-35px);
-                        background: linear-gradient(to right bottom, $pinkish, $d-blue);
-                        border: 6px solid $background;
-                    }
-                } 
                 a{
                     position: relative;
                     display: flex;
@@ -871,7 +875,7 @@ section.subscription{
                     height: 70px;
                     justify-content: center;
                     border-radius: 50%;
-                    transition: 0.2s ease-out;                 
+                    transition: 0.2s ease-out;                
                     svg{
                         width: 25px;
                         fill: $white;
@@ -900,6 +904,19 @@ section.subscription{
                     }
 
                 }
+                &.active:hover a::after{
+                    box-shadow: -1px -10px $background;
+                }
+                &.active:hover a::before{
+                    box-shadow: 1px -10px $background;
+                }
+                &.active{
+                    a{
+                        transform: translateY(-35px);
+                        background: linear-gradient(to right bottom, $pinkish, $d-blue);
+                        border: 6px solid $background;
+                    }
+                } 
             }
         }
     }
@@ -919,15 +936,16 @@ section.subscription{
     .mobile-nav{
         display: block;
     }
+    // nav shadow fix
     .shadow-fix{
         li{
-            &:hover a::after{
+            &.active a::after{
                 box-shadow: -1px -10px $night-background !important;
             }
-            &:hover a::before{
+            &.active a::before{
                 box-shadow: 1px -10px $night-background !important;
             }
-            &:hover{
+            &.active{
                 a{
                     border-color: $night-background !important;
                 }

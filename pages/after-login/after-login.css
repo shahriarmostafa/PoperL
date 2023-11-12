@@ -578,7 +578,7 @@ section.subscription .container .title h2 {
   margin-bottom: 40px;
 }
 section.subscription .container .packages {
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 section.subscription .container .packages .pack {
   max-width: 350px;
@@ -602,6 +602,9 @@ section.subscription .container .packages .pack ul li {
   font-weight: 600;
   margin-bottom: 4px;
 }
+section.subscription .container .packages .pack ul li span {
+  color: #54FFFB;
+}
 section.subscription .container .packages .pack .coupon-link {
   margin-left: 16px;
 }
@@ -621,11 +624,21 @@ section.subscription .container .packages .pack .procceed button {
   padding: 14px 65px;
   background: linear-gradient(to right bottom, #D40A6C, #2196F3);
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   margin-left: 16px;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
+}
+section.subscription .container .packages .pack:last-child .name h4 {
+  background: linear-gradient(to right, gold, #D40A6C, gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+section.subscription .container .packages .pack:last-child span.success {
+  background: linear-gradient(to right, gold, #D40A6C);
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
 }
 
 .modal {
@@ -748,17 +761,6 @@ section.subscription .container .packages .pack .procceed button {
   .pages ul li {
     margin: 0;
   }
-  .pages ul li:hover a::after {
-    box-shadow: -1px -10px #EAEEF2;
-  }
-  .pages ul li:hover a::before {
-    box-shadow: 1px -10px #EAEEF2;
-  }
-  .pages ul li:hover a {
-    transform: translateY(-35px);
-    background: linear-gradient(to right bottom, #D40A6C, #2196F3);
-    border: 6px solid #EAEEF2;
-  }
   .pages ul li a {
     position: relative;
     display: flex;
@@ -794,6 +796,17 @@ section.subscription .container .packages .pack .procceed button {
     border-top-left-radius: 20px;
     transition: 0.7s;
   }
+  .pages ul li.active:hover a::after {
+    box-shadow: -1px -10px #EAEEF2;
+  }
+  .pages ul li.active:hover a::before {
+    box-shadow: 1px -10px #EAEEF2;
+  }
+  .pages ul li.active a {
+    transform: translateY(-35px);
+    background: linear-gradient(to right bottom, #D40A6C, #2196F3);
+    border: 6px solid #EAEEF2;
+  }
   .profile .informations {
     width: 90%;
     margin: auto;
@@ -808,13 +821,13 @@ section.subscription .container .packages .pack .procceed button {
   .mobile-nav {
     display: block;
   }
-  .shadow-fix li:hover a::after {
+  .shadow-fix li.active a::after {
     box-shadow: -1px -10px #02031b !important;
   }
-  .shadow-fix li:hover a::before {
+  .shadow-fix li.active a::before {
     box-shadow: 1px -10px #02031b !important;
   }
-  .shadow-fix li:hover a {
+  .shadow-fix li.active a {
     border-color: #02031b !important;
   }
   section.chat {
