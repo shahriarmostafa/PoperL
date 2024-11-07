@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
+.form {
+  width: 600px;
+  margin: 60px auto;
+  background: #e3edf7;
+  padding: 45px;
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
+  border-radius: 10px;
+}
+.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit] {
+  box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 4px;
+  background: #e3edf7;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit] {
+  background: #4E73DF;
+  box-shadow: none;
+  color: #ffffff;
+}
+.form form .write-password, .form form .confirm-password {
+  position: relative;
+  width: 48%;
+}
+.form form .write-password input, .form form .confirm-password input {
+  width: 100%;
+}
+.form form .write-password .show-pass-btn, .form form .confirm-password .show-pass-btn {
+  position: absolute;
+  background: none;
+  border: none;
+  color: gray;
+  top: 0;
+  bottom: 0;
+  right: 2px;
+}
+.form .errorMessage {
+  color: red;
+}
+.form .successMessage {
+  color: rgb(27, 153, 27);
+}
+
+@media screen and (max-width: 520px) {
+  .form {
+    max-width: 480px;
+  }
+}/*# sourceMappingURL=form.css.map */
