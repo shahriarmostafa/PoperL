@@ -1,0 +1,365 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
+section {
+  line-height: 1;
+  width: 100%;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+section a {
+  text-decoration: none;
+}
+section .headline {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4E73DF;
+}
+section .display .sidebar {
+  overflow: hidden;
+  width: 20%;
+  height: 100vh;
+  background: #4E73DF;
+  resize: horizontal;
+}
+section .display .sidebar .display-names a {
+  text-decoration: none;
+}
+section .display .sidebar .display-names a .item {
+  transition: 1s;
+  padding: 20px 30px;
+  align-items: center;
+  color: #ffffff;
+}
+section .display .sidebar .display-names a .item .icon {
+  width: 15px;
+  margin-right: 10px;
+}
+section .display .sidebar .display-names a .item .icon svg {
+  width: 100%;
+  fill: #ffffff;
+  transition: 1s;
+}
+section .display .sidebar .display-names a .item p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+}
+section .display .sidebar .display-names a .item:hover {
+  background: #ffffff;
+  color: #4E73DF;
+  transform: scale(1.05);
+}
+section .display .sidebar .display-names a .item:hover svg {
+  fill: #4E73DF;
+}
+section .display .view {
+  width: 80%;
+  background: #EEF2F7;
+  height: 100vh;
+  overflow: scroll;
+}
+section .display .view::-webkit-scrollbar-thumb {
+  width: 3px;
+  background: #4E73DF;
+}
+section .display .view::-webkit-scrollbar {
+  width: 3px;
+}
+section .display .view nav {
+  width: 100%;
+  box-shadow: 0px 1px 5px rgba(78, 114, 223, 0.3882352941);
+  background: #ffffff;
+}
+section .display .view nav .container {
+  justify-content: space-between;
+  align-items: center;
+}
+section .display .view nav .container .logo {
+  width: 200px;
+}
+section .display .view nav .container .logo img {
+  width: 100%;
+}
+section .display .view nav .container .profile {
+  width: 50px;
+  position: relative;
+}
+section .display .view nav .container .profile .dropdown {
+  display: none;
+  position: absolute;
+  right: 20px;
+  transition: 0.1s;
+  padding: 18px 55px;
+  border-radius: 4px;
+  background: #4E73DF;
+  box-shadow: -8px -8px 8px rgba(78, 114, 223, 0.3882352941), 8px 8px 8px rgba(78, 114, 223, 0.3882352941);
+  text-align: center;
+}
+section .display .view nav .container .profile .dropdown ul {
+  padding-left: 0;
+}
+section .display .view nav .container .profile .dropdown ul li {
+  transition: 0.5s;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+section .display .view nav .container .profile .dropdown ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #ffffff;
+}
+section .display .view nav .container .profile .dropdown ul li:last-child a {
+  color: red;
+  font-weight: 700;
+}
+section .display .view nav .container .profile .dropdown ul li:hover {
+  transform: scale(1.1);
+}
+section .display .view nav .container .profile img {
+  transition: 0.5s;
+  width: 100%;
+  border-radius: 50%;
+  border: 5px solid #4E73DF;
+}
+section .display .view nav .container .profile img:hover {
+  transform: scale(1.1);
+}
+section .display .view nav .container .profile img:active {
+  transform: scale(1);
+}
+section .display .view nav .container .profile:hover .dropdown {
+  display: block;
+  transform: scale(1.1);
+}
+section .display .view .analytics {
+  padding: 50px 30px;
+}
+section .display .view .analytics .st-and-te {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+section .display .view .analytics .st-and-te .Revenue {
+  border-bottom: 4px solid #059669;
+  background: linear-gradient(#AAF4D1, #CFFAE4);
+}
+section .display .view .analytics .st-and-te .Revenue .icon {
+  background: #059669;
+}
+section .display .view .analytics .st-and-te .total-students {
+  border-bottom: 4px solid #DB2777;
+  background: linear-gradient(#FBD1E9, #FCE7F3);
+}
+section .display .view .analytics .st-and-te .total-students .icon {
+  background: #DB2777;
+}
+section .display .view .analytics .st-and-te .total-teachers {
+  border-bottom: 4px solid #D97706;
+  background: linear-gradient(#FDE78E, #FEF2C3);
+}
+section .display .view .analytics .st-and-te .total-teachers .icon {
+  background: #D97706;
+}
+section .display .view .analytics .st-and-te .this-month {
+  border-bottom: 4px solid #2563eb;
+  background: linear-gradient(#C1DCFE, #DAEAFE);
+}
+section .display .view .analytics .st-and-te .this-month .icon {
+  background: #2563EB;
+}
+section .display .view .analytics .st-and-te .last-month {
+  border-bottom: 4px solid #4f46e5;
+  background: linear-gradient(#C8D3FE, #DEE5FF);
+}
+section .display .view .analytics .st-and-te .last-month .icon {
+  background: #4F46E5;
+}
+section .display .view .analytics .st-and-te .difference {
+  border-bottom: 4px solid #DC2626;
+  background: linear-gradient(#FECACA, #FEE1E1);
+}
+section .display .view .analytics .st-and-te .difference .icon {
+  background: #DC2626;
+}
+section .display .view .analytics .st-and-te .box {
+  border-radius: 10px;
+  box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  width: 28%;
+  padding: 18px 30px;
+}
+section .display .view .analytics .st-and-te .box .icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+}
+section .display .view .analytics .st-and-te .box .icon img {
+  width: 30px;
+}
+section .display .view .analytics .st-and-te .box .subject {
+  margin-top: 10px;
+  text-align: center;
+}
+section .display .view .analytics .st-and-te .box .subject .text h4 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #34495E;
+}
+section .display .view .analytics .st-and-te .box .subject .number {
+  font-size: 30px;
+  font-weight: 700;
+}
+section .display .view .analytics .redi-buttons button {
+  margin-left: 15px;
+  transition: 0.8s;
+  border: none;
+  background: #4E73DF;
+  color: #ffffff;
+  padding: 10px 70px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 12px;
+  outline: none;
+}
+section .display .view .analytics .redi-buttons button a {
+  color: #ffffff;
+}
+section .display .view .analytics .redi-buttons button:hover {
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
+  transform: scale(1.08);
+}
+section .display .view .analytics .table {
+  margin-bottom: 35px;
+}
+section .display .view .analytics .table table {
+  box-shadow: 1px 1px 20px rgba(78, 114, 223, 0.3882352941);
+  border: none;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+}
+section .display .view .analytics .table table tbody {
+  width: 100%;
+}
+section .display .view .analytics .table table tbody tr {
+  border: none;
+}
+section .display .view .analytics .table table tbody tr:nth-child(odd) {
+  background: #EEF2F7;
+}
+section .display .view .analytics .table table tbody th {
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  background: #4E73DF;
+  padding: 12px;
+}
+section .display .view .analytics .table table tbody td {
+  border: none;
+  vertical-align: middle;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 12px;
+}
+section .display .view .analytics .table table tbody td .redi-buttons {
+  justify-content: center;
+}
+section .display .view .analytics .table table tbody td .redi-buttons button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+}
+section .display .view .analytics .table table tbody td .redi-buttons button svg {
+  fill: #ffffff;
+  width: 15px;
+}
+section .display .view .analytics .table table tbody td img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+section .display .view .analytics .table table tbody .icon {
+  width: 20px;
+  margin: auto;
+}
+section .display .view .analytics .table table tbody .icon svg {
+  width: 100%;
+  fill: #4E73DF;
+}
+section .display .view .analytics .admin-table tr, section .display .view .analytics .admin-table td, section .display .view .analytics .complain-table tr, section .display .view .analytics .complain-table td {
+  width: 50%;
+}
+section .display .view .analytics .form {
+  max-width: 500px;
+  margin: 60px auto;
+  background: #e3edf7;
+  padding: 45px;
+  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
+  border-radius: 10px;
+}
+section .display .view .analytics .form form input, section .display .view .analytics .form form select {
+  box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 4px;
+  background: #e3edf7;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 12px;
+}
+section .display .view .analytics .form form input[type=submit], section .display .view .analytics .form form select[type=submit] {
+  background: #4E73DF;
+  box-shadow: none;
+  color: #ffffff;
+}
+section .display .view .analytics .packages {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+section .display .view .analytics .packages .package {
+  width: 30%;
+  background: #E3EDF7;
+  box-shadow: 8px 8px 8px rgba(78, 114, 223, 0.3882352941), -8px -8px 8px #ffffff;
+  padding: 55px 55px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+section .display .view .analytics .packages .package ul {
+  font-weight: 600;
+  font-size: 12;
+  margin: 25px 0 40px 0;
+}
+section .display .view .analytics .packages .package ul li {
+  margin-bottom: 10px;
+}
+section .display .view .analytics .close-calculation-btn {
+  justify-content: center;
+}
+section .display .view .analytics .close-calculation-btn button {
+  width: 60%;
+  margin-top: 100px;
+  padding: 50px;
+  font-size: 30px;
+  text-transform: uppercase;
+  box-shadow: none;
+  transition: 0.2s;
+}
+section .display .view .analytics .close-calculation-btn button:hover {
+  box-shadow: none;
+}
+section .display .view .analytics .close-calculation-btn button:active {
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5), inset 0px 4px 8px rgba(0, 0, 0, 0.5), inset 0px 8px 16px rgba(0, 0, 0, 0.5);
+  transform: translateY(10px);
+}/*# sourceMappingURL=admin.css.map */

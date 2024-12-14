@@ -8,6 +8,18 @@ import {
 import Home from './interfaces/before-login/Home';
 import SignIn from './interfaces/before-login/SignIn';
 import SignUp from './interfaces/before-login/SignUp';
+import AuthProvider from './providers/AuthProvider';
+import Subscription from './interfaces/After-Login/Subscription';
+import UserPrivateRouter from './routes/UserPrivateRouter';
+
+
+// owner pages
+import Change from './interfaces/owner/admin-change/Change';
+import AddAdmin from './interfaces/owner/admin-change/add-admin/AddAdmin';
+import Packages from './interfaces/owner/packages/packages';
+import AddPackage from './interfaces/owner/packages/AddPackage';
+import EditPack from './interfaces/owner/packages/EditPack';
+
 const router = createBrowserRouter([{
   path: '/',
   element: <Root></Root>,
@@ -23,11 +35,40 @@ const router = createBrowserRouter([{
     {
       path: '/signin',
       element: <SignIn></SignIn>
+    },
+    {
+      path: '/subscription',
+      element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
+    }
+    ,
+    {
+      path: '/admins',
+      element: <Change></Change>,
+      loader: () => fetch("http://localhost:5000/user")
+    },
+    {
+      path: '/add-admin',
+      element: <AddAdmin></AddAdmin>
+    },
+    {
+      path: '/packages',
+      element: <Packages></Packages>,
+      loader: () => fetch("http://localhost:5000/pack")
+    },
+    {
+      path: '/add-package',
+      element: <AddPackage></AddPackage>
+    },
+    {
+      path: '/edit-package',
+      element: <EditPack></EditPack>
     }
   ]
 }]);
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
   </StrictMode>
 )

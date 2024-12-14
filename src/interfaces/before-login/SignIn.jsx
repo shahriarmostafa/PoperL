@@ -1,22 +1,30 @@
 import auth from '../../firebase/firebase.init';
-import { signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
-import { useRef, useState } from 'react';
+import { sendPasswordResetEmail} from 'firebase/auth';
+import { useContext, useRef, useState } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
 import '../../styles/before-login/form.css'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 export default function SignIn(){
     const [formErrorMessege, setFormErrorMessege] = useState('');
     const [formSuccessMessege, setFormSccessMessege] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const {userSignIn}= useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     // sign up using form
     const formSubmitHandler = (e) =>{
         e.preventDefault()
         const email = e.target.email.value;
         const password = e.target.password.value;
         setFormErrorMessege('')
-        signInWithEmailAndPassword(auth, email, password).then(result => 
-        setFormSccessMessege('Signed In : ' + result.user.email + '. ' + 'Name :' + result.user.displayName)
+        userSignIn(email, password).then(result => {
+            e.target.reset();
+            navigate('/subscription');
+        }
         ).catch(err => setFormErrorMessege(err.message)
         )
     }
@@ -58,7 +66,7 @@ export default function SignIn(){
                     <input type="submit" />
                 </form>
                 <div className="errorMessage">
-                {formErrorMessege? <i className="errorMessage"> {formErrorMessege} </i> : <i className="successMessage"> {formSuccessMessege} </i> }
+                {formErrorMessege && <i className="errorMessage"> {formErrorMessege} </i>}
                 </div>
                 <a href='#' onClick={forgotPassHandle}>Forgot Password?</a>
                 <p onClick={forgotPassHandle} href='#'>Don't have an account? <span><Link to="./signup">Sign Up</Link></span></p>

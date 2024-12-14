@@ -1,13 +1,18 @@
-import auth from '../../firebase/firebase.init';
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from 'firebase/auth';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../../styles/before-login/form.css';
+import { AuthContext } from '../../providers/AuthProvider';
 export default function SignUp(){
     const [formErrorMessege, setFormErrorMessege] = useState('');
     const [formSuccessMessege, setFormSccessMessege] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const {createUser} = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     // sign up using form
     const formSubmitHandler = (e) =>{
         e.preventDefault()
@@ -28,10 +33,15 @@ export default function SignUp(){
             setFormErrorMessege('please accept temrs and conditions to continue');
             return;
         }
-        setFormErrorMessege('')
-        createUserWithEmailAndPassword(auth, email, password).then(result => {
+        setFormErrorMessege('');
+        createUser(email, password).then(result => {
             setFormSccessMessege('User Created : ' + result.user.email);
-            sendEmailVerification(result.user).then(alert("Check email to confirm your account")).catch(err => {
+            sendEmailVerification(result.user).then(() => {
+                alert("Check email to confirm your account");
+                e.target.reset();
+                navigate('/subscription');
+            }
+            ).catch(err => {
             setFormErrorMessege(err.message)
         })
         updateProfile(result.user, {
@@ -43,6 +53,20 @@ export default function SignUp(){
         }
         ).catch(err => setFormErrorMessege(err.message)
         )
+        // createUserWithEmailAndPassword(auth, email, password).then(result => {
+        //     setFormSccessMessege('User Created : ' + result.user.email);
+        //     sendEmailVerification(result.user).then(alert("Check email to confirm your account")).catch(err => {
+        //     setFormErrorMessege(err.message)
+        // })
+        // updateProfile(result.user, {
+        //     displayName: name,
+        //     photoURL: ''
+        // }).then(
+        //     setFormSccessMessege(formSuccessMessege + 'User name added')
+        // ).catch(err => setFormErrorMessege(err.message));
+        // }
+        // ).catch(err => setFormErrorMessege(err.message)
+        // )
     }
     function changeIcon(){
         if(showPassword == true){

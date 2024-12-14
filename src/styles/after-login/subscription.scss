@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
+// basic setup
+$white: #ffffff;
+$blue: #4E73DF;
+$shadow: #4e72df63;
+$background: #EAEEF2;
+$night-background: #02031b;
+$red: #BD2130;
+$purple: #8043DC;
+$lt-blue: #54FFFB;
+$d-blue: #2196F3;
+$pinkish: #D40A6C;
+$green: #1E7E34;
+$gray: #34495E;
+
+
+section.subscription{
+    background-color: $night-background;
+    .container{
+        .title{
+            h2{
+                font-size: 30px;
+                font-weight: 700;
+                margin-bottom: 40px;
+                color: $lt-blue;
+                text-align: center;
+            }
+        }
+        .packages{
+            justify-content: space-evenly;
+            .pack{
+                max-width: 350px;
+                width: 350px;
+                padding: 55px 35px;
+                margin-bottom: 35px;
+                border-radius: 15px;
+                box-shadow: -2px -2px 4px #0257ac8c, 2px 2px 8px #c504bb79;
+                .name{
+                    margin-bottom: 20px;
+                    h4{
+                        font-weight: 700;
+                        font-size: 25px;
+                        color: $lt-blue;
+                    }
+                }
+                ul{
+                    li{
+                        color: $white;
+                        font-size: 15px;
+                        font-weight: 600;
+                        margin-bottom: 4px;
+                        span{
+                            color: $lt-blue;
+                            &.taka-sign{
+                                font-size: 22px;
+                                margin-left: -3px;
+                            }
+                        }
+                    }
+                }
+                .coupon-link{
+                    margin-left: 16px;
+                    a{
+                        text-decoration: none;
+                        color: $pinkish;
+                        font-size: 14px;
+                        font-weight: 600;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+                .procceed{
+                    padding: 12px 0 0 0;
+                    button{
+                        padding: 10px 65px;
+                        background: linear-gradient(to right bottom, $pinkish, $d-blue);
+                        border: none;
+                        border-radius: 5px;
+                        margin-left: 16px;
+                        color: $white;
+                        font-size: 14px;
+                        font-weight: 600;
+
+                    }
+                }
+                &:last-child{
+                    .name{
+                        h4{
+                            background: linear-gradient(to right, gold, $pinkish, gold);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                        }
+                    }
+                    span.success{
+                        background: linear-gradient(to right, gold, $pinkish);
+                        -webkit-background-clip: text !important;
+                        -webkit-text-fill-color: transparent;
+                        
+                    }
+                }
+            }
+        }
+    }
+}
