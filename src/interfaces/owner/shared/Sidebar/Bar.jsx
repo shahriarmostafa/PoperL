@@ -13,7 +13,7 @@ export default function Nav(){
                             <p>Dashboard</p>
                         </div>
                     </NavLink>
-                    <NavLink to="/">
+                    <NavLink to="/admins">
                         <div className="item container  d-flex">
                             <div className="icon">
                             <FaUser />
@@ -29,7 +29,7 @@ export default function Nav(){
                             <p>History</p>
                         </div>
                     </NavLink>
-                    <NavLink to="/">
+                    <NavLink to="/packages">
                         <div className="item container d-flex">
                             <div className="icon">
                                 <FaEdit />

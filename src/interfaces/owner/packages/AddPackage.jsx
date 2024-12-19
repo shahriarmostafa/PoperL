@@ -1,7 +1,9 @@
 import Sidebar from '../shared/Sidebar/Bar';
 import Nav from '../shared/navbar/Nav';
 import '../admin.css';
+import { useNavigate } from 'react-router-dom';
 export default function AddPackage(){
+    const navigate = useNavigate()
     const submitHandler = (e) =>{
         e.preventDefault();
         const form = e.target;
@@ -17,7 +19,7 @@ export default function AddPackage(){
         })
         .then(res => res.json())
         .then(data => {
-            form.reset();
+            navigate('/packages')
         }
         )
         

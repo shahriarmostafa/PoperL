@@ -17,7 +17,7 @@ export default function Pack({packName, packageLimit, price, deletePack, id}){
                     <li>Price: {price}</li>
                 </ul>
                 <div className="redi-buttons">
-                    <Link to="/edit-package">
+                    <Link to={`/pack/${id}`}>
                         <button className="">Edit Package</button>
                     </Link>
                 </div>

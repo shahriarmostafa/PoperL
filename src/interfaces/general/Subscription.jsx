@@ -1,4 +1,4 @@
-import '../../styles/after-login/subscription.css';
+import '../../styles/after-login/general.css';
 
 export default function Subscription() {
     return(

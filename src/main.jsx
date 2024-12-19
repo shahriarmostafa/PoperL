@@ -9,9 +9,9 @@ import Home from './interfaces/before-login/Home';
 import SignIn from './interfaces/before-login/SignIn';
 import SignUp from './interfaces/before-login/SignUp';
 import AuthProvider from './providers/AuthProvider';
-import Subscription from './interfaces/After-Login/Subscription';
+import Subscription from './interfaces/general/Subscription';
 import UserPrivateRouter from './routes/UserPrivateRouter';
-
+import Content from './interfaces/general/content';
 
 // owner pages
 import Change from './interfaces/owner/admin-change/Change';
@@ -39,8 +39,11 @@ const router = createBrowserRouter([{
     {
       path: '/subscription',
       element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
-    }
-    ,
+    },
+    {
+      path: '/content',
+      element: <Content></Content>
+    },
     {
       path: '/admins',
       element: <Change></Change>,
@@ -60,8 +63,9 @@ const router = createBrowserRouter([{
       element: <AddPackage></AddPackage>
     },
     {
-      path: '/edit-package',
-      element: <EditPack></EditPack>
+      path: '/pack/:id',
+      element: <EditPack></EditPack>,
+      loader: ({params}) => fetch(`http://localhost:5000/pack/${params.id}`)
     }
   ]
 }]);
