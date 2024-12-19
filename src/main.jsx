@@ -11,7 +11,7 @@ import SignUp from './interfaces/before-login/SignUp';
 import AuthProvider from './providers/AuthProvider';
 import Subscription from './interfaces/general/Subscription';
 import UserPrivateRouter from './routes/UserPrivateRouter';
-import Content from './interfaces/general/content';
+import Complain from './interfaces/Private/Complain';
 
 // owner pages
 import Change from './interfaces/owner/admin-change/Change';
@@ -41,8 +41,8 @@ const router = createBrowserRouter([{
       element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
     },
     {
-      path: '/content',
-      element: <Content></Content>
+      path: '/complain',
+      element: <UserPrivateRouter><Complain></Complain></UserPrivateRouter>
     },
     {
       path: '/admins',

@@ -1,0 +1,23 @@
+section.complain form.complain-form {
+  margin: auto;
+  max-width: 600px;
+  padding: 50px;
+}
+section.complain form.complain-form input, section.complain form.complain-form textarea {
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+}
+section.complain .view-complains ul li {
+  list-style-type: none;
+  padding: 15px 20px;
+  border: 1px solid black;
+}
+section.complain .view-complains ul li h5 {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+section.complain .view-complains ul li p {
+  font-size: 12px;
+  margin-bottom: 0;
+}/*# sourceMappingURL=private.css.map */
