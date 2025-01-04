@@ -16,7 +16,7 @@ import Complain from './interfaces/Private/Complain';
 // owner pages
 import Change from './interfaces/owner/admin-change/Change';
 import AddAdmin from './interfaces/owner/admin-change/add-admin/AddAdmin';
-import Packages from './interfaces/owner/packages/packages';
+import Packages from './interfaces/owner/packages/Packages';
 import AddPackage from './interfaces/owner/packages/AddPackage';
 import EditPack from './interfaces/owner/packages/EditPack';
 
@@ -50,7 +50,7 @@ const router = createBrowserRouter([{
     {
       path: '/admins',
       element: <Change></Change>,
-      loader: () => fetch("http://localhost:5000/user")
+      loader: () => fetch("https://backend-eta-blue-92.vercel.app/user")
     },
     {
       path: '/add-admin',
@@ -59,7 +59,7 @@ const router = createBrowserRouter([{
     {
       path: '/packages',
       element: <Packages></Packages>,
-      loader: () => fetch("http://localhost:5000/pack")
+      loader: () => fetch("https://backend-eta-blue-92.vercel.app/pack")
     },
     {
       path: '/add-package',
@@ -68,7 +68,7 @@ const router = createBrowserRouter([{
     {
       path: '/pack/:id',
       element: <EditPack></EditPack>,
-      loader: ({params}) => fetch(`http://localhost:5000/pack/${params.id}`)
+      loader: ({params}) => fetch(`https://backend-eta-blue-92.vercel.app/pack/${params.id}`)
     }
   ]
 }]);
