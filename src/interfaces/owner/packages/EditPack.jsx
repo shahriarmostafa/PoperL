@@ -10,7 +10,7 @@ export default function EditPack(){
         const pName = e.target.packageName.value;
         const pPrice = e.target.price.value;
         const details = {pName, pPrice};        
-        fetch(`http://localhost:5000/pack/${specificPack._id}`, {
+        fetch(`https://backend-eta-blue-92.vercel.app/pack/${specificPack._id}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json"

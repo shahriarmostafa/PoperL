@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
 export default function Home(){
 
@@ -54,6 +55,7 @@ export default function Home(){
             </div>
             <button onClick={handleLogOut}>Sign Out</button>
             <hr />
+            <Link to="/subscription"><button>Ghuira dekho?</button></Link>
             {installPrompt && (
         <button onClick={handleInstallClick}>Install App</button>
       )}

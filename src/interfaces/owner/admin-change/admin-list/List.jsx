@@ -6,7 +6,7 @@ export default function List(){
     const [varAdmins, setVarAdmins] = useState(admins);
 
     const handleDelete = (id) => {
-       fetch(`http://localhost:5000/user/${id}`, {
+       fetch(`https://backend-eta-blue-92.vercel.app//user/${id}`, {
         method: "DELETE"
         
        })

@@ -9,7 +9,7 @@ export default function AddAdmin(){
         const userName = form.name.value;
         const password = form.password.value;
         const admin = {userName, password};
-        fetch("http://localhost:5000/user", {
+        fetch("https://backend-eta-blue-92.vercel.app/user", {
             method: "POST",
             headers: {
                 "content-type": "application/json"

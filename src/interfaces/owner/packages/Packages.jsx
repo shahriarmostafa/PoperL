@@ -9,7 +9,7 @@ export default function Packages(){
     const [loadedPackages, setLoadedPackages] = useState(Packages);
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:5000/pack/${id}`, {
+        fetch(`https://backend-eta-blue-92.vercel.app/pack/${id}`, {
             method: "DELETE"
         })
         .then(res => res.json())

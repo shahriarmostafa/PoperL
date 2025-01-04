@@ -10,7 +10,7 @@ export default function AddPackage(){
         const packageName = form.packageName.value;
         const duration = form.duration.value;
         const price = form.price.value;
-        fetch("http://localhost:5000/pack", {
+        fetch("https://backend-eta-blue-92.vercel.app/pack", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
