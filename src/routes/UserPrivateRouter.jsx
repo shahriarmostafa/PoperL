@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export default function UserPrivateRouter({children}) {
     const {user, userProfileLoading} = useContext(AuthContext);
+    const location = useLocation();
     if(userProfileLoading){
         return (
             <div className="spinner-border text-primary" role="status">
@@ -14,5 +15,5 @@ export default function UserPrivateRouter({children}) {
     if(user){
         return children;
     }
-    return <Navigate to="/signin"></Navigate>
+    return <Navigate state={location.pathname} to="/signin"></Navigate>
 }

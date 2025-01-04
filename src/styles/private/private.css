@@ -10,8 +10,10 @@ section.complain form.complain-form input, section.complain form.complain-form t
 }
 section.complain .view-complains ul li {
   list-style-type: none;
-  padding: 15px 20px;
-  border: 1px solid black;
+  padding: 15px 40px;
+  color: #fff;
+  background: #34495E;
+  border-radius: 50px;
 }
 section.complain .view-complains ul li h5 {
   font-size: 16px;
@@ -20,4 +22,24 @@ section.complain .view-complains ul li h5 {
 section.complain .view-complains ul li p {
   font-size: 12px;
   margin-bottom: 0;
+}
+section.complain .view-complains ul li .actions button {
+  border: none;
+  width: 30px;
+  height: 30px;
+  outline: none;
+  border-radius: 50%;
+  margin: 5px;
+}
+section.complain .view-complains ul li .actions button.edit {
+  background: #4E73DF;
+}
+section.complain .view-complains ul li .actions button.delete {
+  background: #BD2130;
+}
+section.complain .view-complains ul li .actions button.view {
+  background: #1E7E34;
+}
+section.complain .view-complains ul li .actions button svg {
+  fill: #fff;
 }/*# sourceMappingURL=private.css.map */

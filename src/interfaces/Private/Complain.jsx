@@ -11,6 +11,8 @@ export default function Complain(){
                 <h2>Enter your complain here</h2>
                     <input name="subject" placeholder="Enter a subject for your complain" type="text" />
                     <input name="phone" placeholder="Enter you whatsapp number for contact (optional)" type="number" />
+                    <span>Submit a photo if needed (optional)</span>
+                    <input type="file" />
                     <textarea rows={10} required name="complain" id=""placeholder="Describe your complain here"></textarea>
                     <input type="submit" value="Submit" />
                 </form>
@@ -22,7 +24,7 @@ export default function Complain(){
                                     <h5 className="subject">Duration problem</h5>
                                     <p className="paragraph">Lorem, ipsum dolor sit amet consectetur adipisicing.....</p>
                                 </div>
-                                <div className="actions">
+                                <div className="actions d-flex">
                                     <button className="edit"><FaEdit></FaEdit></button>
                                     <button className="delete"><MdDelete></MdDelete></button>
                                     <button className='view'><FaEye></FaEye></button>

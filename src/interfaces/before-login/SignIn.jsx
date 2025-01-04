@@ -3,7 +3,7 @@ import { sendPasswordResetEmail} from 'firebase/auth';
 import { useContext, useRef, useState } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
 import '../../styles/before-login/form.css'
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 
 export default function SignIn(){
@@ -13,7 +13,11 @@ export default function SignIn(){
 
     const {userSignIn}= useContext(AuthContext);
 
+
+    const location = useLocation()
     const navigate = useNavigate();
+    
+    
 
     // sign up using form
     const formSubmitHandler = (e) =>{
@@ -23,7 +27,7 @@ export default function SignIn(){
         setFormErrorMessege('')
         userSignIn(email, password).then(result => {
             e.target.reset();
-            navigate('/subscription');
+            navigate(location?.state? location.state : '/');
         }
         ).catch(err => setFormErrorMessege(err.message)
         )

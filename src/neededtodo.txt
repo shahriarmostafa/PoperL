@@ -1,0 +1,27 @@
+change the route system
+separate admin owner and user
+use outlet in admin and owner
+learn context properly
+learn routes properly
+learn auth properly
+learn custom hook
+learn useref properly
+
+complete the complain functionalities
+show personalized complains in user profiles
+
+add loading structure in poperl
+
+learn about middlewares
+
+..................
+after first module
+
+setup router in poperl
+setup router in admin as well
+
+put all the nav items in a variable 
+add regex validation in poperl sign up
+
+use axios secure in poperl
+use tanstalk query in poperl

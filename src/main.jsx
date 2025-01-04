@@ -20,6 +20,9 @@ import Packages from './interfaces/owner/packages/packages';
 import AddPackage from './interfaces/owner/packages/AddPackage';
 import EditPack from './interfaces/owner/packages/EditPack';
 
+import * as serviceWorker from './serviceWorker';
+
+
 const router = createBrowserRouter([{
   path: '/',
   element: <Root></Root>,
@@ -76,3 +79,6 @@ createRoot(document.getElementById('root')).render(
     </AuthProvider>
   </StrictMode>
 )
+console.log(serviceWorker);
+
+serviceWorker.register();
