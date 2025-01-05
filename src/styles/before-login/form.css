@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
 .form {
-  width: 600px;
+  max-width: 400px;
   margin: 60px auto;
   background: #e3edf7;
   padding: 45px;
@@ -26,7 +26,6 @@
 }
 .form form .write-password, .form form .confirm-password {
   position: relative;
-  width: 48%;
 }
 .form form .write-password input, .form form .confirm-password input {
   width: 100%;
@@ -45,10 +44,4 @@
 }
 .form .successMessage {
   color: rgb(27, 153, 27);
-}
-
-@media screen and (max-width: 520px) {
-  .form {
-    max-width: 480px;
-  }
 }/*# sourceMappingURL=form.css.map */

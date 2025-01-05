@@ -78,12 +78,12 @@ export default function SignUp(){
     }
     return (
         <div className="sign-up page">
-            <div className="form">
+            <div className="form container">
                 <h1 className="headline">Sign Up</h1>
                 <form onSubmit={formSubmitHandler}>
                 <input name="name" type="text" placeholder='Enter Your Full Name' />
                 <input name="email" type="email" placeholder='Enter your email' required />
-                <div className="password-box d-flex justify-content-between">                            
+                <div className="password-box">                            
                     <div className="write-password">
                         <input name="password" type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >
                         </input>

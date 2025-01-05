@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash  } from "react-icons/fa";
 import '../../styles/before-login/form.css'
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 export default function SignIn(){
     const [formErrorMessege, setFormErrorMessege] = useState('');
@@ -44,28 +45,37 @@ export default function SignIn(){
     function forgotPassHandle(){
         const currentEmail = emailRef.current.value;
         if(!currentEmail){
-            alert('Email field is empty');
+            Swal.fire({
+                title: "In a hurry!",
+                text: "Enter a email before trying to change password",
+                icon: "success"
+            })
             return;
         }
         else if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(currentEmail)){
-            alert("Email is not valid");
+            Swal.fire({
+                title: "In a hurry!",
+                text: "Enter a proper email first",
+                icon: "success"
+            })
             return;
         }
         sendPasswordResetEmail(auth, currentEmail).then().catch(err => setFormErrorMessege(err.message))
     }
     return (
         <div className="sign-in page">
+            <div className="container">
             <div className="form">
                 <h1 className="headline">Sign In</h1>
                 <form onSubmit={formSubmitHandler}>
                 <input ref={emailRef} name="email" type="email" placeholder='Enter your email' required />
-                <div className="password-box d-flex justify-content-between">                            
+                <div className="password-box">                            
                     <div className="write-password">
                         <input name="password" type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >
                         </input>
                         <button className="show-pass-btn" onClick={() => setShowPassword(!showPassword)}>{changeIcon()}</button>
                     </div>
-                    
+                
                     </div>
                     <input type="submit" />
                 </form>
@@ -73,7 +83,8 @@ export default function SignIn(){
                 {formErrorMessege && <i className="errorMessage"> {formErrorMessege} </i>}
                 </div>
                 <a href='#' onClick={forgotPassHandle}>Forgot Password?</a>
-                <p onClick={forgotPassHandle} href='#'>Don't have an account? <span><Link to="./signup">Sign Up</Link></span></p>
+                <p href='#'>Don't have an account? <span><Link to="/signup">Sign Up</Link></span></p>
+            </div>
             </div>
             <div className="directions">
             </div>

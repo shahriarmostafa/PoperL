@@ -8,7 +8,7 @@ $background: #EEF2F7;
 $red: #ff0019;
 $green: rgb(27, 153, 27);
 .form{
-    width: 600px;
+    max-width: 400px;
     margin: 60px auto;
     background: #e3edf7;
     padding: 45px;
@@ -34,7 +34,6 @@ $green: rgb(27, 153, 27);
         }
         .write-password, .confirm-password{
             position: relative;
-            width: 48%;
             input{
                 width: 100%;
             }
@@ -57,8 +56,3 @@ $green: rgb(27, 153, 27);
     }
 }
 
-@media screen and (max-width: 520px){
-    .form{
-        max-width: 480px
-    }
-}
