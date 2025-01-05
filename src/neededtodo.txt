@@ -25,3 +25,12 @@ add regex validation in poperl sign up
 
 use axios secure in poperl
 use tanstalk query in poperl
+
+
+
+
+complete basic setup
+create chat function
+create page setup
+do security
+complete chat functions

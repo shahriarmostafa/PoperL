@@ -58,7 +58,9 @@ export default function Home(){
     const {user, logOut} = useContext(AuthContext);
     return (
         <div className="home">
-          <Link to="/admins">Admin</Link>
+          <Link to="/maintainance/admins">Admin</Link>
+          <Link to="/complain">Complain</Link>
+
             <div className="user">
                 {user?.displayName}
             </div>
