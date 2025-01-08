@@ -2,23 +2,22 @@ import Sidebar from '../../shared/Sidebar/Bar';
 import Nav from '../../shared/navbar/Nav';
 
 import '../../admin.css';
+import useAxiosSecure from '../../../../Hooks/useAxiosSecure';
 export default function AddAdmin(){
     const handleSubmit = (e) => {
+
+        const axiosSecure = useAxiosSecure();
+
+
         e.preventDefault();
         const form = e.target;
         const userName = form.name.value;
         const password = form.password.value;
         const admin = {userName, password};
-        fetch("https://backend-eta-blue-92.vercel.app/user", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(admin)
-        })
+        axiosSecure.post('/user', admin)
         .then(res => res.json())
         .then(data => { 
-            alert(data)
+            GiConsoleController.log(data)
         })
     }
     return (

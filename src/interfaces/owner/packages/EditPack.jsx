@@ -2,21 +2,21 @@ import Sidebar from '../shared/Sidebar/Bar';
 import Nav from '../shared/navbar/Nav';
 import '../admin.css';
 import { useLoaderData, useNavigate } from 'react-router-dom';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 export default function EditPack(){
     const specificPack = useLoaderData();
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
+
+
+
     const handleEdit = (e) => {
         e.preventDefault();
         const pName = e.target.packageName.value;
         const pPrice = e.target.price.value;
         const details = {pName, pPrice};        
-        fetch(`https://backend-eta-blue-92.vercel.app/pack/${specificPack._id}`, {
-            method: "PUT",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(details)
-        }).then(data => data.json()).then(res => {
+        axiosSecure.put(`pack/${specificPack._id}`, details)
+        .then(data => data.json()).then(res => {
             if(res.modifiedCount == 1){
                 navigate('/packages')
             }

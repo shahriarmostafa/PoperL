@@ -2,21 +2,21 @@ import Sidebar from '../shared/Sidebar/Bar';
 import Nav from '../shared/navbar/Nav';
 import '../admin.css';
 import { useNavigate } from 'react-router-dom';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 export default function AddPackage(){
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
+
+
     const submitHandler = (e) =>{
         e.preventDefault();
         const form = e.target;
-        const packageName = form.packageName.value;
-        const duration = form.duration.value;
-        const price = form.price.value;
-        fetch("https://backend-eta-blue-92.vercel.app/pack", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify({packageName, duration, price})
-        })
+        const item = {
+            packageName: form.packageName.value,
+            duration: form.duration.value,
+            price: form.price.value
+        }
+        axiosSecure.post('/pack', item)
         .then(res => res.json())
         .then(data => {
             navigate('/packages')
@@ -35,16 +35,6 @@ export default function AddPackage(){
                         <h3 className="headline">Add Package</h3>
                         <form onSubmit={submitHandler}>
                             <input name="packageName" type="text" placeholder="Enter Package Name"/>
-                            {/* <select name="duration"id="">
-                                <option selected value="Select duration for packages">Select duration for packages</option>
-                                <option value="1">1 Hour</option>
-                                <option value="2">2 Hours</option>
-                                <option value="24">One Day</option>
-                                <option value="48">Two Days</option>
-                                <option value="168">One Week</option>
-                                <option value="360">15 Days</option>
-                                <option value="720">One Month</option>
-                            </select> */}
                             <input name="duration" type="number" placeholder="Enter duration(Hour)"/>
                             <input name="price" type="number" placeholder="Enter the price"/>
                             <input type="submit" className="show-all"/>

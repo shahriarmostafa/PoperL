@@ -1,22 +1,22 @@
 import { useLoaderData } from "react-router-dom";
 import ListItem from "./ListItem";
 import { useState } from "react";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 export default function List(){
     const admins = useLoaderData();
     const [varAdmins, setVarAdmins] = useState(admins);
 
+    const axiosSecure = useAxiosSecure();
+
     const handleDelete = (id) => {
-       fetch(`https://backend-eta-blue-92.vercel.app/user/${id}`, {
-        method: "DELETE"
-        
-       })
+       axiosSecure.delete(`/user/${id}`)
        .then(res => res.json())
        .then(data => {
-        if(data.deletedCount == 1){
-            const filteredData = admins.filter(data => data._id != id);
-            setVarAdmins(filteredData)
-        }
-        
+            if(data.deletedCount == 1){
+                // use refetech here
+                const filteredData = admins.filter(data => data._id != id);
+                setVarAdmins(filteredData)
+            }
        })
     }
     return(

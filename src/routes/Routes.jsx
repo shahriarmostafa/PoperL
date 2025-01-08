@@ -16,6 +16,8 @@ import Packages from '../interfaces/owner/packages/Packages';
 import AddPackage from '../interfaces/owner/packages/AddPackage';
 import EditPack from '../interfaces/owner/packages/EditPack';
 import Maintainance from "../Layout/Maintainance";
+import Chat from "../interfaces/Private/Chat/Chat";
+import ChatBox from "../interfaces/Private/Chat/ChatBox";
 
 
 
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
         {
           path: '/complain',
           element: <UserPrivateRouter><Complain></Complain></UserPrivateRouter>
+        },
+        {
+          path: '/chat',
+          element: <UserPrivateRouter><Chat></Chat></UserPrivateRouter>
+        },
+        {
+          path: '/chat/user',
+          element: <ChatBox></ChatBox>
         }
       ]
     },

@@ -67,6 +67,7 @@ export default function Home(){
             <button onClick={handleLogOut}>Sign Out</button>
             <hr />
             <Link to="/subscription"><button>Ghuira dekho?</button></Link>
+            <Link to="/chat"><button className="btn btn-success">Chat</button></Link>
             {installPrompt && (
               Swal.fire({
                 title: "Download PoperL",

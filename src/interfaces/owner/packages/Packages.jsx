@@ -4,18 +4,20 @@ import {Link, useLoaderData} from 'react-router-dom';
 import Pack from './Pack';
 import '../admin.css';
 import { useState } from 'react';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 export default function Packages(){
     const Packages = useLoaderData();
     const [loadedPackages, setLoadedPackages] = useState(Packages);
 
+    const axiosSecure = useAxiosSecure();
+
     const handleDelete = (id) => {
-        fetch(`https://backend-eta-blue-92.vercel.app/pack/${id}`, {
-            method: "DELETE"
-        })
+        axiosSecure.delete(`/pack/${id}`)
         .then(res => res.json())
         .then(data => {
             if(data.deletedCount == 1){
                 const filteredData = loadedPackages.filter(x => x._id != id);
+                // use tanstack query and refetch here instead of filter and state
                 setLoadedPackages(filteredData);
             } 
         })
