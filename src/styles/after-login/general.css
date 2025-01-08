@@ -512,6 +512,12 @@ section.education-page .container .box .info button {
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .photo {
   margin-left: 15px;
 }
+.chat-page section.chat .chat-box .conversation .last-message span {
+  text-align: right;
+  display: block;
+  font-size: 10px;
+  color: #54FFFB;
+}
 .chat-page section.chat .chat-box .typing-area {
   padding: 8px 0;
   justify-content: center;

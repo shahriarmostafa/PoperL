@@ -1,9 +1,16 @@
+import { useEffect, useRef } from 'react';
 import img from '../../../assests/328039808_553574763481911_1410511776054264885_n.jpg';
 import ChatTop from './ChatTop';
 import IncomingMessage from './IncomingMessage';
 import SentMessage from './SentMessage';
 
 export default function ChatBox(){
+    const endRef = useRef(null);
+
+    useEffect(() => {
+        endRef.current?.scrollIntoView({behavior: 'smooth'})
+    }, []);
+
     return (
         <div className="chat-page">
             <section className="chat night-view">
@@ -14,7 +21,19 @@ export default function ChatBox(){
                                 
                                 <IncomingMessage></IncomingMessage>
                                 <SentMessage></SentMessage>
+                                <IncomingMessage></IncomingMessage>
+                                <SentMessage></SentMessage>
+                                <IncomingMessage></IncomingMessage>
+                                <SentMessage></SentMessage>
+                                <IncomingMessage></IncomingMessage>
+                                <SentMessage></SentMessage>
+                                <IncomingMessage></IncomingMessage>
+                                <SentMessage></SentMessage>
                             </div>
+                            <div className="last-message">
+                                <span>1 minues ago</span>
+                            </div>
+                            <div ref={endRef}></div>
                         </div>
                         <div className="typing-area d-flex">
                             <div className="select-image d-flex">

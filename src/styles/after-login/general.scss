@@ -568,6 +568,14 @@ section.education-page{
                         }
                     }
                 }
+                .last-message{
+                    span{
+                        text-align: right;
+                        display: block;
+                        font-size: 10px;
+                        color: $lt-blue;
+                    }
+                }
             }
             
             .typing-area{
