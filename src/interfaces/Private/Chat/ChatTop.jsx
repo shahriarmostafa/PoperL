@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
-
-export default function ChatTop(){
+import avatar from '../../../assests/avatar.avif';
+export default function ChatTop({profileImg, userName}){
     return (
         <div className="topper">
-                    <div className="container d-flex">
-                        <div className="back-btn">
-                            <Link to="/chat">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
-                            </Link>
+                    <div className="container justify-content-between d-flex">
+                        <div className="left d-flex">
+                            <div className="back-btn">
+                                <Link to="/chat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+                                </Link>
+                            </div>
+                            <div className="user-profile mx-1">
+                                <img src={profileImg || avatar} alt="" />
+                            </div>
+                            <div className="userName"><b>{userName}</b></div>
                         </div>
-                        <div className="right d-flex">
+                        <div className="right d-flex align-items-center">
                             <div className="call-audio d-flex">
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>

@@ -34,3 +34,7 @@ create chat function
 create page setup
 do security
 complete chat functions
+
+
+
+delete chat data from both teacher and student profile when subscription is over

@@ -18,9 +18,9 @@ export default function useChatList() {
         setLoading(true);
         try {
           const idArray = snapshot.data()?.chats || []; // Safely access `chats`
-          
           const promises = idArray.map(async (item) => {
-            const userDocLink = doc(db, "teacherCollection", item.receiverId);
+            const collectionName = item.yourRole == "student" ? "studentCollection" :"teacherCollection" ;
+            const userDocLink = doc(db, collectionName, item.receiverId);
             const userRes = await getDoc(userDocLink);
 
             const userss = userRes.exists() ? userRes.data() : {};

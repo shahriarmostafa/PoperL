@@ -23,6 +23,7 @@ export default function TeacherItem({img, name="Rahim Khan", rating=4.5, experie
             })
             await updateDoc(doc(userChatDBRef, id),{
                 chats: arrayUnion({
+                    yourRole: "student",
                     chatId: newChatRef.id,
                     lastMessage : "",
                     receiverId: user.uid,
@@ -31,6 +32,7 @@ export default function TeacherItem({img, name="Rahim Khan", rating=4.5, experie
             })
             await updateDoc(doc(userChatDBRef, user.uid),{
                 chats: arrayUnion({
+                    yourRole: "teacher",
                     chatId: newChatRef.id,
                     lastMessage : "",
                     receiverId: id,
