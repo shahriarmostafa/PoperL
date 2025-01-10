@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import avatar from '../../../assests/avatar.avif';
 export default function ChatTop({profileImg, userName}){
+    const usedName = userName? (userName.split(/\s+/).slice(0, 2).join(' ')): userName;
     return (
+
         <div className="topper">
                     <div className="container justify-content-between d-flex">
                         <div className="left d-flex">
@@ -13,7 +15,7 @@ export default function ChatTop({profileImg, userName}){
                             <div className="user-profile mx-1">
                                 <img src={profileImg || avatar} alt="" />
                             </div>
-                            <div className="userName"><b>{userName}</b></div>
+                            <div className="userName"><b>{usedName}</b></div>
                         </div>
                         <div className="right d-flex align-items-center">
                             <div className="call-audio d-flex">

@@ -11,7 +11,7 @@ $lt-blue: #54FFFB;
 $d-blue: #2196F3;
 $pinkish: #D40A6C;
 $green: #1E7E34;
-$gray: #435669;
+$gray: #34495E;
 
 
 // border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
@@ -487,7 +487,6 @@ section.education-page{
                     justify-content: end;
                     .my-message, .incoming-message{
                         width: auto;
-                        padding: 10px;
                         display: flex;
                         .info{
                             .name{
@@ -518,19 +517,31 @@ section.education-page{
                                 padding: 16px 30px;
                                 font-size: 14px;
                                 font-weight: 700;
-                                margin-top: 4px;
+                                margin-top: 1px;
                             }
                         }
                     }
                     .my-message{
                         justify-content: end;
+                        .message{
+                            border-radius: 40px 0px 0px 40px;
+                        }
+                        &:first-child{
+                            .message{
+                                border-radius: 40px 40px 0px 40px;
+                            }
+                        }
+                        &:last-child{
+                            .message{
+                                border-radius: 40px 0px 40px 40px;
+                            }
+                        }
                         .info{
                             display: flex;
                             flex-direction: column;
                             align-items: end;
                             .message{
                                 background: $blue;
-                                border-radius: 40px 40px 0px 40px;
                                 color: $white;
                             }
                             .photo{
@@ -542,6 +553,19 @@ section.education-page{
                     .incoming-message{
                         justify-content: start;
                         // user photo
+                        .message{
+                            border-radius: 0px 40px 40px 0px;
+                        }
+                        &:first-child{
+                            .message{
+                                border-radius: 40px 40px 40px 0px;
+                            }
+                        }
+                        &:last-child{
+                            .message{
+                                border-radius: 0px 40px 40px 40px;
+                            }
+                        }
                         .image{
                             width: 35px;
                             min-width: 35px;
@@ -558,7 +582,6 @@ section.education-page{
                             margin: 0 0 0 15px;
                         }
                         .message{
-                            border-radius: 40px 40px 40px 0px;
                             color: $white;
                             background: $gray;
                         }
