@@ -11,7 +11,7 @@ $lt-blue: #54FFFB;
 $d-blue: #2196F3;
 $pinkish: #D40A6C;
 $green: #1E7E34;
-$gray: #34495E;
+$gray: #435669;
 
 
 // border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
@@ -408,8 +408,6 @@ section.education-page{
 .chat-page{
     height: 100vh;
     section.chat{
-        display: flex;
-        flex-wrap: wrap;
         &.people{
             height: calc(100% - 81px);
         }
@@ -421,6 +419,10 @@ section.education-page{
             background: $night-background;
             &::-webkit-scrollbar-thumb{
                 background: $lt-blue;
+            }
+            .message{
+                font-size: 14px;
+                color: $gray;
             }
             .chat-list{
                 a{

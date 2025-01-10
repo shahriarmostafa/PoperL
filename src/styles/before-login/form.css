@@ -1,13 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
 .form {
-  max-width: 400px;
-  margin: 60px auto;
+  max-width: 100%;
+  min-height: 100vh;
+  margin: 0px auto;
   background: #e3edf7;
-  padding: 45px;
+  padding: 35px;
   box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941), -10px -10px 10px #ffffff;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit] {
+.form form {
+  max-width: 200px;
+}
+.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit], .form form input[type=number] {
   box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
   border: none;
   outline: none;
@@ -19,7 +26,7 @@
   margin: 10px 0;
   font-size: 12px;
 }
-.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit] {
+.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit], .form form input[type=number][type=submit] {
   background: #4E73DF;
   box-shadow: none;
   color: #ffffff;
@@ -38,10 +45,4 @@
   top: 0;
   bottom: 0;
   right: 2px;
-}
-.form .errorMessage {
-  color: red;
-}
-.form .successMessage {
-  color: rgb(27, 153, 27);
 }/*# sourceMappingURL=form.css.map */

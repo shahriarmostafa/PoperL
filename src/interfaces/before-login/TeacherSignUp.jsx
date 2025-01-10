@@ -6,7 +6,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
-export default function SignUp(){
+export default function TeacherSignUp(){
 
     const { register, handleSubmit } = useForm();
     const {createUser, editProfile} = useContext(AuthContext);
@@ -17,7 +17,7 @@ export default function SignUp(){
 
     //handling sign up form submit
 
-    const onSubmit = (data) => {
+    const teacherOnsubmit = (data) => {
         
         if(data.password != data.confirmPassword){
             alert("Password didn't match");
@@ -31,16 +31,26 @@ export default function SignUp(){
                 displayName: data.name            
             }
             createUser(data.email, data.password).then(res => {
-                editProfile(res.user, extraData).then(data => {
+                editProfile(res.user, extraData).then(finalRes => {
                     const userInDataBase = {
                         uid: res.user?.uid,
                         email: res.user?.email,
                         displayName: res.user?.displayName,
-                        photoURL: res.user?.providerData[0].photoURL
+                        photoURL: res.user?.providerData[0].photoURL,
+                        // whats app number should be collected from res ponse of edit profile
+                        whatapp: data.phone,
+                        experience: 0,
+                        rating: 0,
+                        subjects: [],
+                        lessonMinutes: 0,
+                        revenuePercent: 0,
+                        joinedGroup: null,
+                        ownerOfGroup: null,
+                        groupMembers: [],
+                        approved: false
                     }
-                    axiosSecure.post('/newStudent', userInDataBase)
+                    axiosSecure.post('/newTeacher', userInDataBase)
                     .then(res => {
-                        console.log(res);
                         navigate("/chat")
                     })
                     .catch(err => {
@@ -65,11 +75,12 @@ export default function SignUp(){
     return (
         <div className="sign-up page">
             <div className="form container">
-                <h1 className="headline">Sign Up</h1>
+                <h1 className="headline">Sign Up as a teacher</h1>
                 {/* the form */}
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(teacherOnsubmit)}>
                     <input {...register("name", {required: true, maxLength: 30})} type='text' placeholder='Enter Your Full Name' />
                     <input {...register("email", {required: true})} type="email" placeholder='Enter your email' required />
+                    <input {...register("phone", {required: true})} type="number" placeholder='Enter your whatsapp number' required />
                     <div className="password-box">                            
                         <div className="write-password">
                             <input {...register("password", {minLength: 8})} type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >

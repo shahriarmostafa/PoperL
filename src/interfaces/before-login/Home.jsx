@@ -29,10 +29,7 @@ export default function Home(){
   const handleInstallClick = async () => {
     if (installPrompt) {
       installPrompt.prompt(); // Show the install prompt
-
-      const choiceResult = await installPrompt.userChoice;
-      console.log('User choice:', choiceResult.outcome);
-
+      const choiceResult = await installPrompt.userChoice;      
       setInstallPrompt(null);
     }
   };
@@ -68,6 +65,8 @@ export default function Home(){
             <hr />
             <Link to="/subscription"><button>Ghuira dekho?</button></Link>
             <Link to="/chat"><button className="btn btn-success">Chat</button></Link>
+            <Link to="/TeacherList"><button className="btn btn-success mx-3">Teacher List</button></Link>
+            <Link to="/TeacherSignUp"><button className="btn btn-success mx-3">Teacher Sign Up</button></Link>
             {installPrompt && (
               Swal.fire({
                 title: "Download PoperL",

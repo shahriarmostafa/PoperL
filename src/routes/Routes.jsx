@@ -5,9 +5,7 @@ import Main from "../Layout/Main";
 import Home from '../interfaces/before-login/Home';
 import SignIn from '../interfaces/before-login/SignIn';
 import SignUp from '../interfaces/before-login/SignUp';
-import Subscription from '../interfaces/general/Subscription';
-import UserPrivateRouter from './UserPrivateRouter';
-import Complain from '../interfaces/Private/Complain';
+
 
 // owner pages
 import Change from '../interfaces/owner/admin-change/Change';
@@ -16,9 +14,15 @@ import Packages from '../interfaces/owner/packages/Packages';
 import AddPackage from '../interfaces/owner/packages/AddPackage';
 import EditPack from '../interfaces/owner/packages/EditPack';
 import Maintainance from "../Layout/Maintainance";
+
+//Student after login
 import Chat from "../interfaces/Private/Chat/Chat";
 import ChatBox from "../interfaces/Private/Chat/ChatBox";
-
+import TeacherList from "../interfaces/general/TeacherList/TeacherList";
+import Subscription from '../interfaces/general/Subscription';
+import UserPrivateRouter from './UserPrivateRouter';
+import Complain from '../interfaces/Private/Complain';
+import TeacherSignUp from "../interfaces/before-login/TeacherSignUp";
 
 
 const router = createBrowserRouter([
@@ -38,6 +42,12 @@ const router = createBrowserRouter([
           path: '/signin',
           element: <SignIn></SignIn>
         },
+        //teacher page
+        ,
+        {
+          path: '/teacherSignUp',
+          element: <TeacherSignUp></TeacherSignUp>
+        },
         {
           path: '/subscription',
           element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
@@ -47,11 +57,15 @@ const router = createBrowserRouter([
           element: <UserPrivateRouter><Complain></Complain></UserPrivateRouter>
         },
         {
+          path: '/TeacherList',
+          element: <UserPrivateRouter><TeacherList></TeacherList></UserPrivateRouter>
+        },
+        {
           path: '/chat',
           element: <UserPrivateRouter><Chat></Chat></UserPrivateRouter>
         },
         {
-          path: '/chat/user',
+          path: '/chat/:chatId',
           element: <ChatBox></ChatBox>
         }
       ]

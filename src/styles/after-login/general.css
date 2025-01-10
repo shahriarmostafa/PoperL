@@ -14,7 +14,7 @@
 
 ::-webkit-scrollbar {
   width: 3px;
-  background: #34495E;
+  background: #435669;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -45,7 +45,7 @@
   box-shadow: 4px 4px 4px rgba(78, 114, 223, 0.3882352941), -4px -4px 4px #ffffff;
 }
 .day-view b, .day-view p {
-  color: #34495E;
+  color: #435669;
 }
 .day-view h3, .day-view h2, .day-view h1 {
   color: #4E73DF;
@@ -267,7 +267,7 @@ section.profile .informations .personal-info .phone-number svg {
   fill: #1E7E34;
 }
 section.profile .informations .personal-info .id svg {
-  fill: #34495E;
+  fill: #435669;
 }
 section.profile .informations .personal-info .edit-profile button {
   padding: 16px 35px;
@@ -359,10 +359,6 @@ section.education-page .container .box .info button {
 .chat-page {
   height: 100vh;
 }
-.chat-page section.chat {
-  display: flex;
-  flex-wrap: wrap;
-}
 .chat-page section.chat.people {
   height: calc(100% - 81px);
 }
@@ -375,6 +371,10 @@ section.education-page .container .box .info button {
 }
 .chat-page section.chat .left-side::-webkit-scrollbar-thumb {
   background: #54FFFB;
+}
+.chat-page section.chat .left-side .message {
+  font-size: 14px;
+  color: #435669;
 }
 .chat-page section.chat .left-side .chat-list a {
   text-decoration: none;
@@ -410,13 +410,13 @@ section.education-page .container .box .info button {
   font-size: 14px;
 }
 .chat-page section.chat .left-side .chat-list a .chat-item .information .last-message.old-message {
-  color: #34495E;
+  color: #435669;
 }
 .chat-page section.chat .left-side .chat-list a .chat-item .information .last-message.new-message {
   color: #ffffff;
 }
 .chat-page section.chat .left-side .chat-list a .chat-item.active {
-  background: #34495E;
+  background: #435669;
 }
 .chat-page section.chat .left-side .chat-list a .chat-item.active .last-message {
   color: #ffffff;
@@ -507,7 +507,7 @@ section.education-page .container .box .info button {
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .message {
   border-radius: 40px 40px 40px 0px;
   color: #ffffff;
-  background: #34495E;
+  background: #435669;
 }
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .photo {
   margin-left: 15px;

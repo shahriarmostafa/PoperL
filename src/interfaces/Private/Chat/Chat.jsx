@@ -7,21 +7,6 @@ export default function Chat(){
             <Nav></Nav>
             <section className="chat people night-view">
             <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-            <People></People>
-
             </section>
         </div>
     )

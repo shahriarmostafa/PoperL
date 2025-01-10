@@ -8,14 +8,19 @@ $background: #EEF2F7;
 $red: #ff0019;
 $green: rgb(27, 153, 27);
 .form{
-    max-width: 400px;
-    margin: 60px auto;
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0px auto;
     background: #e3edf7;
-    padding: 45px;
+    padding: 35px;
     box-shadow: 8px 8px 16px $shadow, -10px -10px 10px $white;
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     form{
-        input[type="text"], input[type="password"], input[type="email"], input[type="submit"]{
+        max-width: 200px;
+        input[type="text"], input[type="password"], input[type="email"], input[type="submit"], input[type="number"]{
             box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
             border: none;
             outline: none;
@@ -48,11 +53,6 @@ $green: rgb(27, 153, 27);
             }
         }
     }
-    .errorMessage{
-        color: red;
-    }
-    .successMessage{
-        color: $green;
-    }
+
 }
 

@@ -1,8 +1,13 @@
 import logo from '../../../../assests/logo-white.svg';
-import profilePic from '../../../../assests/328039808_553574763481911_1410511776054264885_n.jpg';
+import avatar from '../../../../assests/avatar.avif';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../providers/AuthProvider';
+
 
 export default function Nav() {
+    const {user} = useContext(AuthContext);
+
     return(
         <nav>
             <div className="container d-flex">
@@ -39,7 +44,7 @@ export default function Nav() {
                     </div>
                     <div className="profile-pic d-flex">
                         <div className="inner">
-                            <img src={profilePic} alt=""/>
+                            <img src={user.photoURL || avatar} alt=""/>
                         </div>
                     </div>
                 </div>
