@@ -1,6 +1,6 @@
 import img from '../../../assests/328039808_553574763481911_1410511776054264885_n.jpg';
 
-export default function IncomingMessage (){
+export default function IncomingMessage ({message}){
     return (
         <div className="incoming-message">
             <div className="info">
@@ -11,7 +11,7 @@ export default function IncomingMessage (){
                     <img className="sent-image" src={img} alt=""></img>
                 </div>
                 <div className="message">
-                    <span>The answer is a2 + b2, this is what is about</span>
+                    <span>{message}</span>
                 </div>
             </div>
         </div>
