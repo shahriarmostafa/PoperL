@@ -30,29 +30,34 @@ export default function People(){
     
 
     const handleOpenChat = async (chatIdTaken, receiverPerson, yourRole) => {
-        const userFinalChat = chatList.map(item => {
-            const {otherUser, ...rest} = item;
-            return rest
-        })
-        const chatIndex = userFinalChat.findIndex((item) => {
-            return item.chatId === chatIdTaken
-        })
-
-        userFinalChat[chatIndex].isSeen = true;
-
-        const userChatRef = doc(db, "chatCollection", user.uid);
-
-        try{
-            await updateDoc(userChatRef, {
-                chats: userFinalChat
-            })
+        if(loading){
             changeChat(chatIdTaken, receiverPerson, yourRole);
-        }catch(err){
-            console.log(err);
-            
+            navigate(`/chat/${chatIdTaken}`);
+            return
         }
-
-        navigate(`/chat/${chatIdTaken}`);
+        else{
+            const userFinalChat = chatList.map(item => {
+                const {otherUser, ...rest} = item;
+                return rest
+            })
+            const chatIndex = userFinalChat.findIndex((item) => {
+                return item.chatId === chatIdTaken
+            })
+    
+            userFinalChat[chatIndex].isSeen = true;
+    
+            const userChatRef = doc(db, "chatCollection", user.uid);
+            navigate(`/chat/${chatIdTaken}`);
+            try{
+                await updateDoc(userChatRef, {
+                    chats: userFinalChat
+                })
+                changeChat(chatIdTaken, receiverPerson, yourRole);
+            }catch(err){
+                console.log(err);
+                
+            }
+        }
     }
     
     if (loading) {
