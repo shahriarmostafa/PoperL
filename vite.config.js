@@ -10,7 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate', // Automatically updates the service worker
       includeAssets: [
-        '512.png.png',  // Include your static assets
+        '512.png',  // Include your static assets
         'favicon.ico', // Ensure favicon is included
         '512.png' // Optionally add an Apple touch icon
       ],
@@ -22,6 +22,11 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         icons: [
+          {
+            src: "144.png",
+            sizes: "144x144",
+            type: "image/png"
+          },
           {
             src: '/192.png', // Ensure the correct path relative to `public/`
             sizes: '192x192',
@@ -39,6 +44,20 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
+        screenshots: [
+          {
+            src: "screenshot-desktop.png",
+            sizes: "1280x720",
+            type: "image/png",
+            form_factor: "wide"
+          },
+          {
+            src: "screenshot-mobile.png",
+            sizes: "720x1280",
+            type: "image/png",
+            form_factor: "narrow"
+          }
+        ]
       },
     }),
   ],
