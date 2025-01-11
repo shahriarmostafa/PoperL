@@ -47,8 +47,7 @@ export default function ChatBox(){
     const handleMessageSend = async() => {
         const message = text;
         setText("");
-        inputRef.current.focus();
-        if(message == ''){
+        if(message.trim() == ''){
             console.log("Empty message");
             return  
         }
@@ -85,10 +84,13 @@ export default function ChatBox(){
                 }
             })            
         }
+
         catch(err){
             console.log(err);
             
         }
+        inputRef.current.focus();
+
         
     }
     
