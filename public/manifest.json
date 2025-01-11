@@ -2,10 +2,10 @@
     "name": "Platform of Perpetual Learnings",
     "short_name": "PoperL",
     "description": "A Progressive Web App built with Vite and React",
-    "theme_color": "#ffffff",
+    "theme_color": "#000000",
     "background_color": "#ffffff",
     "display": "standalone",
-    "start_url": "/?homescreen=1",
+    "start_url": "/",
     "icons": [
       {
         "src": "/144.png",

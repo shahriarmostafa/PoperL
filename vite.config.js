@@ -14,6 +14,9 @@ export default defineConfig({
         '512.png',  // Include your static assets
         '512.png' // Optionally add an Apple touch icon
       ],
+      workbox: {
+        globPatterns: ['**/*.{html,js,css,png,jpg,svg,json}'], // Specify files to cache
+      },
       manifest: {
         name: 'Platform of Perpetual Learnings',
         short_name: 'PoperL',
