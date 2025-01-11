@@ -480,7 +480,7 @@ section.education-page{
                     background: $lt-blue;
                 }
                 .all-message{
-                    min-height: calc(100% - 14px);
+                    min-height: calc(100% - 20px);
                     width: 100%;
                     display: flex;
                     flex-direction: column;
@@ -514,8 +514,8 @@ section.education-page{
                             }
                             .message{
                                 width: fit-content;
-                                padding: 16px 30px;
-                                font-size: 14px;
+                                padding: 12px 22px;
+                                font-size: 12px;
                                 font-weight: 700;
                                 margin-top: 1px;
                             }
@@ -526,14 +526,20 @@ section.education-page{
                         .message{
                             border-radius: 40px 0px 0px 40px;
                         }
-                        &:first-child{
+                        &.first-in-group{
+                            margin-top: 10px;
                             .message{
                                 border-radius: 40px 40px 0px 40px;
                             }
                         }
-                        &:last-child{
+                        &.last-in-group{
                             .message{
                                 border-radius: 40px 0px 40px 40px;
+                            }
+                        }
+                        &.first-in-group.last-in-group{
+                            .message{
+                                border-radius: 40px 0px 0px 40px;
                             }
                         }
                         .info{
@@ -556,14 +562,20 @@ section.education-page{
                         .message{
                             border-radius: 0px 40px 40px 0px;
                         }
-                        &:first-child{
+                        &.first-in-group{
+                            margin-top: 10px;
                             .message{
                                 border-radius: 40px 40px 40px 0px;
                             }
                         }
-                        &:last-child{
+                        &.last-in-group{
                             .message{
                                 border-radius: 0px 40px 40px 40px;
+                            }
+                        }
+                        &.first-in-group.last-in-group{
+                            .message{
+                                border-radius: 0px 40px 40px 0px;
                             }
                         }
                         .image{
@@ -591,11 +603,14 @@ section.education-page{
                     }
                 }
                 .last-message{
+                    margin: 3px 12px 12px 0;
                     span{
                         text-align: right;
                         display: block;
-                        font-size: 10px;
+                        font-size: 9px;
+                        // color: #e6e3e3;
                         color: $lt-blue;
+                        font-style: italic;
                     }
                 }
             }
@@ -626,9 +641,12 @@ section.education-page{
                         width: 100%;
                         padding: 10px 18px;
                         border-radius: 25px;
-                        font-size: 12px;
+                        font-size: 11px;
                         font-weight: 700;
                         border: none;
+                        &:focus{
+                            outline: none;
+                        }
                     }
                 }
                 button{
