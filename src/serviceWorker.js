@@ -6,8 +6,8 @@ const isLocalhost = Boolean(
   );
   
   export function register() {
-    if (import.meta.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-      const publicUrl = new URL(import.meta.env.PUBLIC_URL, window.location.href);
+    if (import.meta.env.VITE_NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      const publicUrl = new URL(import.meta.env.VITE_PUBLIC_URL, window.location.href);
       if (publicUrl.origin !== window.location.origin) {
         return;
       }
