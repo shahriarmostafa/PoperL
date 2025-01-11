@@ -420,15 +420,12 @@ section.education-page{
             &::-webkit-scrollbar-thumb{
                 background: $lt-blue;
             }
-            .message{
-                font-size: 14px;
-                color: $gray;
-            }
             .chat-list{
                 .chat-item{
                     width: 100%;
                     display: flex;
                     padding: 14px;
+                    border-bottom: 1px solid $gray;
                     .img{
                         width: 50px;
                         height: 50%;
@@ -445,7 +442,7 @@ section.education-page{
                         justify-content: center;
                         .name{
                             h4{
-                                color: $lt-blue;
+                                color: $white;
                                 font-size: 16px;
                                 margin-bottom: 5px;
                                 font-weight: 600;
@@ -454,9 +451,7 @@ section.education-page{
                         .last-message{
                             font-weight: 500;
                             font-size: 14px;
-                            &.old-message{
-                                color: $gray;
-                            }
+                            color: rgba(185, 176, 176, 0.699);
                             &.new-message{
                                 color: $white;
                             }
@@ -467,6 +462,11 @@ section.education-page{
                         .last-message{
                             color: $white;
                         }
+                        .name{
+                            h4{
+                                color: $lt-blue;
+                            }
+                        }
                     }
                 }
             }
@@ -474,20 +474,22 @@ section.education-page{
         .chat-box{
             height: 100vh;
             .conversation{
-                height: calc(100% - 118px);
+                height: calc(100% - 114px);
                 overflow-y: scroll;
+
                 &::-webkit-scrollbar-thumb{
                     background: $lt-blue;
                 }
                 .all-message{
-                    min-height: calc(100% - 20px);
-                    width: 100%;
+                    min-width: 100%;
                     display: flex;
                     flex-direction: column;
                     justify-content: end;
+                    min-height: 100%;
                     .my-message, .incoming-message{
                         width: auto;
                         display: flex;
+                        animation: slideRight 0.5s ease-in-out forwards;
                         .info{
                             .name{
                                 span{
@@ -605,7 +607,6 @@ section.education-page{
                 .last-message{
                     margin: 3px 12px 12px 0;
                     span{
-                        text-align: right;
                         display: block;
                         font-size: 9px;
                         // color: #e6e3e3;
@@ -626,7 +627,6 @@ section.education-page{
                     height: 30px;
                     border-radius: 50%;
                     justify-content: center;
-                    margin: 0 2px;
                     &:hover{
                         background: rgba(250, 250, 250, 0.2);
                     }
@@ -652,18 +652,13 @@ section.education-page{
                             }
                         }
                     }
-                    button{
+                    input[type="submit"]{
                         margin-left: 5px;
                         background: none;
                         border: none;
-                        border-radius: 50%;
                         outline: none;
                         &:hover{
                             background: rgba(250, 250, 250, 0.2);
-                        }
-                        svg{
-                            width: 13px;
-                            fill: $white;
                         }
                     }
                 }
@@ -672,6 +667,14 @@ section.education-page{
     }
 }
 
+@keyframes slideRight {
+  0% {
+    transform: translate(-40px, 100px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
 // subscription page
 
 
@@ -758,15 +761,6 @@ section.subscription{
     }
 }
 
-
-
-
-  
-  /* Modal Content (image) */
-  
-  /* Caption of Modal Image */
-  
-  /* Add Animation */
   
 
   

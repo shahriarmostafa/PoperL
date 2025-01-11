@@ -35,7 +35,7 @@ export default function SignUp(){
       
         const Toast = Swal.mixin({
           toast: true,
-          position: "top-end",
+          position: "bottom",
           showConfirmButton: false,
           timer: 3000, // Initial timer duration
           timerProgressBar: true,

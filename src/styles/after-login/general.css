@@ -372,14 +372,11 @@ section.education-page .container .box .info button {
 .chat-page section.chat .left-side::-webkit-scrollbar-thumb {
   background: #54FFFB;
 }
-.chat-page section.chat .left-side .message {
-  font-size: 14px;
-  color: #34495E;
-}
 .chat-page section.chat .left-side .chat-list .chat-item {
   width: 100%;
   display: flex;
   padding: 14px;
+  border-bottom: 1px solid #34495E;
 }
 .chat-page section.chat .left-side .chat-list .chat-item .img {
   width: 50px;
@@ -397,7 +394,7 @@ section.education-page .container .box .info button {
   justify-content: center;
 }
 .chat-page section.chat .left-side .chat-list .chat-item .information .name h4 {
-  color: #54FFFB;
+  color: #ffffff;
   font-size: 16px;
   margin-bottom: 5px;
   font-weight: 600;
@@ -405,9 +402,7 @@ section.education-page .container .box .info button {
 .chat-page section.chat .left-side .chat-list .chat-item .information .last-message {
   font-weight: 500;
   font-size: 14px;
-}
-.chat-page section.chat .left-side .chat-list .chat-item .information .last-message.old-message {
-  color: #34495E;
+  color: rgba(185, 176, 176, 0.699);
 }
 .chat-page section.chat .left-side .chat-list .chat-item .information .last-message.new-message {
   color: #ffffff;
@@ -418,26 +413,30 @@ section.education-page .container .box .info button {
 .chat-page section.chat .left-side .chat-list .chat-item.active .last-message {
   color: #ffffff;
 }
+.chat-page section.chat .left-side .chat-list .chat-item.active .name h4 {
+  color: #54FFFB;
+}
 .chat-page section.chat .chat-box {
   height: 100vh;
 }
 .chat-page section.chat .chat-box .conversation {
-  height: calc(100% - 118px);
+  height: calc(100% - 114px);
   overflow-y: scroll;
 }
 .chat-page section.chat .chat-box .conversation::-webkit-scrollbar-thumb {
   background: #54FFFB;
 }
 .chat-page section.chat .chat-box .conversation .all-message {
-  min-height: calc(100% - 20px);
-  width: 100%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: end;
+  min-height: 100%;
 }
 .chat-page section.chat .chat-box .conversation .all-message .my-message, .chat-page section.chat .chat-box .conversation .all-message .incoming-message {
   width: auto;
   display: flex;
+  animation: slideRight 0.5s ease-in-out forwards;
 }
 .chat-page section.chat .chat-box .conversation .all-message .my-message .info .name span, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .info .name span {
   display: block;
@@ -540,7 +539,6 @@ section.education-page .container .box .info button {
   margin: 3px 12px 12px 0;
 }
 .chat-page section.chat .chat-box .conversation .last-message span {
-  text-align: right;
   display: block;
   font-size: 9px;
   color: #54FFFB;
@@ -558,7 +556,6 @@ section.education-page .container .box .info button {
   height: 30px;
   border-radius: 50%;
   justify-content: center;
-  margin: 0 2px;
 }
 .chat-page section.chat .chat-box .typing-area .select-image:hover, .chat-page section.chat .chat-box .typing-area .send:hover, .chat-page section.chat .chat-box .typing-area .select-video:hover, .chat-page section.chat .chat-box .typing-area .voice-message:hover {
   background: rgba(250, 250, 250, 0.2);
@@ -585,21 +582,24 @@ section.education-page .container .box .info button {
 .chat-page section.chat .chat-box .typing-area form .inbox input:focus {
   outline: none;
 }
-.chat-page section.chat .chat-box .typing-area form button {
+.chat-page section.chat .chat-box .typing-area form input[type=submit] {
   margin-left: 5px;
   background: none;
   border: none;
-  border-radius: 50%;
   outline: none;
 }
-.chat-page section.chat .chat-box .typing-area form button:hover {
+.chat-page section.chat .chat-box .typing-area form input[type=submit]:hover {
   background: rgba(250, 250, 250, 0.2);
 }
-.chat-page section.chat .chat-box .typing-area form button svg {
-  width: 13px;
-  fill: #ffffff;
-}
 
+@keyframes slideRight {
+  0% {
+    transform: translate(-40px, 100px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
 section.subscription .container .title h2 {
   font-size: 30px;
   font-weight: 700;
@@ -669,9 +669,6 @@ section.subscription .container .packages .pack:last-child span.success {
   -webkit-text-fill-color: transparent;
 }
 
-/* Modal Content (image) */
-/* Caption of Modal Image */
-/* Add Animation */
 @keyframes zoom {
   from {
     transform: scale(0);
