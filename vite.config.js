@@ -10,8 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate', // Automatically updates the service worker
       includeAssets: [
-        '512.png',  // Include your static assets
         'favicon.ico', // Ensure favicon is included
+        '512.png',  // Include your static assets
         '512.png' // Optionally add an Apple touch icon
       ],
       manifest: {
