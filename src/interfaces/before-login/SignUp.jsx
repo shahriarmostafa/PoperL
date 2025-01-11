@@ -5,6 +5,7 @@ import '../../styles/before-login/form.css';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 export default function SignUp(){
 
@@ -17,41 +18,73 @@ export default function SignUp(){
 
     //handling sign up form submit
 
-    const onSubmit = (data) => {
-        
-        if(data.password != data.confirmPassword){
-            alert("Password didn't match");
-            return;
+    const onSubmit = async (data) => {
+        if (data.password !== data.confirmPassword) {
+          alert("Passwords do not match");
+          return;
         }
-        else if(data.checkbox == false){
-            alert("please confirm checkbox")
-            return;
+      
+        if (!data.checkbox) {
+          alert("Please confirm the checkbox");
+          return;
         }
-            const extraData = {
-                displayName: data.name            
-            }
-            createUser(data.email, data.password).then(res => {
-                editProfile(res.user, extraData).then(data => {
-                    const userInDataBase = {
-                        uid: res.user?.uid,
-                        email: res.user?.email,
-                        displayName: res.user?.displayName,
-                        photoURL: res.user?.providerData[0].photoURL
-                    }
-                    axiosSecure.post('/newStudent', userInDataBase)
-                    .then(res => {
-                        console.log(res);
-                        navigate("/chat")
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-            })
-    }
+      
+        const extraData = {
+          displayName: data.name,
+        };
+      
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000, // Initial timer duration
+          timerProgressBar: true,
+        });
+      
+        const timerInstance = Toast.fire({
+          icon: "info",
+          title: "Processing your request...",
+        });
+      
+        try {
+          // Stop the timer while `createUser` is in progress
+          const res = await createUser(data.email, data.password);
+      
+          // Resume and stop the timer for `editProfile`
+          Swal.resumeTimer();
+          await editProfile(res.user, extraData);
+      
+          // Resume and stop the timer for the Axios request
+
+          const userInDataBase = {
+            uid: res.user?.uid,
+            email: res.user?.email,
+            displayName: res.user?.displayName,
+            photoURL: res.user?.providerData[0]?.photoURL,
+          };
+      
+          await axiosSecure.post("/newStudent", userInDataBase);
+      
+          // Navigate to chat and complete the flow
+          Swal.resumeTimer();
+          navigate("/chat");
+      
+          Swal.update({
+            icon: "success",
+            title: "Signed in successfully!",
+          });
+        } catch (error) {
+          console.error(error);
+      
+          Swal.update({
+            icon: "error",
+            title: "An error occurred",
+            text: error.message,
+          });
+      
+          Swal.stopTimer();
+        }
+      };
 
     //change icon for form
     const changeIcon = () => {

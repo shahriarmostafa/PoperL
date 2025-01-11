@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useChatList from "../../../Hooks/useChatList";
 import PeopleItem from "./PeopleItem";
 import { getChatBoxData } from "../../../Hooks/getChatBoxData";
@@ -12,8 +12,8 @@ export default function People(){
 
     const { chatList, loading, error } = useChatList();
     
-    const handleOpenChat = async (chatIdTaken, receiverPerson) => {
-        changeChat(chatIdTaken, receiverPerson)
+    const handleOpenChat = async (chatIdTaken, receiverPerson, yourRole) => {
+        changeChat(chatIdTaken, receiverPerson, yourRole)
         navigate(`/chat/${chatIdTaken}`);
     }
 
@@ -36,12 +36,13 @@ export default function People(){
             </div>
         )
     };
+    
         return(
             <div className="left-side">
                 <div className="chat-list">
                     {
-                         chatList.map((x) => {                                                        
-                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss)} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
+                         chatList.map((x, index) => {                                                        
+                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole)} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.yourRole == "student"? `Student ${index + 1}`: x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
                         })
                     }
                 </div>

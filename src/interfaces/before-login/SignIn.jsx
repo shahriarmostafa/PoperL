@@ -21,18 +21,57 @@ export default function SignIn(){
     
 
     // sign up using form
-    const formSubmitHandler = (e) =>{
-        e.preventDefault()
+    const formSubmitHandler = (e) => {
+        e.preventDefault();
+      
         const email = e.target.email.value;
         const password = e.target.password.value;
-        setFormErrorMessege('')
-        userSignIn(email, password).then(result => {
+        setFormErrorMessege("");
+      
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      
+        const timerInstance = Toast.fire({
+          icon: "info",
+          title: "Signing you in...",
+        });
+      
+        // Stop the timer while the signing-in process is ongoing
+        Swal.stopTimer();
+      
+        userSignIn(email, password)
+          .then((result) => {
+            // Reset the form
             e.target.reset();
-            navigate(location?.state? location.state : '/');
-        }
-        ).catch(err => setFormErrorMessege(err.message)
-        )
-    }
+      
+            // Navigate to the intended page or fallback to the default route
+            navigate(location?.state || "/");
+      
+            // Resume the timer and display success
+            Swal.resumeTimer();
+            Swal.update({
+              icon: "success",
+              title: "Signed in successfully!",
+            });
+          })
+          .catch((err) => {
+            // Handle errors and stop the timer
+            setFormErrorMessege(err.message);
+      
+            Swal.stopTimer();
+            Swal.update({
+              icon: "error",
+              title: "An error occurred",
+              text: err.message,
+            });
+          });
+      };
+      
     function changeIcon(){
         if(showPassword == true){
             return <FaEye />;

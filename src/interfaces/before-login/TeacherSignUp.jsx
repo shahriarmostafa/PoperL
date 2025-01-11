@@ -5,6 +5,7 @@ import '../../styles/before-login/form.css';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 export default function TeacherSignUp(){
 
@@ -17,51 +18,89 @@ export default function TeacherSignUp(){
 
     //handling sign up form submit
 
-    const teacherOnsubmit = (data) => {
-        
-        if(data.password != data.confirmPassword){
-            alert("Password didn't match");
-            return;
+    const teacherOnSubmit = async (data) => {
+        // Validate inputs
+        if (data.password !== data.confirmPassword) {
+          alert("Passwords do not match");
+          return;
         }
-        else if(data.checkbox == false){
-            alert("please confirm checkbox")
-            return;
+      
+        if (!data.checkbox) {
+          alert("Please confirm the checkbox");
+          return;
         }
-            const extraData = {
-                displayName: data.name            
-            }
-            createUser(data.email, data.password).then(res => {
-                editProfile(res.user, extraData).then(finalRes => {
-                    const userInDataBase = {
-                        uid: res.user?.uid,
-                        email: res.user?.email,
-                        displayName: res.user?.displayName,
-                        photoURL: res.user?.providerData[0].photoURL,
-                        // whats app number should be collected from res ponse of edit profile
-                        whatapp: data.phone,
-                        experience: 0,
-                        rating: 0,
-                        subjects: [],
-                        lessonMinutes: 0,
-                        revenuePercent: 0,
-                        joinedGroup: null,
-                        ownerOfGroup: null,
-                        groupMembers: [],
-                        approved: false
-                    }
-                    axiosSecure.post('/newTeacher', userInDataBase)
-                    .then(res => {
-                        navigate("/chat")
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-            })
-    }
+      
+        const extraData = {
+          displayName: data.name,
+        };
+      
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      
+        const timerInstance = Toast.fire({
+          icon: "info",
+          title: "Processing your request...",
+        });
+      
+        try {
+          // Step 1: Create user
+          Swal.stopTimer();
+          const res = await createUser(data.email, data.password);
+      
+          // Step 2: Update user profile
+          Swal.resumeTimer();
+          Swal.stopTimer();
+          await editProfile(res.user, extraData);
+      
+          // Step 3: Prepare user data for the database
+          const userInDataBase = {
+            uid: res.user?.uid,
+            email: res.user?.email,
+            displayName: res.user?.displayName,
+            photoURL: res.user?.providerData[0]?.photoURL,
+            whatsapp: data.phone, // Collect WhatsApp number
+            experience: 0,
+            rating: 0,
+            subjects: [],
+            lessonMinutes: 0,
+            revenuePercent: 0,
+            joinedGroup: null,
+            ownerOfGroup: null,
+            groupMembers: [],
+            approved: false, // Default approval status
+          };
+      
+          // Step 4: Add user data to the database
+          Swal.resumeTimer();
+          Swal.stopTimer();
+          await axiosSecure.post("/newTeacher", userInDataBase);
+      
+          // Step 5: Navigate to chat after successful completion
+          Swal.resumeTimer();
+          navigate("/chat");
+      
+          Swal.update({
+            icon: "success",
+            title: "Teacher account created successfully!",
+          });
+        } catch (error) {
+          console.error(error);
+      
+          Swal.update({
+            icon: "error",
+            title: "An error occurred",
+            text: error.message,
+          });
+      
+          Swal.stopTimer();
+        }
+      };
+      
 
     //change icon for form
     const changeIcon = () => {
@@ -77,7 +116,7 @@ export default function TeacherSignUp(){
             <div className="form container">
                 <h1 className="headline">Sign Up as a teacher</h1>
                 {/* the form */}
-                <form onSubmit={handleSubmit(teacherOnsubmit)}>
+                <form onSubmit={handleSubmit(teacherOnSubmit)}>
                     <input {...register("name", {required: true, maxLength: 30})} type='text' placeholder='Enter Your Full Name' />
                     <input {...register("email", {required: true})} type="email" placeholder='Enter your email' required />
                     <input {...register("phone", {required: true})} type="number" placeholder='Enter your whatsapp number' required />

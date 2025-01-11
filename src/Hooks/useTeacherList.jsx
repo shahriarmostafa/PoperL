@@ -8,7 +8,7 @@ export default function useTeacherList(){
         queryKey: ["teacherList"],
         queryFn: async() => {
             const res = await axiosSecure.get("/teacherList")
-            return res.data
+            return res.data.teachers
         }
     })    
     return [isLoading, teacherList]

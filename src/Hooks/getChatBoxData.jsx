@@ -6,8 +6,9 @@ export const getChatBoxData = create(
     (set) => ({
       chatId: null,
       receiver: null,
-      changeChat: (chatId, receiver) => {
-        set({ chatId, receiver });
+      yourRole: null,
+      changeChat: (chatId, receiver, yourRole) => {
+        set({ chatId, receiver, yourRole });
       },
     }),
     {

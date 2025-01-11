@@ -13,7 +13,7 @@ export default function ChatBox(){
     const [lastMessageMntsAgo, setLastMessageMntsAgo] = useState(0);
     const [text, setText] = useState("");
 
-    const {chatId, receiver} = getChatBoxData();
+    const {chatId, receiver, yourRole} = getChatBoxData();
     
     const {user} = useContext(AuthContext);
 
@@ -41,18 +41,22 @@ export default function ChatBox(){
 
     const handleInputChange = (event) => {
         setText(event.target.value);
+        if(event.key == 'Enter'){
+            handleMessageSend()
+            
+        }
     };
     
     
     const handleMessageSend = async() => {
         const message = text;
-        setText("");
         if(message.trim() == ''){
             console.log("Empty message");
             return  
         }
-
-        
+        if (inputRef.current) {
+            inputRef.current.value = '';
+          }
         endRef.current?.scrollIntoView({behavior: 'smooth'});
         try{
             await updateDoc(doc(db, "chatDB", chatId), {
@@ -93,14 +97,12 @@ export default function ChatBox(){
 
         
     }
-    
-    
-        
+            
     return (
         <div className="chat-page">
             <section className="chat night-view">
                     <div className="chat-box">
-                        <ChatTop userName={receiver?.displayName || "No Name found"} profileImg={receiver?.photoURL}></ChatTop>
+                        <ChatTop userName={yourRole !="teacher"? "Student" : receiver?.displayName} profileImg={receiver?.photoURL}></ChatTop>
                         <div className="container conversation">
                             <div className="all-message">
                                 {
@@ -113,7 +115,7 @@ export default function ChatBox(){
                                 }
                             </div>
                             <div className="last-message">
-                                <span> {lastMessageMntsAgo < 3? "Just Now": `${lastMessageMntsAgo}m`} </span>
+                                <span> {lastMessageMntsAgo < 1? "Just Now": `${lastMessageMntsAgo}m`} </span>
                             </div>
                             <div ref={endRef}></div>
                         </div>
@@ -128,7 +130,7 @@ export default function ChatBox(){
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
                             </div>
                                 <div className="inbox d-flex">
-                                    <input autoComplete="off" ref={inputRef} onChange={handleInputChange} value={text} name="message" type="text" placeholder="Enter your message here..."></input>
+                                    <input autoComplete="off" ref={inputRef} onKeyUp ={handleInputChange} name="message" type="text" placeholder="Enter your message here..."></input>
                                 </div>
                                 <button className='send' onClick={handleMessageSend}>                                
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
