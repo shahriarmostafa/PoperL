@@ -21,12 +21,11 @@ const urlsToCache = [
   { url: '/index.html', revision: '1234567890' },
   { url: '/styles/after-login/general.css', revision: 'abcd1234' },
   { url: '/styles/before-login/form.css', revision: 'efgh5678' },
-  { url: '/styles/private/form.css', revision: 'ijkl9012' },
+  { url: '/styles/private/private.css', revision: 'ijkl9012' },
   { url: '/192.png', revision: 'mnop3456' },
   { url: '/512.png', revision: 'qrst7890' },
   { url: '/favicon.ico', revision: 'uvwxyz1234' },
   { url: '/offline.html', revision: 'abcdef1234' }, // Ensure you add this file to be cached for offline fallback
-  { url: '/assests/328039808_553574763481911_1410511776054264885_n.jpg', revision: 'a1b2c3d4' },
   { url: '/assests/328039808_553574763481911_1410511776054264885_n.jpg', revision: 'a1b2c3d4' },
   { url: '/assests/avatar.avif', revision: 'd5e6f7g8' },
   { url: '/assests/logo-white.svg', revision: 'h9i0j1k2' },
@@ -62,17 +61,21 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Serve cached file if it exists, otherwise try to fetch
-      return response || fetch(event.request).catch(() => {
-        return caches.match('/offline.html'); // Serve an offline page if fetching fails
-      });
-    })
-  );
-});
-
+registerRoute(
+  ({ request }) => request.mode === 'navigate', // Handle navigation requests
+  async ({ event }) => {
+    try {
+      // Attempt to fetch the requested page
+      const response = await new NetworkOnly().handle({ event });
+      console.log('onlien')
+      return response;
+    } catch (error) {
+      // If offline, serve the offline.html file
+      console.log('Offline: Serving offline.html')
+      return caches.match('/offline.html');
+    }
+  }
+);
 
 
 
