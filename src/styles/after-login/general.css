@@ -492,9 +492,6 @@ section.education-page .container .box .info button {
   background: #4E73DF;
   color: #ffffff;
 }
-.chat-page section.chat .chat-box .conversation .all-message .my-message .info .photo {
-  margin-right: 20px;
-}
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message {
   justify-content: start;
 }
@@ -549,7 +546,6 @@ section.education-page .container .box .info button {
   justify-content: center;
   border-top: 1px solid #4E73DF;
   background: #4E73DF;
-  gap: 1px;
 }
 .chat-page section.chat .chat-box .typing-area .select-image, .chat-page section.chat .chat-box .typing-area .send, .chat-page section.chat .chat-box .typing-area .select-video, .chat-page section.chat .chat-box .typing-area .voice-message {
   width: 30px;
@@ -565,8 +561,7 @@ section.education-page .container .box .info button {
   fill: #ffffff;
 }
 .chat-page section.chat .chat-box .typing-area form {
-  width: 50%;
-  justify-content: flex-end;
+  gap: 3px;
 }
 .chat-page section.chat .chat-box .typing-area form .inbox {
   max-width: 80%;

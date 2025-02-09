@@ -71,7 +71,7 @@ registerRoute(
       return response;
     } catch (error) {
       // If offline, serve the offline.html file
-      console.log('Offline: Serving offline.html')
+      console.log('Offline: Serving offline.html');
       return caches.match('/offline.html');
     }
   }

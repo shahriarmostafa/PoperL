@@ -552,9 +552,6 @@ section.education-page{
                                 background: $blue;
                                 color: $white;
                             }
-                            .photo{
-                                margin-right: 20px;
-                            }
                         }
                         
                     }
@@ -621,7 +618,6 @@ section.education-page{
                 justify-content: center;
                 border-top: 1px solid $blue;
                 background: $blue;
-                gap: 1px;
                 .select-image, .send, .select-video, .voice-message{
                     width: 30px;
                     height: 30px;
@@ -636,8 +632,7 @@ section.education-page{
                     }
                 }
                 form{
-                    width: 50%;
-                    justify-content: flex-end;
+                    gap: 3px;
                     .inbox{
                         max-width: 80%;
                         input{
