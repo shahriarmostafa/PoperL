@@ -541,6 +541,13 @@ section.education-page .container .box .info button {
   color: #54FFFB;
   font-style: italic;
 }
+.chat-page section.chat .chat-box .conversation .uploading {
+  text-align: right;
+}
+.chat-page section.chat .chat-box .conversation .uploading span {
+  color: #ffffff;
+  font-size: 10px;
+}
 .chat-page section.chat .chat-box .typing-area {
   padding: 8px 0;
   justify-content: center;

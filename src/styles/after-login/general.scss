@@ -611,6 +611,13 @@ section.education-page{
                         font-style: italic;
                     }
                 }
+                .uploading{
+                    text-align: right;
+                    span{
+                        color: $white;
+                        font-size: 10px;
+                    }
+                }
             }
             
             .typing-area{

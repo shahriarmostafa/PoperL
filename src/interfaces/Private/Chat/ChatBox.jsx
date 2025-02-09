@@ -27,12 +27,12 @@ export default function ChatBox(){
 
     const endRef = useRef(null);
     const inputRef = useRef(null);
-
+    const [uploadingImg, setUploadingImg] = useState(false);
 
     // scroll to bottom for new message
     useEffect(() => {
         endRef.current?.scrollIntoView({behavior: 'smooth'});
-    }, [chats]);
+    }, [chats, uploadingImg]);
 
 
     //last message mnts ago view
@@ -141,9 +141,9 @@ export default function ChatBox(){
         event.target.message.focus();
         const text = event.target.message.value;
         const imageFile = event.target.image.files[0] ? event.target.image.files[0] : null;
-        event.target.message.value = '';
-        event.target.image.value = '';
+        
         if (imageFile) {
+            setUploadingImg(true);
             try {
                 // Resize the image before uploading
                 const resizedImage = await resizeImage(imageFile);
@@ -158,7 +158,8 @@ export default function ChatBox(){
         } else {
             handleMessageSend(text, null); // Send message without image
         }
-        
+        event.target.message.value = '';
+        event.target.image.value = '';
     };
     
     //sendint message
@@ -251,6 +252,7 @@ export default function ChatBox(){
                         chats: finalData.chats
                     });
                 }
+                setUploadingImg(false);
             });
         } catch (err) {
             console.log(err);
@@ -279,6 +281,12 @@ export default function ChatBox(){
                                 <div className="last-message">
                                     <span> {lastMessageMntsAgo < 1? "Just Now": `${lastMessageMntsAgo}m`} </span>
                                 </div>
+                                {
+                                    uploadingImg && <div className="uploading">
+                                    <span>Uploading your image...</span>
+                                </div>
+                                }
+                                
                             </div>
                             <div ref={endRef}></div>
                         </div>
