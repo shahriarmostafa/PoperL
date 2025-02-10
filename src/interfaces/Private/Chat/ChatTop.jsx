@@ -6,7 +6,7 @@ import AgoraRTC from "agora-rtc-sdk-ng";
 import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase.init";// Firestore config
 import { doc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore";
-
+import axios from "axios";
 
 export default function ChatTop({profileImg, userName, channel, callerID, receiverID}){
     const usedName = userName? (userName.split(/\s+/).slice(0, 2).join(' ')): userName;
@@ -17,16 +17,10 @@ export default function ChatTop({profileImg, userName, channel, callerID, receiv
     };
     
     const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
-    
     // Function to fetch Agora Token
     const getAgoraToken = async (channelName) => {
-        const response = await fetch("http://localhost:5000/generate-token", {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({ channelName }),
-        });
-        const data = await response.json();
-        return data;
+        const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {channelName, receiverID});        
+        return response.data;
     };
     
     // Initialize the AgoraRTC client
@@ -51,9 +45,9 @@ export default function ChatTop({profileImg, userName, channel, callerID, receiv
     
     // Function to initiate a call
     const initiateCall = async (callerId, receiverId) => {
-        const channelName = `${callerId}_${receiverId}`; // Unique channel name
+        const channelName = channel; // Unique channel name
         const { token, uid } = await getAgoraToken(channelName);
-    
+        
         await setDoc(doc(db, "calls", receiverId), {
             callerId,
             channelName,
@@ -123,6 +117,8 @@ export default function ChatTop({profileImg, userName, channel, callerID, receiv
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await leaveChannel(callData.uid);
+                    console.log(callData);
+                    
                 }
             });
     
