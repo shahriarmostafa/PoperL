@@ -11,59 +11,49 @@ import { doc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore";
 export default function ChatTop({profileImg, userName, channel, callerID, receiverID}){
     const usedName = userName? (userName.split(/\s+/).slice(0, 2).join(' ')): userName;
 
-    //call functions
     let rtc = {
         localAudioTrack: null,
         client: null, // AgoraRTC client object
     };
-
+    
     const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
-
-
+    
+    // Function to fetch Agora Token
     const getAgoraToken = async (channelName) => {
         const response = await fetch("http://localhost:5000/generate-token", {
             method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({channelName})
-        })
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({ channelName }),
+        });
         const data = await response.json();
         return data;
-    }
-
-
+    };
+    
     // Initialize the AgoraRTC client
     function initializeClient() {
         rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-        setupEventListeners();
-    }
-    initializeClient();
-
-
-
-    // Set up event listeners for remote users
-    function setupEventListeners() {
+    
         rtc.client.on("user-published", async (user, mediaType) => {
             await rtc.client.subscribe(user, mediaType);
-            console.log("subscribe success");
-
+            console.log("Subscribe success");
+    
             if (mediaType === "audio") {
                 user.audioTrack.play(); // Play remote audio
             }
         });
-
+    
         rtc.client.on("user-unpublished", async (user) => {
             await rtc.client.unsubscribe(user);
         });
     }
-
+    
+    initializeClient();
+    
     // Function to initiate a call
     const initiateCall = async (callerId, receiverId) => {
-        const channelName = channel; // Unique channel name
+        const channelName = `${callerId}_${receiverId}`; // Unique channel name
         const { token, uid } = await getAgoraToken(channelName);
-       
-        
+    
         await setDoc(doc(db, "calls", receiverId), {
             callerId,
             channelName,
@@ -72,126 +62,147 @@ export default function ChatTop({profileImg, userName, channel, callerID, receiv
             timestamp: Date.now(),
             status: "ringing",
         });
-
-        startAudioCallUI(channelName, token, uid); // Start call UI
+    
+        listenForCallEnd(receiverId); // Listen for call termination
+        startAudioCallUI(channelName, token, uid);
     };
-
+    
     // Listen for incoming calls
-const listenForCalls = (userId) => {
-
-    const callDocRef = doc(db, "calls", userId);
-
-    return onSnapshot(callDocRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-            const callData = docSnapshot.data();
-
-            if (callData.status === "ringing") {
-                Swal.fire({
-                    title: `Incoming call from ${userName}`,
-                    showCancelButton: true,
-                    confirmButtonText: "Accept",
-                    cancelButtonText: "Reject",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        acceptCall(callData);
-                    } else {
-                        rejectCall(userId);
-                    }
-                });
-            }
-        }
-    });
-};
-
-// Receiver listens for incoming calls
-listenForCalls(callerID);
-//listen for call end
-
-const listenForCallEnd = (callerId) => {
-    const callRef = doc(db, "calls", callerId);
-    onSnapshot(callRef, (doc) => {
-        if (doc.exists() && doc.data().status === "ended") {
-            Swal.fire("Call Ended", "The other user has left the call.", "info").then(() => {
-                window.location.reload(); // Reload or navigate away
-            });
-        }
-    });
-};
-
-
-
-
-const acceptCall = async (callData) => {
-    try {
-        // Join the Agora channel
-        await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
-
-        // Update call status in Firestore
-        await setDoc(doc(db, "calls", callData.callerId), { status: "accepted" }, { merge: true });
-
-        // Show a Swal alert for in-call status
-        Swal.fire({
-            title: "In call...",
-            confirmButtonText: "End Call",
-            allowOutsideClick: false, // Prevent accidental closing
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                // Leave the Agora channel
-                await leaveChannel(callData.uid);
-
-                // Optionally update call status in Firestore
-                await setDoc(doc(db, "calls", callData.callerId), { status: "ended" }, { merge: true });
-
-                Swal.fire("Call Ended", "You have left the call.", "info");
+    const listenForCalls = (userId) => {
+        if(!userId ) return;
+        const callDocRef = doc(db, "calls", userId);
+    
+        return onSnapshot(callDocRef, (docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const callData = docSnapshot.data();
+    
+                if (callData.status === "ringing") {
+                    Swal.fire({
+                        title: `Incoming call`,
+                        showCancelButton: true,
+                        confirmButtonText: "Accept",
+                        cancelButtonText: "Reject",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            acceptCall(callData);
+                            console.log(callData.uid == callerID);
+                            
+                        } else {
+                            rejectCall(userId);
+                        }
+                    });
+                }
             }
         });
-
-    } catch (error) {
-        console.error("Error accepting call:", error);
-        Swal.fire("Error", "Something went wrong while joining the call.", "error");
-    }
-};
-
-
-// Reject the call
-const rejectCall = async (receiverId) => {
-    await setDoc(doc(db, "calls", receiverId), { status: "rejected" }, { merge: true });
-};
-
-// Join the Agora channel
-async function joinChannel(channelName, token, uid) {
-    await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
-    await publishLocalAudio();
-    console.log("Joined channel:", channelName);
-}
-
-// Publish local audio
-async function publishLocalAudio() {
-    rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    await rtc.client.publish([rtc.localAudioTrack]);
-}
-
-// Leave the call
-async function leaveChannel(userId) {
-    rtc.localAudioTrack.close();
-    await rtc.client.leave();
-    await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
-    console.log("Left the call.");
-}
-
-// Call UI with Swal
-const startAudioCallUI = (channelName, token, uid) => {
-    Swal.fire({
-        title: "Calling...",
-        confirmButtonText: "End Call",
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            await leaveChannel(uid);
+    };
+    
+    // Listen for call termination and end the call for both users
+    const listenForCallEnd = (userId) => {
+        const callRef = doc(db, "calls", userId);
+        return onSnapshot(callRef, (docSnapshot) => {
+            if (docSnapshot.exists() && docSnapshot.data().status === "ended") {
+                Swal.fire("Call Ended", "The other user has left the call.", "info").then(() => {
+                    leaveChannel(userId);
+                });
+            }
+        });
+    };
+    
+    // Accept the call
+    const acceptCall = async (callData) => {
+        try {
+            await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
+            await setDoc(doc(db, "calls", callData.callerId), { status: "accepted" }, { merge: true });
+    
+            listenForCallEnd(callData.callerId); // Listen for call termination
+    
+            Swal.fire({
+                title: "In call...",
+                confirmButtonText: "End Call",
+                allowOutsideClick: false, // Prevent accidental closing
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await leaveChannel(callData.uid);
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error accepting call:", error);
+            Swal.fire("Error", "Something went wrong while joining the call.", "error");
         }
-    });
-
-    joinChannel(channelName, token, uid);
-};
+    };
+    
+    // Reject the call
+    const rejectCall = async (receiverId) => {
+        await setDoc(doc(db, "calls", receiverId), { status: "rejected" }, { merge: true });
+    };
+    
+    // Join the Agora channel
+    async function joinChannel(channelName, token, uid) {
+        if (rtc.client.connectionState !== "DISCONNECTED") {
+            console.warn("Already connected to a channel. Leaving current channel first...");
+            await leaveChannel(callerID);  // Leave the existing call first
+        }
+        try {
+            await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+            await publishLocalAudio();
+            console.log("Joined channel:", channelName);
+        } catch (error) {
+            console.error("Error joining channel:", error);
+        }
+    }
+    
+    // Publish local audio
+    async function publishLocalAudio() {
+        rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        await rtc.client.publish([rtc.localAudioTrack]);
+    }
+    
+    // Leave the call
+    async function leaveChannel(userId) {
+        if (!userId || typeof userId !== "string") {
+            console.error("Invalid userId:", userId);
+            return;
+        }
+    
+        if (rtc.localAudioTrack) {
+            rtc.localAudioTrack.close();
+        }
+    
+        await rtc.client.leave();
+        console.log("Left the call.");
+    
+        // Update Firestore safely
+        try {
+            await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
+            console.log("Call status updated to ended.");
+        } catch (error) {
+            console.error("Error updating Firestore call status:", error);
+        }
+    
+        Swal.fire("Call Ended", "You have left the call.", "info").then(() => {
+            window.location.reload();
+        });
+    }
+    
+    // Call UI with Swal
+    const startAudioCallUI = (channelName, token, uid) => {
+        Swal.fire({
+            title: "Calling...",
+            confirmButtonText: "End Call",
+            allowOutsideClick: false,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await leaveChannel(callerID);
+            }
+        });
+    
+        joinChannel(channelName, token, uid);
+    };
+    
+    // Start listening for incoming calls
+    listenForCalls(callerID); // Replace with the current user's ID
+    
     
 
 
