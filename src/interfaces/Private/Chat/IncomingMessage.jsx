@@ -1,12 +1,21 @@
 
-export default function IncomingMessage ({message, image, isFirstInGroup, isLastInGroup, viewImage}){
+export default function IncomingMessage ({message, image, audio, isFirstInGroup, isLastInGroup, viewImage}){
     return (
         <div className={`incoming-message ${isFirstInGroup ? "first-in-group" : ""} 
           ${isLastInGroup ? "last-in-group" : ""}`}>
             <div className="info">
                 {
-                    image?<div className="photo"  onClick={() => viewImage(image)}>
-                        <img className="sent-image" src={img} alt=""></img>
+                    audio &&
+                    <div className="audio">
+                        <audio controls>
+                            <source src={audio} type="audio/webm" />
+                        </audio>
+                    </div>
+                }
+                {
+                    image?
+                    <div className="photo"  onClick={() => viewImage(image)}>
+                        <img className="sent-image" src={image} alt=""></img>
                     </div>
                 : ''
                 }

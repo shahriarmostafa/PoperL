@@ -6,6 +6,8 @@ import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firesto
 import {db} from '../../../firebase/firebase.init';
 import { getChatBoxData } from '../../../Hooks/getChatBoxData';
 import { AuthContext } from '../../../providers/AuthProvider';
+import voiceMessageGiff from '../../../assests/frequency-17048_128.gif';
+
 
 //supabase storage data
 import { createClient } from "@supabase/supabase-js";
@@ -110,7 +112,7 @@ export default function ChatBox(){
     //download image
     const downloadImage = (image) => { 
         Swal.fire({
-
+            icon: "download",
             imageUrl: image,
             imageWidth: 300,
             imageAlt: "Custom image",
@@ -132,6 +134,140 @@ export default function ChatBox(){
             }
           });;
     }
+
+    //send voice message
+    const [mediaRecorder, setMediaRecorder] = useState(null);
+const [isRecording, setIsRecording] = useState(false);
+
+const useVoiceMessage = () => {
+    Swal.fire({
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Start Recording?"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            startRecording();
+        }
+    });
+};
+
+const startRecording = async () => {
+    setIsRecording(true);
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const recorder = new MediaRecorder(stream);
+        let chunks = [];
+        let startTime = Date.now();
+
+        recorder.ondataavailable = (event) => {
+            chunks.push(event.data);
+        };
+
+        recorder.onstop = async () => {
+            const audioBlob = new Blob(chunks, { type: "audio/webm" });
+            stream.getTracks().forEach(track => track.stop()); // ✅ Stop the mic stream
+
+            if (isRecording) { 
+                await sendVoiceMessage(audioBlob);  // ✅ Only send if not canceled
+            }
+        };
+
+        setMediaRecorder(recorder);
+        recorder.start();
+
+        let swalInterval = setInterval(() => {
+            let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            Swal.update({
+                text: `Recording... ⏳ ${elapsedTime}s`,
+            });
+        }, 1000);
+
+        Swal.fire({
+            text: "Recording... ⏳ 0s",
+            imageUrl: voiceMessageGiff,
+            imageWidth: 100,
+            imageAlt: "Recording Voice...",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Send",
+            cancelButtonText: "Cancel",
+            allowOutsideClick: false,
+        }).then((result) => {
+            clearInterval(swalInterval);
+
+            if (result.isConfirmed) {
+                recorder.stop();
+            } else {
+                setIsRecording(false);
+                recorder.stop();
+            }
+        });
+
+    } catch (error) {
+        console.error("Error starting recording:", error);
+        setIsRecording(false);
+    }
+};
+
+
+
+
+
+
+    const sendVoiceMessage = async (newBlob) => {
+        console.log(newBlob);
+        if (!newBlob) return;
+    
+        const fileName = `${Date.now()}.webm`;
+        const file = new File([newBlob], fileName, { type: "audio/webm" });
+        // ✅ Corrected Supabase upload syntax
+        const { data, error } = await supabase.storage.from("poperl_chat_data").upload(fileName, file);
+    
+        if (error || !data) {  // ✅ Added check for null `data`
+            alert("Something went wrong... Try again");
+            return;
+        }
+    
+        console.log("File path:", data.path);  // Log the path to verify
+        const audioUrl = supabase.storage.from("poperl_chat_data").getPublicUrl(data.path).data.publicUrl;
+        
+        try {
+            // ✅ Send message with audio URL
+            await updateDoc(doc(db, "chatDB", chatId), {
+                messages: arrayUnion({
+                    audioUrl: audioUrl,
+                    senderId: user.uid,
+                    createdAt: Date.now()
+                }),
+            });
+    
+            const userIds = [user.uid, receiver.uid];
+    
+            for (const id of userIds) {  // ✅ Changed forEach to `for...of` (await works properly)
+                const userChatRef = doc(db, "chatCollection", id);
+                const userChatData = await getDoc(userChatRef);
+                if (userChatData.exists()) {
+                    const finalData = userChatData.data();
+                    const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
+                    if (chatIndex !== -1) {
+                        finalData.chats[chatIndex].lastMessage = "🎧 Audio";
+                        finalData.chats[chatIndex].isSeen = id === user.uid;
+                        finalData.chats[chatIndex].updatedAt = Date.now();
+                        await updateDoc(userChatRef, { chats: finalData.chats });
+                    }
+                }
+            }
+    
+            setIsRecording(false);  // ✅ Moved outside the loop (only runs once)
+        } catch (err) {
+            alert("Something wrong with sending message");
+        }
+    
+        inputRef.current.focus();
+    };
+
     
 
 
@@ -162,48 +298,7 @@ export default function ChatBox(){
         event.target.image.value = '';
     };
     
-    //sendint message
-    // const handleMessageSend = async(text, image) => {
-    //     const message = text;
-    //     if(message.trim() == ''){
-    //         console.log("Empty message");
-    //         return  
-    //     }
-    //     if (inputRef.current) {
-    //         inputRef.current.value = '';
-    //       }
-    //     endRef.current?.scrollIntoView({behavior: 'smooth'});
-    //     try{
-    //         await updateDoc(doc(db, "chatDB", chatId), {
-    //             messages: arrayUnion({
-    //                 senderId: user.uid,
-    //                 text: message,
-    //                 createdAt: Date.now()
 
-    //             })
-    //         });
-    //         const userIds = [user.uid, receiver.uid];
-    //         userIds.forEach(async(id) => {
-    //             const userChatRef = doc(db, "chatCollection", id);
-    //             const userChatData = await getDoc(userChatRef);
-    //             if(userChatData.exists()){
-    //                 const finalData = userChatData.data();
-    //                 const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
-    //                 finalData.chats[chatIndex].lastMessage = message;
-    //                 finalData.chats[chatIndex].isSeen = (id === user.uid) ? true : false;
-    //                 finalData.chats[chatIndex].updatedAt = Date.now();
-    //                 await updateDoc(userChatRef, {
-    //                     chats: finalData.chats
-    //                 });
-    //             }
-    //         })            
-    //     }
-    //     catch(err){
-    //         console.log(err);
-            
-    //     }
-    //     inputRef.current.focus();
-    // }
 
     //sending message
 
@@ -226,7 +321,6 @@ export default function ChatBox(){
         if(!text.trim() && !imgUrl){
             return;
         }
-        endRef.current?.scrollIntoView({ behavior: "smooth" });
 
         try {
             await updateDoc(doc(db, "chatDB", chatId), {
@@ -267,15 +361,15 @@ export default function ChatBox(){
         <div className="chat-page">
             <section className="chat night-view">
                     <div className="chat-box">
-                        <ChatTop userName={yourRole !="teacher"? "Student" : receiver?.displayName} profileImg={receiver?.photoURL}></ChatTop>
+                        <ChatTop callerID={user.uid} receiverID={receiver.uid} channel={chatId} userName={yourRole !="teacher"? "Student" : receiver?.displayName} profileImg={receiver?.photoURL}></ChatTop>
                         <div className="container conversation">
                             <div className="all-message">
                                 {
                                     chats?.messages?.map((chat, index)=>{
                                         const isFirstInGroup = index === 0 || chats.messages[index - 1]?.senderId !== chat.senderId;
                                             const isLastInGroup = index === chats.messages.length - 1 || chats.messages[index + 1]?.senderId !== chat.senderId;
-                                        if(chat.senderId === user.uid) return <SentMessage viewImage={downloadImage} message={chat.text} image={chat.imageUrl} key={chat.createdAt} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></SentMessage>
-                                        return <IncomingMessage viewImage={downloadImage} message={chat.text} key={chat.createdAt} image={chat.imageUrl} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></IncomingMessage>
+                                        if(chat.senderId === user.uid) return <SentMessage viewImage={downloadImage} message={chat.text} image={chat.imageUrl} audio={chat.audioUrl} key={chat.createdAt} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></SentMessage>
+                                        return <IncomingMessage viewImage={downloadImage} message={chat.text} audio={chat.audioUrl} key={chat.createdAt} image={chat.imageUrl} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></IncomingMessage>
                                     })
                                 }
                                 <div className="last-message">
@@ -294,6 +388,9 @@ export default function ChatBox(){
 
                         {/* type message */}
                         <div className="typing-area d-flex justify-content-center">
+                            <button onClick={useVoiceMessage} className="voice-message d-flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
+                            </button>
                             <form method='post' className='d-flex' onSubmit={handleInputChange}>
                                 <div className="select-image d-flex">
                                 <input type="file" accept="image/*" id="file-input" name='image' className="file-input" style={{ display: 'none' }} />
@@ -306,13 +403,16 @@ export default function ChatBox(){
                                 {/* <div className="select-video d-flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg>
                                 </div> */}
-                                <div className="voice-message d-flex">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
-                                </div>
+                                
                                 <div className="inbox d-flex">
                                     <input autoComplete="off" ref={inputRef} name="message" type="text" placeholder="Enter your message here..."></input>
                                 </div>
-                                <input value="->"  type="submit" tabIndex="-1" className='send'></input>                                    
+                                <div className="transfer">
+                                    <label htmlFor="send" className='send d-flex'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M482.3 192c34.2 0 93.7 29 93.7 64c0 36-59.5 64-93.7 64l-116.6 0L265.2 495.9c-5.7 10-16.3 16.1-27.8 16.1l-56.2 0c-10.6 0-18.3-10.2-15.4-20.4l49-171.6L112 320 68.8 377.6c-3 4-7.8 6.4-12.8 6.4l-42 0c-7.8 0-14-6.3-14-14c0-1.3 .2-2.6 .5-3.9L32 256 .5 145.9c-.4-1.3-.5-2.6-.5-3.9c0-7.8 6.3-14 14-14l42 0c5 0 9.8 2.4 12.8 6.4L112 192l102.9 0-49-171.6C162.9 10.2 170.6 0 181.2 0l56.2 0c11.5 0 22.1 6.2 27.8 16.1L365.7 192l116.6 0z"/></svg>
+                                    </label>
+                                    <input name="send" id="send"  type="submit" className='d-none'></input> 
+                                </div>                                   
                             </form>
                         </div>
                     </div>

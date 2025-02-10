@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
 import avatar from '../../../assests/avatar.avif';
 
 export default function PeopleItem({img, name, lastMessage, clickFunc, isSeen}) {
+
+        
     return (
             <div onClick={clickFunc} className={`${isSeen? "" : "active"} chat-item`}>
                 <div className="img">

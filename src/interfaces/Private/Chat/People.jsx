@@ -1,4 +1,5 @@
-import {useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
+import { useState } from 'react';
 import useChatList from "../../../Hooks/useChatList";
 import PeopleItem from "./PeopleItem";
 import { getChatBoxData } from "../../../Hooks/getChatBoxData";
@@ -11,6 +12,7 @@ import GetClickDetection from "../../../Hooks/getClickDetection";
 
 
 export default function People(){
+
 
     const navigate = useNavigate();
      
@@ -27,9 +29,18 @@ export default function People(){
     } 
 
     
-    
+    const handleTouch = () => {
+        if (navigator.vibrate) {
+          navigator.vibrate(50); // Vibrates for 50ms
+        }
+      };
 
     const handleOpenChat = async (chatIdTaken, receiverPerson, yourRole) => {
+        handleTouch
+        
+        
+
+        
         if(loading){
             changeChat(chatIdTaken, receiverPerson, yourRole);
             navigate(`/chat/${chatIdTaken}`);
@@ -43,22 +54,28 @@ export default function People(){
             const chatIndex = userFinalChat.findIndex((item) => {
                 return item.chatId === chatIdTaken
             })
+
+            changeChat(chatIdTaken, receiverPerson, yourRole);
+            navigate(`/chat/${chatIdTaken}`);
     
             userFinalChat[chatIndex].isSeen = true;
-    
             const userChatRef = doc(db, "chatCollection", user.uid);
-            navigate(`/chat/${chatIdTaken}`);
             try{
                 await updateDoc(userChatRef, {
                     chats: userFinalChat
                 })
-                changeChat(chatIdTaken, receiverPerson, yourRole);
+
             }catch(err){
                 console.log(err);
                 
             }
         }
     }
+
+    
+
+    
+
     
     if (loading) {
         return (
