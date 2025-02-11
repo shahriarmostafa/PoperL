@@ -38,7 +38,7 @@ const WhiteboardCall = ({ channelName }) => {
   // Handle whiteboard changes and save to Firestore
   function handleWhiteboardChange(elements) {
     if (!elements || elements.length === 0) return;
-
+  
     const updatedElements = elements.map((element) => ({
       id: element.id || "",
       type: element.type || "",
@@ -56,9 +56,9 @@ const WhiteboardCall = ({ channelName }) => {
           }))
         : [],
     }));
-
+  
     console.log("Saving updated elements to Firestore:", updatedElements);
-
+  
     // Push the updated elements to Firestore for syncing
     setDoc(callDocRef, { elements: updatedElements }, { merge: true })
       .then(() => {
@@ -68,6 +68,7 @@ const WhiteboardCall = ({ channelName }) => {
         console.error("Error saving whiteboard elements:", error);
       });
   }
+  
 
   function closeWhiteboard() {
     setDoc(callDocRef, { whiteboardOpen: false }, { merge: true });
@@ -83,7 +84,17 @@ const WhiteboardCall = ({ channelName }) => {
               onMount={(api) => {
                 setExcalidrawAPI(api);
                 console.log("Excalidraw mounted for user:", api);
+              
+                // Initial scene update when Excalidraw mounts
+                onSnapshot(callDocRef, (docSnapshot) => {
+                  if (docSnapshot.exists()) {
+                    const elements = docSnapshot.data().elements || [];
+                    console.log("Initial elements from Firestore:", elements);
+                    api.updateScene({ elements });
+                  }
+                });
               }}
+              
               onChange={(elements) => handleWhiteboardChange(elements)}
             />
             <button className="close-btn" onClick={closeWhiteboard}>
