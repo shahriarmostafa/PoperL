@@ -1,213 +1,108 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { doc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore";
-import AgoraRTC from "agora-rtc-sdk-ng";
-import Swal from "sweetalert2";
-import { db } from "../firebase/firebase.init";
-import { AuthContext } from "./AuthProvider";
-import WhiteboardCall from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
+import { Excalidraw } from "@excalidraw/excalidraw";
+import { useEffect, useState, useRef } from "react";
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../../firebase/firebase.init";
 
+const WhiteboardCall = ({ channelName }) => {
+  const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+  const [showWhiteboard, setShowWhiteboard] = useState(false);
+  const [firestoreElements, setFirestoreElements] = useState([]); // store Firestore elements here
+  const whiteboardRef = useRef(null);
+  const callDocRef = doc(db, "whiteboard", channelName);
 
+  // Listen for Firestore document updates and update local state.
+  useEffect(() => {
+    if (!channelName) return;
 
+    console.log("Listening for whiteboard updates on channel:", channelName);
 
-export const CallContext = createContext();
-
-
-export default function CallProvider({children}){
-
-    const [showWhiteboard, setShowWhiteboard] = useState(false); // State to control whiteboard visibility
-    const [channel, setChannel] = useState(null);
-
-    const {user} = useContext(AuthContext)
-    const UID = user?.uid;
-
-    //basic agora data
-    const rtc = {
-        localAudioTrack: null,
-        client: null, // AgoraRTC client object
-    };
-    
-    const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
-
-    useEffect(() => {
-        if(!UID) return;
-        initializeClient();
-        listenForCalls(UID);
-
-
-    }, [UID]);
-
-    function initializeClient() {
-        if (rtc.client) {
-            console.warn("AgoraRTC client already initialized.");
-            return; // Prevent re-initialization
+    const unsubscribe = onSnapshot(callDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        setShowWhiteboard(data.whiteboardOpen || false);
+        console.log("Received Firestore update:", data);
+        if (data.elements) {
+          setFirestoreElements(data.elements);
         }
-    
-        rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-    
-        rtc.client.on("user-published", async (user, mediaType) => {
-            await rtc.client.subscribe(user, mediaType);
-            console.log("Subscribe success");
-    
-            if (mediaType === "audio") {
-                user.audioTrack.play();
-            }
-        });
-    
-        rtc.client.on("user-unpublished", async (user) => {
-            await rtc.client.unsubscribe(user);
-        });
+      } else {
+        console.log("No whiteboard data found.");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [channelName, excalidrawAPI]);
+
+  // Whenever the Excalidraw API is ready and firestoreElements change, update the scene.
+  useEffect(() => {
+    if (excalidrawAPI && firestoreElements) {
+      console.log("Updating Excalidraw scene with elements:", firestoreElements);
+      excalidrawAPI.updateScene({
+        elements: firestoreElements,
+        commitToHistory: false, // avoid merging remote updates into local history
+      });
     }
-    
+  }, [excalidrawAPI, firestoreElements]);
 
-    const listenForCalls = (userId) => {
-            if(!userId ) return;
-            const callDocRef = doc(db, "calls", userId);
-        
-            return onSnapshot(callDocRef, (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    const callData = docSnapshot.data();
-        
-                    if (callData.status === "ringing") {
-                        Swal.fire({
-                            title: `Incoming call from someone`,
-                            showCancelButton: true,
-                            confirmButtonText: "Accept",
-                            cancelButtonText: "Reject",
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                acceptCall(callData);                                
-                            } else {
-                                rejectCall(userId);
-                            }
-                        });
-                    }
-                }
-            });
-        };
+  // Handle local whiteboard changes and save to Firestore.
+  function handleWhiteboardChange(elements) {
+    if (!elements || elements.length === 0) return;
 
-        
+    const updatedElements = elements.map((element) => ({
+      id: element.id || "",
+      type: element.type || "",
+      x: element.x !== undefined ? element.x : 0,
+      y: element.y !== undefined ? element.y : 0,
+      width: element.width !== undefined ? element.width : 100,
+      height: element.height !== undefined ? element.height : 100,
+      angle: element.angle !== undefined ? element.angle : 0,
+      strokeColor: element.strokeColor || "#000000",
+      backgroundColor: element.backgroundColor || "#FFFFFF",
+      points: element.points
+        ? element.points.map((point) => ({
+            x: point.x !== undefined ? point.x : 0,
+            y: point.y !== undefined ? point.y : 0,
+          }))
+        : [],
+    }));
 
-    const acceptCall = async (callData) => {
-            try {
-                await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
-                await setDoc(doc(db, "calls", callData.callerId), { status: "accepted" }, { merge: true });
-        
-                listenForCallEnd(callData.callerId); // Listen for call termination
-        
-                Swal.fire({
-                    title: "In call...",
-                    showCancelButton: true,
-                    confirmButtonText: "End Call",
-                    cancelButtonText: "Open Whiteboard",
-                    allowOutsideClick: false,
-                }).then(async (result) => { 
-                    if (result.isConfirmed) {                         
-                        await leaveChannel(callData.uid);
-                        
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        await setDoc(doc(db, "whiteboard", callData.channelName), { whiteboardOpen: true }, { merge: true });
-                        setShowWhiteboard(true);
-                    }
-                });
-                
-        
-            } catch (error) {
-                console.error("Error accepting call:", error);
-                Swal.fire("Error", "Something went wrong while joining the call.", "error");
-            }
-    };
+    console.log("Saving updated elements to Firestore:", updatedElements);
 
+    setDoc(callDocRef, { elements: updatedElements }, { merge: true })
+      .then(() => {
+        console.log("Firestore update successful.");
+      })
+      .catch((error) => {
+        console.error("Error saving whiteboard elements:", error);
+      });
+  }
 
-    // Reject the call
-    const rejectCall = async (receiverId) => {
-        await setDoc(doc(db, "calls", receiverId), { status: "rejected" }, { merge: true });
-    };
+  function closeWhiteboard() {
+    setDoc(callDocRef, { whiteboardOpen: false }, { merge: true });
+  }
 
+  return (
+    <>
+      {showWhiteboard && (
+        <div className="whiteboard-overlay">
+          <div className="whiteboard-content">
+            <Excalidraw
+              ref={whiteboardRef}
+              onMount={(api) => {
+                setExcalidrawAPI(api);
+                console.log("Excalidraw mounted, API:", api);
+                // No extra subscription is needed here because our global listener
+                // is already updating firestoreElements.
+              }}
+              onChange={(elements) => handleWhiteboardChange(elements)}
+            />
+            <button className="close-btn" onClick={closeWhiteboard}>
+              End Call
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
-    const listenForCallEnd = (userId) => {
-        const callRef = doc(db, "calls", userId);
-        return onSnapshot(callRef, async (docSnapshot) => {
-            if (docSnapshot.exists() && docSnapshot.data().status === "ended") {
-                // Show alert that the call ended
-                Swal.fire("Call Ended", "The other user has left the call.", "info");
-    
-                // Stop local audio and leave the channel
-                if (rtc.localAudioTrack) {
-                    rtc.localAudioTrack.close();
-                }
-                if (rtc.client) {
-                    await rtc.client.leave();
-                }
-    
-                // Optional: Remove call entry from Firestore
-                await deleteDoc(callRef);
-            }
-        });
-    };
-
-    async function joinChannel(channelName, token, uid) {
-        setChannel(channelName);
-        if (rtc.client.connectionState !== "DISCONNECTED") {
-            console.warn("Already connected to a channel. Leaving current channel first...");
-            await leaveChannel(UID);  // Leave the existing call first
-        }
-        try {
-            await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
-            await publishLocalAudio();
-            console.log("Joined channel:", channelName);
-        } catch (error) {
-            console.error("Error joining channel:", error);
-        }
-    }
-
-    // Publish local audio
-    async function publishLocalAudio() {
-        rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        await rtc.client.publish([rtc.localAudioTrack]);
-    }
-
-    // Leave the call
-        async function leaveChannel(userId) {
-            if (!userId || typeof userId !== "string") {
-                console.error("Invalid userId:", userId);
-                return;
-            }
-
-            
-
-        
-            if (rtc.localAudioTrack) {
-                rtc.localAudioTrack.close();
-            }
-        
-            await rtc.client.leave();
-            console.log("Left the call.");
-        
-            // Update Firestore safely
-            try {
-                await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
-                console.log("Call status updated to ended.");
-            } catch (error) {
-                console.error("Error updating Firestore call status:", error);
-            }
-        
-            Swal.fire("Call Ended", "You have left the call.", "info");
-        }
-
-
-
-    const callContextUtility = {
-        joinChannel,
-        listenForCallEnd,
-        leaveChannel,
-        setShowWhiteboard
-    }
-
-    return (
-        <CallContext.Provider value={callContextUtility}>
-            {children}
-            {/* Conditionally render the WhiteboardCall component */}
-      {showWhiteboard && <WhiteboardCall channelName={channel} />}
-        </CallContext.Provider>
-    )
-}
+export default WhiteboardCall;
