@@ -7,6 +7,7 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({children}){
     const [user, setUser] = useState({});
     const [userProfileLoading, setUserProfileLoading] = useState(true);
+    
 
 
     const createUser = (email, password) => {
@@ -30,11 +31,14 @@ export default function AuthProvider({children}){
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setUserProfileLoading(false);
+            
         })
         return () => {
             unsubscribe();
         }
     },[]);
+    
+
     const authUtility = {user, createUser, userSignIn, logOut, editProfile, userProfileLoading};
     return (
         <AuthContext.Provider value={authUtility}>
