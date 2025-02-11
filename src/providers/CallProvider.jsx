@@ -1,7 +1,7 @@
 import { Excalidraw } from "@excalidraw/excalidraw";
 import { useEffect, useState, useRef } from "react";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
-import { db } from "../../../../firebase/firebase.init";
+import { db } from "../firebase/firebase.init";
 
 const WhiteboardCall = ({ channelName }) => {
   const [excalidrawAPI, setExcalidrawAPI] = useState(null);
