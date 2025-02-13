@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import { CallContext } from "../../../../providers/CallProvider";
 import { AuthContext } from "../../../../providers/AuthProvider";
 import { WhiteWebSdk } from "white-web-sdk";
@@ -9,6 +9,22 @@ export default function WhiteBoard({ UUID }) {
   const { setShowWhiteboard } = useContext(CallContext);
   const { user } = useContext(AuthContext);
   const UID = user?.uid;
+  const [room, setRoom] = useState(null);
+  const [activeTool, setActiveTool] = useState("");
+
+  const toolNames = [
+    "pencil",
+    "selector",
+    "rectangle",
+    "eraser",
+    "text",
+    "arrow",
+    "ellipse",
+    "hand",
+    "laserPointer",
+    "shape",
+    "straight",
+  ];
 
   const getWhiteboardToken = async () => {
     try {
@@ -22,40 +38,48 @@ export default function WhiteBoard({ UUID }) {
     }
   };
 
-  // Hardcoded token for testing purposes
+  const handleToolClick = (toolName) => {
+    if (room) {
+      setActiveTool(toolName);
+      room.setMemberState({
+        currentApplianceName: toolName,
+        strokeColor: [0, 0, 0],
+        strokeWidth: 5,
+        textSize: 10,
+      });
+    }
+  };
 
   useEffect(() => {
-
-
     const initializeWhiteboard = async () => {
-
-
       try {
-        
-
         const whiteWebSdk = new WhiteWebSdk({
-          appIdentifier: "QqeacOk6Ee-n__HYKx8QBQ/LID2Et90lDgzlg", // Replace with your Agora App Identifier
-          region: "us-sv", // Choose your region
+          appIdentifier: "QqeacOk6Ee-n__HYKx8QBQ/LID2Et90lDgzlg",
+          region: "us-sv",
         });
 
-        
         const fullResponse = await getWhiteboardToken();
         const token = fullResponse.token;
-        
-        
-        var joinRoomParams = {
+
+        const joinRoomParams = {
           uuid: UUID,
           uid: UID,
-          roomToken: token
+          roomToken: token,
         };
 
-        console.log(joinRoomParams);
-        
-        
-        // Joining the room with the hardcoded token
-        const room = await whiteWebSdk.joinRoom(joinRoomParams);
+        const newRoom = await whiteWebSdk.joinRoom(joinRoomParams);
 
-        room.bindHtmlElement(whiteboardRef.current); // Bind the whiteboard to the ref element
+        
+        
+
+
+        newRoom.bindHtmlElement(whiteboardRef.current);
+        newRoom.setMemberState({
+          currentApplianceName: null,
+          strokeWidth: 0,
+        });
+        setRoom(newRoom);
+        
       } catch (error) {
         console.error("Error initializing whiteboard:", error);
       }
@@ -64,19 +88,56 @@ export default function WhiteBoard({ UUID }) {
     initializeWhiteboard();
 
     return () => {
+      if (room) {
+        room.disconnect();
+      }
       if (whiteboardRef.current) {
-        whiteboardRef.current.innerHTML = ""; // Cleanup the whiteboard if component unmounts
+        whiteboardRef.current.innerHTML = "";
       }
     };
-  }, [UUID, user, UID]); // Ensure dependencies are correctly set
+  }, [UUID, UID]);
+
+  const clearCurrentScene = () => {
+    if (room) {
+      room.cleanCurrentScene();
+      room.setMemberState({
+        currentApplianceName: "pencil",
+        strokeColor: [0, 0, 0],
+        strokeWidth: 5,
+        textSize: 10,
+      });
+      setActiveTool("pencil")
+    }
+  };
 
   const closeWhiteboard = () => {
+    if (room) {
+      room.disconnect();
+    }
     setShowWhiteboard(false);
   };
 
   return (
     <div id="whiteboard-container">
-      <div ref={whiteboardRef} className="whiteboard-area"></div>
+      {
+        room? <div ref={whiteboardRef} className="whiteboard-area"></div> : "Loading whiteboard"
+      }
+      <div
+        id="toolbar"
+        style={{ position: "fixed", bottom: "10px", minHeight: "50px", zIndex: 10, width: "100%" }}
+      >
+        {toolNames.map((toolName) => (
+          <button
+            key={toolName}
+            id={`btn${toolName}`}
+            onClick={() => handleToolClick(toolName)}
+            style={{ backgroundColor: activeTool === toolName ? "#000" : "#fff", color: activeTool === toolName ? "#fff" : "#000" }}
+          >
+            {toolName}
+          </button>
+        ))}
+        <button onClick={clearCurrentScene}>Clear Everything</button>
+      </div>
       <button onClick={closeWhiteboard} className="close-whiteboard">
         Close Whiteboard
       </button>

@@ -6,6 +6,7 @@ import { db } from "../firebase/firebase.init";
 import { AuthContext } from "./AuthProvider";
 import WhiteBoard from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
 import axios from "axios";
+// import CallUI from "../interfaces/Private/Shared/CallUi/CallUi"
 
 export const CallContext = createContext();
 
@@ -226,6 +227,7 @@ export default function CallProvider({ children }) {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
+    {/* <CallUI callerName={"Karim"}></CallUI> */}
   </CallContext.Provider>
   );
 }
