@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
-import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase.init";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import axios from "axios";
@@ -11,7 +10,7 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const { joinChannel, listenForCallEnd, leaveChannel, setShowWhiteboard, setUUID, getWhiteBoardRoomUUID } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID  } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {
@@ -22,6 +21,10 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
   };
 
   const initiateCall = async (callerId, receiverId) => {
+
+    setCallLeavingUID(receiverId);
+    setShowCallUi(true);
+
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
 
@@ -63,31 +66,12 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
 
     }
 
-    
 
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, uid);
   };
 
-  // Updated UI to open whiteboard from context
-  const startAudioCallUI = (channelName, token, uid) => {
-    Swal.fire({
-      title: "Calling...",
-      showCancelButton: true,
-      confirmButtonText: "End Call",
-      cancelButtonText: "Open Whiteboard",
-      allowOutsideClick: false,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await leaveChannel(receiverID);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Open Whiteboard
-        setShowWhiteboard(true); // Show Whiteboard when button is clicked
-      }
-    });
-
-    joinChannel(channelName, token, uid);
-  };
+  
 
   return (
     <div className="topper">

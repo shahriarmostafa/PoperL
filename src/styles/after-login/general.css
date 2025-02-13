@@ -1001,6 +1001,6 @@ section.subscription .container .packages .pack:last-child span.success {
   display: block;
   margin: auto;
 }
-.call-ui-container .end-call-button:hover, .call-ui-container .whiteboard-button:hover {
+.call-ui-container .end-call-button:hover, .call-ui-container .whiteboard-button:hover, .call-ui-container .accept-reject button:hover {
   transform: scale(1.1);
 }/*# sourceMappingURL=general.css.map */

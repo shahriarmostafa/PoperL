@@ -6,7 +6,7 @@ import { db } from "../firebase/firebase.init";
 import { AuthContext } from "./AuthProvider";
 import WhiteBoard from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
 import axios from "axios";
-import CallUI from "../interfaces/Private/Shared/CallUi/CallUi"
+import CallUI from "../interfaces/Private/Shared/CallUi/CallUi";
 
 export const CallContext = createContext();
 
@@ -15,10 +15,20 @@ export default function CallProvider({ children }) {
   const [showWhiteboard, setShowWhiteboard] = useState(false); // Manage whiteboard visibility
   const [channel, setChannel] = useState(null);
 
-  const [UUID, setUUID] = useState(null);
-
   const { user } = useContext(AuthContext);
   const UID = user?.uid;
+
+
+  //call ui setup
+  const [showCallUi , setShowCallUi] = useState(false);
+  const [callLeavingUID, setCallLeavingUID] = useState("");
+  const [callStatus, setCallStatus] = useState("Ringing");
+  const [callData, setCallData] = useState(null);
+
+  //whiteboard uuid
+  const [UUID, setUUID] = useState(null);
+
+
 
   // Basic Agora data
   const rtc = {
@@ -49,11 +59,7 @@ export default function CallProvider({ children }) {
 
   const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
 
-  useEffect(() => {
-    if (!UID) return;
-    initializeClient();
-    listenForCalls(UID);
-  }, [UID]);
+  
 
   function initializeClient() {
     if (rtc.client) {
@@ -77,39 +83,20 @@ export default function CallProvider({ children }) {
     });
   }
 
-  const listenForCalls = (userId) => {
-    if (!userId) return;
-    const callDocRef = doc(db, "calls", userId);
 
-    return onSnapshot(callDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const callData = docSnapshot.data();
 
-        if (callData.status === "ringing") {
-          Swal.fire({
-            title: `Incoming call from someone`,
-            showCancelButton: true,
-            confirmButtonText: "Accept",
-            cancelButtonText: "Reject",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              acceptCall(callData);
-            } else {
-              rejectCall(userId);
-            }
-          });
-        }
-      }
-    });
-  };
+  // Updated UI to open whiteboard from context
+    const startAudioCallUI = (channelName, token, uid) => {
+      setCallStatus("Ringing")
+      listenForCallReceive(uid);
+      joinChannel(channelName, token, uid);
+    };
+
+  
 
   const acceptCall = async (callData) => {
     try {
       await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
-
-
-      
-
       const callRef = doc(db, "calls", UID);
 
       // Fetch the document to check the current `uuid`
@@ -131,27 +118,12 @@ export default function CallProvider({ children }) {
         }
       }
 
-      
-
-      
       await setDoc(doc(db, "calls", UID), { status: "accepted" }, { merge: true });
 
+      //set call status
+      setCallStatus("accepted");
       listenForCallEnd(UID);
 
-      Swal.fire({
-        title: "In call...",
-        showCancelButton: true,
-        confirmButtonText: "End Call",
-        cancelButtonText: "Open Whiteboard",
-        allowOutsideClick: false,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await leaveChannel(callData.uid);
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          await setDoc(doc(db, "whiteboard", callData.channelName), { whiteboardOpen: true }, { merge: true });
-          setShowWhiteboard(true);
-        }
-      });
     } catch (error) {
       console.error("Error accepting call:", error);
       Swal.fire("Error", "Something went wrong while joining the call.", "error");
@@ -161,14 +133,41 @@ export default function CallProvider({ children }) {
   // Reject the call
   const rejectCall = async (receiverId) => {
     await setDoc(doc(db, "calls", receiverId), { status: "rejected" }, { merge: true });
+    setCallStatus("rejected");
   };
+
+
+  const listenForCalls = (userId) => {
+    if (!userId) return;
+    setCallLeavingUID(userId);
+    const callDocRef = doc(db, "calls", userId);
+
+    return onSnapshot(callDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const callData = docSnapshot.data();
+
+        if (callData.status === "ringing") {
+          listenForCallEnd(UID);
+          setCallStatus("ringing");
+          setCallData(callData);
+          setShowCallUi(true);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (!UID) return;
+    initializeClient();
+    listenForCalls(UID);
+  }, [UID]);
+
 
   const listenForCallEnd = (userId) => {
     const callRef = doc(db, "calls", userId);
     return onSnapshot(callRef, async (docSnapshot) => {
       if (docSnapshot.exists() && docSnapshot.data().status === "ended") {
-        Swal.fire("Call Ended", "The other user has left the call.", "info");
-
+        setCallStatus("ended");
         if (rtc.localAudioTrack) {
           rtc.localAudioTrack.close();
         }
@@ -180,14 +179,36 @@ export default function CallProvider({ children }) {
     });
   };
 
+  const listenForCallReceive = (userId) => {
+    const callRef = doc(db, "calls", userId);
+    return onSnapshot(callRef, async(docSnapshot) => {
+      if(docSnapshot.exists() && docSnapshot.data().status === "accepted"){
+        setCallStatus("accepted");
+      }
+      if(docSnapshot.exists() && docSnapshot.data().status === "rejected"){
+        setCallStatus("rejected");
+        if (rtc.localAudioTrack) {
+          rtc.localAudioTrack.close();
+        }
+        if (rtc.client) {
+          await rtc.client.leave();
+        }
+      }
+    })
+  }
+
   async function joinChannel(channelName, token, uid) {
+    if(!rtc.client){
+      initializeClient();
+    }
     setChannel(channelName);
     if (rtc.client.connectionState !== "DISCONNECTED") {
-      await leaveChannel(UID);  // Leave the existing call first
+      await leaveChannel(uid);  // Leave the existing call first
     }
     try {
       await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
       await publishLocalAudio();
+      
     } catch (error) {
       console.error("Error joining channel:", error);
     }
@@ -201,33 +222,43 @@ export default function CallProvider({ children }) {
 
   // Leave the call
   async function leaveChannel(userId) {
+    console.log("called");
     if (!userId) return;
 
     if (rtc.localAudioTrack) {
       rtc.localAudioTrack.close();
     }
+    
+    if(!rtc.client){
+      initializeClient()
+    }
 
     await rtc.client.leave();
 
     await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
-    Swal.fire("Call Ended", "You have left the call.", "info");
   }
 
+  //share data to pages through context
   const callContextUtility = {
+    startAudioCallUI,
     joinChannel,
     listenForCallEnd,
     leaveChannel,
     setShowWhiteboard,
     showWhiteboard, // Provide state here to manage whiteboard visibility
     setUUID,
-    getWhiteBoardRoomUUID
+    getWhiteBoardRoomUUID,
+    setShowCallUi,
+    setCallLeavingUID,
+    acceptCall,
+    rejectCall,
   };
   
   return (
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    <CallUI callerName={"Karim"}></CallUI>
+    {showCallUi && <CallUI callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>}
   </CallContext.Provider>
   );
 }

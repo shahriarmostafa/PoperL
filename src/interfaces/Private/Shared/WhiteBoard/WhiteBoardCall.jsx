@@ -44,8 +44,8 @@ export default function WhiteBoard({ UUID }) {
       room.setMemberState({
         currentApplianceName: toolName,
         strokeColor: [0, 0, 0],
-        strokeWidth: 5,
-        textSize: 10,
+        strokeWidth: 3,
+        textSize: 18,
       });
     }
   };
