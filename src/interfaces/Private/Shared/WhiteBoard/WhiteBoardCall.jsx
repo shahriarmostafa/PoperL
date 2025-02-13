@@ -28,7 +28,7 @@ export default function WhiteBoard({ UUID }) {
 
   const getWhiteboardToken = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/generate-whiteboard-token", {
+      const response = await axios.post("http://backend-eta-blue-92.vercel.app/generate-whiteboard-token", {
         UUID,
       });
       return response.data;

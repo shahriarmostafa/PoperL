@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdCallEnd } from 'react-icons/md';
 
-
-const CallUi = ({ callerName  }) => {
-
+const CallUI = ({ callerName, status = "Rejected" }) => {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
@@ -22,22 +20,23 @@ const CallUi = ({ callerName  }) => {
   return (
     <div className="call-ui-container">
       <div className="call-card">
-        <div className="call-header">In Call With</div>
-        <div className="caller-name">{callerName}</div>
-        <div className="call-duration">Duration: {formatTime(seconds)}</div>
+        <div className="top">
+          <div className="call-header">In Call With</div>
+          <div className="caller-name">{callerName}</div>
+        </div>
+        <div className="center">
+          <div className="call-duration">{formatTime(seconds)}</div>
+          <div className="status">{status}</div>
+        </div>
         <div className="call-actions">
           <button className="end-call-button">
             <MdCallEnd></MdCallEnd>
           </button>
-          <button className="whiteboard-button">
-            Show Whiteboard
-          </button>
+          <button className="whiteboard-button">Show Whiteboard</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default CallUi;
-
-
+export default CallUI;

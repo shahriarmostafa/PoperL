@@ -930,60 +930,77 @@ section.subscription .container .packages .pack:last-child span.success {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100vh; /* Full screen height */
   display: flex;
   justify-content: center;
-  padding: 16px;
-  background-color: #212121;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 50;
 }
 .call-ui-container .call-card {
-  max-width: 320px;
-  width: 100%;
+  width: 90%;
+  max-width: 600px;
+  min-width: 500px;
   background: #212121;
-  color: #fff;
+  color: #ffffff;
   border-radius: 16px;
-  padding: 16px;
+  padding: 90px 0px 70px 0px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%; /* Adjusted to fit screen nicely */
 }
 .call-ui-container .call-header {
-  font-size: 14px;
+  font-size: 16px;
   color: #4E73DF;
+  margin-bottom: 5px;
 }
 .call-ui-container .caller-name {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
   color: #4E73DF;
-  margin-top: 4px;
 }
 .call-ui-container .call-duration {
-  font-size: 12px;
-  color: gray;
-  margin-top: 8px;
+  font-size: 16px;
+  color: #ccc;
+  margin: 25px 0 10px; /* Spacing around duration */
+}
+.call-ui-container .status {
+  color: #BD2130;
+  font-weight: 600;
 }
 .call-ui-container .call-actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: auto;
 }
-.call-ui-container .end-call-button, .call-ui-container .whiteboard-button {
+.call-ui-container .end-call-button {
   background-color: #BD2130;
+  border-radius: 8px;
+  width: 150px;
+  font-size: 20px;
+  color: #fff;
   border: none;
-  border-radius: 50%;
-  padding: 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: opacity 0.3s ease;
+  margin-bottom: 6px;
+  padding: 6px;
+}
+.call-ui-container .end-call-button svg {
+  font-size: 25px;
 }
 .call-ui-container .whiteboard-button {
   background-color: #4E73DF;
+  border: none;
+  border-radius: 8px;
+  width: 200px;
+  padding: 14px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: block;
+  margin: auto;
 }
 .call-ui-container .end-call-button:hover, .call-ui-container .whiteboard-button:hover {
-  opacity: 0.8;
-}
-.call-ui-container .icon {
-  width: 20px;
-  height: 20px;
-  color: #fff;
+  transform: scale(1.1);
 }/*# sourceMappingURL=general.css.map */

@@ -6,7 +6,7 @@ import { db } from "../firebase/firebase.init";
 import { AuthContext } from "./AuthProvider";
 import WhiteBoard from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
 import axios from "axios";
-// import CallUI from "../interfaces/Private/Shared/CallUi/CallUi"
+import CallUI from "../interfaces/Private/Shared/CallUi/CallUi"
 
 export const CallContext = createContext();
 
@@ -33,7 +33,7 @@ export default function CallProvider({ children }) {
     console.log("Called");
     
     try {
-      const response = await axios.post("http://localhost:5000/create-whiteboard-room", {
+      const response = await axios.post("http://backend-eta-blue-92.vercel.app/create-whiteboard-room", {
       });
       return response.data;
     } catch (error) {
@@ -227,7 +227,7 @@ export default function CallProvider({ children }) {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {/* <CallUI callerName={"Karim"}></CallUI> */}
+    <CallUI callerName={"Karim"}></CallUI>
   </CallContext.Provider>
   );
 }
