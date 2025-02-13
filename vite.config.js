@@ -5,6 +5,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('development'),
+  },
   plugins: [
     react(),
     VitePWA({

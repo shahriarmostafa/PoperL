@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
 import Swal from "sweetalert2";
 import { db } from "../../../firebase/firebase.init";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { CallContext } from "../../../providers/CallProvider";
@@ -11,8 +11,7 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const { joinChannel, listenForCallEnd, leaveChannel, setShowWhiteboard } = useContext(CallContext);
-
+  const { joinChannel, listenForCallEnd, leaveChannel, setShowWhiteboard, setUUID, getWhiteBoardRoomUUID } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {
@@ -26,20 +25,51 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
 
-    await setDoc(doc(db, "calls", receiverId), {
-      callerId,
-      channelName,
-      agoraToken: token,
-      uid,
-      timestamp: Date.now(),
-      status: "ringing",
-    });
+    const callRef = doc(db, "calls", receiverId);
+
+    // Fetch the current document to check if it exists
+    const docSnap = await getDoc(callRef);
+
+    
+
+    if (!docSnap.exists()) {
+      const gotData = await getWhiteBoardRoomUUID();
+      const UUID = gotData.uuid;
+      // If the document does not exist, add all data including uuid
+      await setDoc(callRef, {
+        callerId,
+        channelName,
+        agoraToken: token,
+        uid,
+        timestamp: Date.now(),
+        status: "ringing",
+        uuid: UUID// Your function to generate UUID
+      });
+      setUUID(UUID);
+    } else {
+      // If the document exists, update the fields but keep the uuid unchanged
+      await setDoc(callRef, {
+        callerId,
+        channelName,
+        agoraToken: token,
+        uid,
+        timestamp: Date.now(),
+        status: "ringing"
+      }, { merge: true }); // The merge flag ensures uuid isn't overwritten
+
+      if(docSnap.data().uuid){
+        setUUID(docSnap.data().uuid)
+      }
+
+    }
+
+    
 
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, uid);
   };
 
-  // Call UI with Swal
+  // Updated UI to open whiteboard from context
   const startAudioCallUI = (channelName, token, uid) => {
     Swal.fire({
       title: "Calling...",
@@ -49,12 +79,10 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
       allowOutsideClick: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await leaveChannel(callerID);
+        await leaveChannel(receiverID);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        
-        await setDoc(doc(db, "whiteboard", channelName), { whiteboardOpen: true }, { merge: true });
-        // Show the whiteboard when the button is clicked
-        setShowWhiteboard(true);
+        // Open Whiteboard
+        setShowWhiteboard(true); // Show Whiteboard when button is clicked
       }
     });
 

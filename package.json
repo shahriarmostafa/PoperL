@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@excalidraw/excalidraw": "^0.15.0",
     "@supabase/supabase-js": "^2.48.1",
     "@tanstack/react-query": "^5.63.0",
     "agora-rtc-sdk-ng": "^4.23.1",
+    "agora-whiteboard-sdk": "^1.0.4",
     "axios": "^1.7.9",
     "firebase": "^10.14.1",
     "framer-motion": "^12.4.1",
@@ -21,6 +21,7 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.27.0",
     "sweetalert2": "^11.15.10",
+    "white-web-sdk": "^2.16.52",
     "workbox-precaching": "^7.3.0",
     "zustand": "^5.0.3"
   },

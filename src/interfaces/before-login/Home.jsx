@@ -51,7 +51,8 @@ export default function Home(){
 
 
 
-      if (window.matchMedia('(display-mode: standalone)').matches) {
+      // if (window.matchMedia('(display-mode: standalone)').matches) {
+        if (true) {
         return (
           <div className="home">
             <Link to="/maintainance/admins">Admin</Link>

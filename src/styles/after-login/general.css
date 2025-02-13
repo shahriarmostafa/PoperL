@@ -879,45 +879,43 @@ section.subscription .container .packages .pack:last-child span.success {
     opacity: 0;
   }
 }
-.whiteboard-overlay {
-  position: fixed; /* Fixed position to overlay the page */
+/* Whiteboard Full-Screen Style */
+#whiteboard-container {
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Dimmed background */
-  z-index: 9999; /* Ensure it appears on top */
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.whiteboard-content {
-  width: 90%; /* Make the whiteboard large, adjust as needed */
-  height: 90%;
-  background: white; /* Optional: give the content a white background */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #ff4444;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+/* Whiteboard Area */
+.whiteboard-area {
+  width: 100%;
+  height: 100%;
 }
 
-.close-btn:hover {
-  background-color: #ff0000;
+/* Close Button */
+.close-whiteboard {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 10px 20px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.close-whiteboard:hover {
+  background-color: #e84141;
 }/*# sourceMappingURL=general.css.map */
