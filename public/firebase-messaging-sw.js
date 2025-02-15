@@ -1,3 +1,26 @@
+importScripts("https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js");
+
+
+
+
+
+
+
+
+firebase.initializeApp({
+    apiKey: "AIzaSyD84PaHJyi_u87Lm1z467NdbxYG58du9cg",
+    authDomain: "poperl-1st.firebaseapp.com",
+    projectId: "poperl-1st",
+    storageBucket: "poperl-1st.appspot.com",
+    messagingSenderId: "773002657354",
+    appId: "1:773002657354:web:b2c94cbb82a7a302eef0b3"
+});
+
+const messaging = firebase.messaging();
+
+
+
 self.addEventListener("push", (event) => {
   const data = event.data.json();
 
@@ -10,13 +33,11 @@ self.addEventListener("push", (event) => {
         let icon = "/favicon.ico";
         let notificationData = {};
 
-        if (data.callType === "incoming") {
-          const audio = new Audio("/ringtone.mp3"); // Provide the path to your sound file
-          audio.play().catch((error) => console.error("Audio play error:", error));
-          title = data.callerName || "Incoming Call";
+        if (data.payload.callType === "incoming") {
+          title = data.payload.callerName || "Incoming Call";
           body = "Incoming call...";
           notificationData = { callerId: data.callerId };
-        } else if (data.title && data.body) {
+        } else if (data.payload.title && data.body) {
           title = data.title;
           body = data.body;
         }
@@ -30,8 +51,6 @@ self.addEventListener("push", (event) => {
     })
   );
 });
-
-
 
 
 
@@ -56,12 +75,5 @@ self.addEventListener("notificationclick", (event) => {
         });
       }
     })
-  );
+  ); 
 });
-
-
-
-
-
-
-
