@@ -6,17 +6,31 @@ import '../../styles/before-login/form.css'
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function SignIn(){
-    const [formErrorMessege, setFormErrorMessege] = useState('');
-    const [formSuccessMessege, setFormSccessMessege] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const {userSignIn}= useContext(AuthContext);
+    const {userSignIn, user}= useContext(AuthContext);
 
 
     const location = useLocation()
     const navigate = useNavigate();
+
+
+
+    //setting the nottification
+
+    const setTokenToDataBase = async() => {
+        const uid = user?.uid;
+        const token = await requestForToken();
+        if(!token) return;
+        if(!uid) await uid;
+        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token});;
+    }
+
+
+
     
     
 
@@ -26,7 +40,6 @@ export default function SignIn(){
       
         const email = e.target.email.value;
         const password = e.target.password.value;
-        setFormErrorMessege("");
       
         const Toast = Swal.mixin({
           toast: true,
@@ -59,11 +72,12 @@ export default function SignIn(){
               title: "Signed in successfully!",
             });
 
-            requestForToken();
+            setTokenToDataBase();
+
+            
           })
           .catch((err) => {
             // Handle errors and stop the timer
-            setFormErrorMessege(err.message);
       
             Swal.stopTimer();
             Swal.update({
@@ -102,7 +116,7 @@ export default function SignIn(){
             })
             return;
         }
-        sendPasswordResetEmail(auth, currentEmail).then().catch(err => setFormErrorMessege(err.message))
+        sendPasswordResetEmail(auth, currentEmail).then().catch(err => err)
     }
     return (
         <div className="sign-in page">
@@ -121,9 +135,7 @@ export default function SignIn(){
                     </div>
                     <input type="submit" />
                 </form>
-                <div className="errorMessage">
-                {formErrorMessege && <i className="errorMessage"> {formErrorMessege} </i>}
-                </div>
+
                 <a href='#' onClick={forgotPassHandle}>Forgot Password?</a>
                 <p href='#'>Don't have an account? <span><Link to="/signup">Sign Up</Link></span></p>
             </div>
