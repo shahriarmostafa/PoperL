@@ -24,6 +24,26 @@ export default function CallProvider({ children }) {
   const [callLeavingUID, setCallLeavingUID] = useState("");
   const [callStatus, setCallStatus] = useState("Ringing");
   const [callData, setCallData] = useState(null);
+  const [callTimeoutId, setCallTimeoutId] = useState(null);
+
+
+
+//play ringtone for call
+const playRingtone = () => {
+  window.ringtoneAudio = new Audio("/ringtone.mp3");
+  window.ringtoneAudio.loop = true;
+  window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+};
+
+// // Listen for messages from the service worker
+// navigator.serviceWorker.addEventListener("message", (event) => {
+//   if (event.data && event.data.callType === "incoming") {
+//   }
+// });
+
+
+
+
 
   //whiteboard uuid
   const [UUID, setUUID] = useState(null);
@@ -59,6 +79,45 @@ export default function CallProvider({ children }) {
 
   const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
 
+
+
+  //for future
+
+  // useEffect(() => {
+  //   if (!UID) return;
+    
+  //   const handleVisibilityChange = async () => {
+  //     if (document.hidden && callStatus === "Ringing") {
+  //       console.log("User switched screen during ringing, marking as missed...");
+  //       await setDoc(doc(db, "calls", UID), { status: "missed" }, { merge: true });
+  //       setCallStatus("missed");
+  //     }
+  //   };
+  
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  // }, [UID, callStatus]);
+  // useEffect(() => {
+  //   const handleAppExit = async () => {
+  //     if (callStatus === "ringing") {
+  //       console.log("App closed or refreshed during ringing, marking as missed...");
+  //       await setDoc(doc(db, "calls", UID), { status: "missed" }, { merge: true });
+  //       setCallStatus("missed");
+  //     }
+  //   };
+  
+  //   window.addEventListener("beforeunload", handleAppExit);
+  
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleAppExit);
+  //   };
+  // }, [UID, callStatus]);
+  
+  
+
   
 
   function initializeClient() {
@@ -90,6 +149,24 @@ export default function CallProvider({ children }) {
       setCallStatus("Ringing")
       listenForCallReceive(uid);
       joinChannel(channelName, token, uid);
+
+      // Set a timeout for 30 seconds
+  const timeoutId = setTimeout(async () => {
+    if (callStatus === "Ringing") { 
+      await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
+      setCallStatus("missed");
+
+      if (rtc.localAudioTrack) {
+        rtc.localAudioTrack.close();
+      }
+      if (rtc.client) {
+        await rtc.client.leave();
+      }
+    }
+  }, 40000); // 30 seconds
+
+  // Store timeoutId to clear it later if needed
+  setCallTimeoutId(timeoutId);
     };
 
   
@@ -151,6 +228,8 @@ export default function CallProvider({ children }) {
           setCallStatus("ringing");
           setCallData(callData);
           setShowCallUi(true);
+          playRingtone();
+
         }
       }
     });
@@ -176,6 +255,13 @@ export default function CallProvider({ children }) {
         }
 
       }
+      if (docSnapshot.exists() && docSnapshot.data().status === "missed") {
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio.currentTime = 0;
+        }
+        setCallStatus("missed");
+      }
     });
   };
 
@@ -184,9 +270,11 @@ export default function CallProvider({ children }) {
     return onSnapshot(callRef, async(docSnapshot) => {
       if(docSnapshot.exists() && docSnapshot.data().status === "accepted"){
         setCallStatus("accepted");
+        clearTimeout(callTimeoutId); // Stop the timeout
       }
       if(docSnapshot.exists() && docSnapshot.data().status === "rejected"){
         setCallStatus("rejected");
+        clearTimeout(callTimeoutId); // Stop the timeout
         if (rtc.localAudioTrack) {
           rtc.localAudioTrack.close();
         }

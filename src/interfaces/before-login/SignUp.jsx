@@ -6,6 +6,8 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { requestForToken } from '../../firebase/firebase.init';
+import axios from 'axios';
 
 export default function SignUp(){
 
@@ -15,6 +17,7 @@ export default function SignUp(){
     const axiosSecure = useAxiosSecure()
 
     const navigate = useNavigate();
+
 
     //handling sign up form submit
 
@@ -61,9 +64,10 @@ export default function SignUp(){
             email: res.user?.email,
             displayName: res.user?.displayName,
             photoURL: res.user?.providerData[0]?.photoURL,
+            FCMToken: await requestForToken() || null
           };
       
-          await axiosSecure.post("/newStudent", userInDataBase);
+          await axios.post("https://backend-eta-blue-92.vercel.app/newStudent", userInDataBase);
       
           // Navigate to chat and complete the flow
           Swal.resumeTimer();

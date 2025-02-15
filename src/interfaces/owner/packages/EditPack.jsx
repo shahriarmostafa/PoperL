@@ -1,5 +1,3 @@
-import Sidebar from '../shared/Sidebar/Bar';
-import Nav from '../shared/navbar/Nav';
 import '../admin.css';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
@@ -26,24 +24,16 @@ export default function EditPack(){
     }
 
     return (
-        <section className="admin owner">
-            <div className="display d-flex">
-                <Sidebar></Sidebar>
-                <div className="view">
-                    <Nav></Nav>
-                    <div className="analytics">
-                    <div className="form">
-                        <h3 className="headline">Edit {specificPack.packageName} Pack</h3>
-                        <form onSubmit={handleEdit}>
-                            <input name="packageName" type="text" placeholder="Enter the new name"/>
-                            <input name="price" type="number" placeholder="Enter the new price"/>
-                            <input type="submit" className="show-all"/>
-                        </form>
-                    </div>
-                    </div>
-                </div>
+        <div className="analytics">
+            <div className="form">
+                <h3 className="headline">Edit {specificPack.packageName} Pack</h3>
+                <form onSubmit={handleEdit}>
+                    <input name="packageName" type="text" placeholder="Enter the new name"/>
+                    <input name="price" type="number" placeholder="Enter the new price"/>
+                    <input type="submit" className="show-all"/>
+                </form>
             </div>
-        </section>
+        </div>
 
     )
 }

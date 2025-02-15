@@ -1,4 +1,4 @@
-import auth from '../../firebase/firebase.init';
+import auth, { requestForToken } from '../../firebase/firebase.init';
 import { sendPasswordResetEmail} from 'firebase/auth';
 import { useContext, useRef, useState } from 'react';
 import { FaEye, FaEyeSlash  } from "react-icons/fa";
@@ -58,6 +58,8 @@ export default function SignIn(){
               icon: "success",
               title: "Signed in successfully!",
             });
+
+            requestForToken();
           })
           .catch((err) => {
             // Handle errors and stop the timer
@@ -70,6 +72,7 @@ export default function SignIn(){
               text: err.message,
             });
           });
+
       };
       
     function changeIcon(){

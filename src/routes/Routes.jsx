@@ -14,6 +14,7 @@ import Packages from '../interfaces/owner/packages/Packages';
 import AddPackage from '../interfaces/owner/packages/AddPackage';
 import EditPack from '../interfaces/owner/packages/EditPack';
 import Maintainance from "../Layout/Maintainance";
+import Teachers from "../interfaces/owner/Teachers/Teachers";
 
 //Student after login
 import Chat from "../interfaces/Private/Chat/Chat";
@@ -74,10 +75,14 @@ const router = createBrowserRouter([
         path: 'maintainance',
         element: <Maintainance></Maintainance>,
         children: [
-            {
+              {
                 path: 'admins',
                 element: <Change></Change>,
                 loader: () => fetch("https://backend-eta-blue-92.vercel.app/user")
+              },
+              {
+                path: "teachers",
+                element: <Teachers></Teachers>
               },
               {
                 path: 'add-admin',

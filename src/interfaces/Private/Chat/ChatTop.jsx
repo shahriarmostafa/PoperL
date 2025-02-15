@@ -6,7 +6,27 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { CallContext } from "../../../providers/CallProvider";
 
-export default function ChatTop({ profileImg, userName, channel, callerID, receiverID }) {
+export default function ChatTop({channel, callerID, receiver, callerName}) {
+
+  const receiverID = receiver?.uid;
+  const userName = receiver?.displayName;
+  const profileImg = receiver?.profileImage;
+  const FCMToken = receiver?.FCMToken;
+
+  //nottification information
+  const [nottificationToken, setNottificationToken] = useState("");
+
+  //sending nottification
+  const sendNottification = async () => {
+      setNottificationToken(FCMToken);
+      if(!nottificationToken || !callerID || !callerName){
+          console.log("FCM and token not found");
+          return;
+      }
+      await axios.post("https://backend-eta-blue-92.vercel.app/send-call-notification", { nottificationToken, callerName, callerID });
+      
+  }
+
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
@@ -69,6 +89,9 @@ export default function ChatTop({ profileImg, userName, channel, callerID, recei
 
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, uid);
+
+    sendNottification();
+    
   };
 
   

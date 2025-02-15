@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { MdCallEnd } from 'react-icons/md';
 import { CallContext } from '../../../../providers/CallProvider';
 
@@ -36,8 +36,13 @@ const CallUI = ({ status, callEndingId, callData }) => {
   const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi} = useContext(CallContext);
 
   const acceptCallHandler = () => {
+    stopRingtone();
     acceptCall(callData);
     setSeconds(0)
+  }
+  const rejectCallHandler = () => {
+    stopRingtone();
+    rejectCall(callEndingId);    
   }
 
   const endCall = async () => {
@@ -52,6 +57,15 @@ const CallUI = ({ status, callEndingId, callData }) => {
   const hideCallView = () => {
     setShowCallUi(false)
   }
+
+
+  //stop ringtone
+  const stopRingtone = () => {
+    if (window.ringtoneAudio) {
+      window.ringtoneAudio.pause();
+      window.ringtoneAudio.currentTime = 0;
+    }
+  };
 
 
   return (
@@ -73,7 +87,7 @@ const CallUI = ({ status, callEndingId, callData }) => {
           status === "ringing" && 
           <div className="accept-reject d-flex justify-content-center">
             <button onClick={acceptCallHandler} className="accept btn btn-primary mx-2">Accept</button>
-            <button onClick={() => rejectCall(callEndingId)} className="accept btn btn-danger">Reject</button>
+            <button onClick={rejectCallHandler} className="reject btn btn-danger">Reject</button>
           </div> 
         }
         {
@@ -96,7 +110,7 @@ const CallUI = ({ status, callEndingId, callData }) => {
         }
         
         {
-          (status === "rejected" ||  status === "ended") &&
+          (status === "rejected" ||  status === "ended" || status === "missed") &&
           <div onClick={hideCallView} className="ok-button">
             <button className="btn btn-danger">Done</button>
           </div>

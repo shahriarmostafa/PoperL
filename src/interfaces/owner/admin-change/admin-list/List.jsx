@@ -26,9 +26,9 @@ export default function List(){
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
-                {varAdmins.map(x => {
+                {/* {varAdmins.map(x => {
                     return <ListItem key={x._id} name={x.userName} id={x._id} action={handleDelete}></ListItem>
-                })}
+                })} */}
             </tbody>
         </table>
             

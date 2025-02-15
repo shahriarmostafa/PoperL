@@ -11,7 +11,11 @@ import voiceMessageGiff from '../../../assests/frequency-17048_128.gif';
 
 //supabase storage data
 import { createClient } from "@supabase/supabase-js";
+
+//tools
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { resizeImage } from '../../../providers/ImageResizer';
 
 export default function ChatBox(){
     //setup of supabase storage
@@ -19,14 +23,36 @@ export default function ChatBox(){
     const anonkey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91eXd5d2lwYWhzcW53aGpyc2doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMjAwMDAsImV4cCI6MjA1NDY5NjAwMH0.cnu01awFpyLQMMmTBXdKgIMLIqEnW97X62lTUCDcxGU";
     const supabase = createClient(public_url, anonkey);
 
+    //nottification information
+    const [nottificationToken, setNottificationToken] = useState("");
+    const [senderName, setSenderName] = useState("");
 
+    //sending nottification
+    const sendNottification = async (nottificationMessage) => {
+        
+        setNottificationToken(receiver?.FCMToken);
+        setSenderName(user?.displayName);
+        if(!nottificationToken || ! nottificationMessage){
+            console.log("FCM and token not found");
+            return;
+        }
+        await axios.post("https://backend-eta-blue-92.vercel.app/send-notification", { senderName, nottificationToken, nottificationMessage });
+        
+    }
+
+
+
+
+    //chat informations
     const [chats, setChats] = useState([]);
     const [lastMessageMntsAgo, setLastMessageMntsAgo] = useState(0);
-
-    const {chatId, receiver, yourRole} = getChatBoxData();
+    const {chatId, receiver} = getChatBoxData();
     
+    //auth infromations
     const {user} = useContext(AuthContext);
+    
 
+    //chat control
     const endRef = useRef(null);
     const inputRef = useRef(null);
     const [uploadingImg, setUploadingImg] = useState(false);
@@ -53,60 +79,7 @@ export default function ChatBox(){
     }, [chatId]);
 
     //resize image
-    const resizeImage = (file, maxWidth = 1000, maxHeight = 1000) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            const reader = new FileReader();
     
-            reader.onload = () => {
-                img.onload = () => {
-                    // Create a canvas and set the desired width and height
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-    
-                    let width = img.width;
-                    let height = img.height;
-    
-                    // Calculate the new size, keeping the aspect ratio
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height = (height * maxWidth) / width;
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width = (width * maxHeight) / height;
-                            height = maxHeight;
-                        }
-                    }
-    
-                    // Set the canvas size to the new dimensions
-                    canvas.width = width;
-                    canvas.height = height;
-    
-                    // Draw the image on the canvas
-                    ctx.drawImage(img, 0, 0, width, height);
-    
-                    // Convert the canvas back to a file
-                    canvas.toBlob((blob) => {
-                        if (blob) {
-                            const resizedFile = new File([blob], file.name, {
-                                type: file.type,
-                            });
-                            resolve(resizedFile);
-                        } else {
-                            reject("Failed to resize image");
-                        }
-                    }, file.type);
-                };
-    
-                img.src = reader.result;
-            };
-    
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    };
 
 
     //download image
@@ -168,7 +141,7 @@ const startRecording = async () => {
             const audioBlob = new Blob(chunks, { type: "audio/webm" });
             stream.getTracks().forEach(track => track.stop()); // ✅ Stop the mic stream
 
-            if (isRecording) { 
+            if (isRecording) {                 
                 await sendVoiceMessage(audioBlob);  // ✅ Only send if not canceled
             }
         };
@@ -217,7 +190,6 @@ const startRecording = async () => {
 
 
     const sendVoiceMessage = async (newBlob) => {
-        console.log(newBlob);
         if (!newBlob) return;
     
         const fileName = `${Date.now()}.webm`;
@@ -252,20 +224,20 @@ const startRecording = async () => {
                     const finalData = userChatData.data();
                     const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
                     if (chatIndex !== -1) {
-                        finalData.chats[chatIndex].lastMessage = "🎧 Audio";
+                        finalData.chats[chatIndex].lastMessage = "🎙️ Voice Message";
                         finalData.chats[chatIndex].isSeen = id === user.uid;
                         finalData.chats[chatIndex].updatedAt = Date.now();
                         await updateDoc(userChatRef, { chats: finalData.chats });
                     }
                 }
             }
+            sendNottification("🎙️ Sent a Voice Message.")
     
             setIsRecording(false);  // ✅ Moved outside the loop (only runs once)
         } catch (err) {
             alert("Something wrong with sending message");
         }
     
-        inputRef.current.focus();
     };
 
     
@@ -277,7 +249,6 @@ const startRecording = async () => {
         event.target.message.focus();
         const text = event.target.message.value;
         const imageFile = event.target.image.files[0] ? event.target.image.files[0] : null;
-        
         if (imageFile) {
             setUploadingImg(true);
             try {
@@ -352,6 +323,7 @@ const startRecording = async () => {
             console.log(err);
         }
         inputRef.current.focus();
+        sendNottification(text || "📷 Sent an Image");
 
     }
          
@@ -361,7 +333,7 @@ const startRecording = async () => {
         <div className="chat-page">
             <section className="chat night-view">
                     <div className="chat-box">
-                        <ChatTop callerID={user.uid} receiverID={receiver.uid} channel={chatId} userName={yourRole !="teacher"? "Student" : receiver?.displayName} profileImg={receiver?.photoURL}></ChatTop>
+                        <ChatTop callerID={user.uid} receiver={receiver} channel={chatId} callerName={user?.displayName}></ChatTop>
                         <div className="container conversation">
                             <div className="all-message">
                                 {

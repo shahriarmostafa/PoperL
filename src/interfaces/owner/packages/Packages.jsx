@@ -1,5 +1,3 @@
-import Sidebar from '../shared/Sidebar/Bar';
-import Nav from '../shared/navbar/Nav';
 import {Link, useLoaderData} from 'react-router-dom';
 import Pack from './Pack';
 import '../admin.css';
@@ -24,26 +22,17 @@ export default function Packages(){
                
     }
     return (
-        <section className="admin owner">
-            <div className="display d-flex">
-                <Sidebar></Sidebar>
-                <div className="view">
-                    <Nav></Nav>
-                    <div className="analytics">
-                        <div className="redi-buttons mb-4 d-flex">
-                            <Link to="/add-package">
-                                <button className="show-all">Add New Package</button>
-                            </Link>
-                        </div>
-                        <div className="packages">
-                            {loadedPackages.map(x => {
-                                return <Pack id={x._id} deletePack={handleDelete} key={x._id} packName={x.packageName} price={x.price} packageLimit={x.duration}></Pack>
-                            })}
-                        </div>
-                    </div>
-                </div>
+        <div className="analytics">
+            <div className="redi-buttons mb-4 d-flex">
+                <Link to="/maintainance/add-package">
+                    <button className="show-all">Add New Package</button>
+                </Link>
             </div>
-        </section>
-
+            <div className="packages">
+                {/* {loadedPackages.map(x => {
+                    return <Pack id={x._id} deletePack={handleDelete} key={x._id} packName={x.packageName} price={x.price} packageLimit={x.duration}></Pack>
+                })} */}
+            </div>
+        </div>
     )
 }

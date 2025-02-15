@@ -1,5 +1,3 @@
-import Sidebar from '../shared/Sidebar/Bar';
-import Nav from '../shared/navbar/Nav';
 import '../admin.css';
 import { useNavigate } from 'react-router-dom';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
@@ -25,25 +23,17 @@ export default function AddPackage(){
         
     }
     return (
-        <section className="admin owner">
-            <div className="display d-flex">
-                <Sidebar></Sidebar>
-                <div className="view">
-                    <Nav></Nav>
-                    <div className="analytics">
-                    <div className="form ">
-                        <h3 className="headline">Add Package</h3>
-                        <form onSubmit={submitHandler}>
-                            <input name="packageName" type="text" placeholder="Enter Package Name"/>
-                            <input name="duration" type="number" placeholder="Enter duration(Hour)"/>
-                            <input name="price" type="number" placeholder="Enter the price"/>
-                            <input type="submit" className="show-all"/>
-                        </form>
-                    </div>
-                    </div>
-                </div>
+        <div className="analytics">
+            <div className="form ">
+                <h3 className="headline">Add Package</h3>
+                <form onSubmit={submitHandler}>
+                    <input name="packageName" type="text" placeholder="Enter Package Name"/>
+                    <input name="duration" type="number" placeholder="Enter duration(Hour)"/>
+                    <input name="price" type="number" placeholder="Enter the price"/>
+                    <input type="submit" className="show-all"/>
+                </form>
             </div>
-        </section>
+        </div>
 
     )
 }

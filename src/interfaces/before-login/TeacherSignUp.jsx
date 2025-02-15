@@ -6,6 +6,8 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { requestForToken } from '../../firebase/firebase.init';
+import axios from 'axios';
 
 export default function TeacherSignUp(){
 
@@ -73,12 +75,13 @@ export default function TeacherSignUp(){
             ownerOfGroup: null,
             groupMembers: [],
             approved: false, // Default approval status
+            FCMToken: await requestForToken()
           };
       
           // Step 4: Add user data to the database
           Swal.resumeTimer();
           Swal.stopTimer();
-          await axiosSecure.post("/newTeacher", userInDataBase);
+          await axios.post("https://backend-eta-blue-92.vercel.app/newTeacher", userInDataBase);
       
           // Step 5: Navigate to chat after successful completion
           Swal.resumeTimer();
@@ -99,6 +102,7 @@ export default function TeacherSignUp(){
       
           Swal.stopTimer();
         }
+
       };
       
 

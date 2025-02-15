@@ -3,9 +3,13 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { requestForToken } from "../../firebase/firebase.init";
 
 
 export default function Home(){
+
+  requestForToken()
+  
 
     const {user, logOut} = useContext(AuthContext);
 
@@ -55,9 +59,10 @@ export default function Home(){
         if (true) {
         return (
           <div className="home">
-            <Link to="/maintainance/admins">Admin</Link>
-            <Link to="/complain">Complain</Link>
-  
+            <Link to="/maintainance/admins" className="btn btn-danger">Admin</Link>
+            <Link to="/complain" className="btn btn-danger">Complain</Link>
+            <Link to="/maintainance/teacherList" className="btn btn-danger">Teachers</Link>
+
               <div className="user">
                   {user?.displayName}
               </div>
