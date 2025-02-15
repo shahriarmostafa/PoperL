@@ -30,7 +30,7 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID  } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID, setCallStatus } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {
