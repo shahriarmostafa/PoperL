@@ -26,7 +26,7 @@ export default function SignIn(){
         const token = await requestForToken();
         if(!token) return;
         if(!uid) await uid;
-        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token});;
+        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token, uid});;
     }
 
 
