@@ -7,8 +7,6 @@ import { requestForToken } from "../../firebase/firebase.init";
 
 
 export default function Home(){
-
-  requestForToken()
   
 
     const {user, logOut} = useContext(AuthContext);
