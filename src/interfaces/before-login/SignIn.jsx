@@ -11,22 +11,25 @@ import axios from 'axios';
 export default function SignIn(){
     const [showPassword, setShowPassword] = useState(false);
 
-    const {userSignIn, user}= useContext(AuthContext);
+    const {userSignIn}= useContext(AuthContext);
+
 
 
     const location = useLocation()
     const navigate = useNavigate();
 
+    
+
+    
+
 
 
     //setting the nottification
 
-    const setTokenToDataBase = async() => {
-        const uid = user?.uid;
+    const setTokenToDataBase = async(uid) => {
         const token = await requestForToken();
-        if(!token) return;
-        if(!uid) await uid;
-        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token, uid});;
+        if (!token) return;
+        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token, uid});
     }
 
 
@@ -61,6 +64,9 @@ export default function SignIn(){
           .then((result) => {
             // Reset the form
             e.target.reset();
+            
+            setTokenToDataBase(result.user.uid);
+
       
             // Navigate to the intended page or fallback to the default route
             navigate(location?.state || "/");
@@ -72,7 +78,6 @@ export default function SignIn(){
               title: "Signed in successfully!",
             });
 
-            setTokenToDataBase();
 
             
           })
