@@ -22,7 +22,7 @@ export default function CallProvider({ children }) {
   //call ui setup
   const [showCallUi , setShowCallUi] = useState(false);
   const [callLeavingUID, setCallLeavingUID] = useState("");
-  const [callStatus, setCallStatus] = useState("Ringing");
+  const [callStatus, setCallStatus] = useState("");
   const [callData, setCallData] = useState(null);
   const [callTimeoutId, setCallTimeoutId] = useState(null);
 
@@ -146,7 +146,6 @@ const playRingtone = () => {
 
   // Updated UI to open whiteboard from context
     const startAudioCallUI = (channelName, token, uid) => {
-      setCallStatus("Ringing")
       listenForCallReceive(uid);
       joinChannel(channelName, token, uid);
 
@@ -340,6 +339,7 @@ const playRingtone = () => {
     setCallLeavingUID,
     acceptCall,
     rejectCall,
+    setCallStatus
   };
   
   return (

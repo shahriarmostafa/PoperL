@@ -42,8 +42,10 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
 
   const initiateCall = async (callerId, receiverId) => {
 
+    setCallStatus("Ringing")
     setCallLeavingUID(receiverId);
     setShowCallUi(true);
+
 
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
@@ -85,7 +87,6 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
       }
 
     }
-
 
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, uid);
