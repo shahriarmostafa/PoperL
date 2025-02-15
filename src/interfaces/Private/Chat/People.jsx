@@ -8,7 +8,6 @@ import { db } from "../../../firebase/firebase.init";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { storeChatList } from "../../../Hooks/storeChatList";
-import GetClickDetection from "../../../Hooks/getClickDetection";
 
 
 export default function People(){
@@ -23,10 +22,7 @@ export default function People(){
     
     const {fetchedChatListData, setFetchedData} = storeChatList();
 
-    const handleClick = () => {
-        setFetchedData(chatList);
-        
-    } 
+    
 
     
     const handleTouch = () => {
@@ -86,7 +82,6 @@ export default function People(){
                             return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole, x.isSeen)} isSeen={x.isSeen} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.yourRole == "student"? `Student ${index + 1}`: x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
                         })
                     }
-                    <b>Refreshing Chat...</b>
                 </div>
             </div>
         )
@@ -104,7 +99,6 @@ export default function People(){
     
         return(
             <div className="left-side">
-                <GetClickDetection handleClick={handleClick}></GetClickDetection>
                 <div className="chat-list">
 
                     {

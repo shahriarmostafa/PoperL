@@ -22,26 +22,29 @@ const messaging = firebase.messaging();
 
 
 self.addEventListener("push", (event) => {
-  const data = event.data.json();
+  const data = event.data.json(); // Parses the push data into a JS object
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
       if (clientList.length === 0) {
         // App is NOT open, show notification
-        let title = "Notification";
-        let body = "You have a new message.";
+        let title;
+        let body;
         let icon = "/favicon.ico";
         let notificationData = {};
 
-        if (data.payload.callType === "incoming") {
-          title = data.payload.callerName || "Incoming Call";
+        // If it's an incoming call notification
+        if (data.data?.callType === "incoming") {
+          title = data.data?.callerName || "Incoming Call";
           body = "Incoming call...";
-          notificationData = { callerId: data.callerId };
-        } else if (data.payload.title && data.body) {
-          title = data.title;
-          body = data.body;
+          notificationData = { callerId: data.data.callerId };
+        } else if (data.notification?.title && data.notification?.body) {
+          // If it's a message notification
+          title = data.notification.title;
+          body = data.notification.body;
         }
 
+        // Show the notification
         self.registration.showNotification(title, {
           body,
           icon,
@@ -51,6 +54,27 @@ self.addEventListener("push", (event) => {
     })
   );
 });
+
+// messaging.onBackgroundMessage((payload) => {
+//   console.log("Received background message", payload);
+
+//   if (payload.data?.callType === "incoming") {  // ✅ Handle call notifications
+//     self.registration.showNotification(payload.notification.title, {
+//       body: "Incoming call...",
+//       icon: "/call-icon.png",
+//       data: {
+//         callerId: payload.data.callerId
+//       }
+//     });
+//   } else {  // Handle normal notifications
+//     self.registration.showNotification(payload.notification.title, {
+//       body: payload.notification.body,
+//       icon: "/favicon.ico",
+//     });
+//   }
+// });
+
+
 
 
 

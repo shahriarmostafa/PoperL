@@ -31,15 +31,9 @@ export default function CallProvider({ children }) {
 //play ringtone for call
 const playRingtone = () => {
   window.ringtoneAudio = new Audio("/ringtone.mp3");
-  window.ringtoneAudio.loop = true;
   window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
 };
 
-// // Listen for messages from the service worker
-// navigator.serviceWorker.addEventListener("message", (event) => {
-//   if (event.data && event.data.callType === "incoming") {
-//   }
-// });
 
 
 

@@ -2,12 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { AuthContext } from "../providers/AuthProvider";
 import { db } from "../firebase/firebase.init";
+import { storeChatList } from "./storeChatList";
+
 
 export default function useChatList() {
   const { user } = useContext(AuthContext);
   const [chatList, setChatList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const {fetchedChatListData, setFetchedData} = storeChatList();
+
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -32,6 +37,8 @@ export default function useChatList() {
           // Sort chat data by `updatedAt`
           const sortedChatData = chatData.sort((a, b) => b.updatedAt - a.updatedAt);
 
+          setFetchedData(sortedChatData);
+
           setChatList(sortedChatData);
         } catch (err) {
           console.error("Error fetching chat list:", err);
@@ -46,7 +53,6 @@ export default function useChatList() {
         setLoading(false);
       }
     );
-
     return () => unSub(); // Cleanup listener on component unmount
   }, [user?.uid]);
 
