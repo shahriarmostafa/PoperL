@@ -18,6 +18,8 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
 
   //sending nottification
   const sendNottification = async () => {
+    console.log(callerName);
+    
       setNottificationToken(FCMToken);
       if(!nottificationToken || !callerID || !callerName){
           console.log("FCM and token not found");

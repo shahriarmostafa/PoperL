@@ -259,6 +259,10 @@ const playRingtone = () => {
           window.ringtoneAudio.pause();
           window.ringtoneAudio.currentTime = 0;
         }
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio.currentTime = 0;
+        }
         setCallStatus("missed");
       }
     });
