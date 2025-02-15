@@ -63,7 +63,7 @@ const playRingtone = () => {
     console.log("Called");
     
     try {
-      const response = await axios.post("http://backend-eta-blue-92.vercel.app/create-whiteboard-room", {
+      const response = await axios.post("https://backend-eta-blue-92.vercel.app/create-whiteboard-room", {
       });
       return response.data;
     } catch (error) {

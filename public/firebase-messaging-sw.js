@@ -7,10 +7,12 @@ self.addEventListener("push", (event) => {
         // App is NOT open, show notification
         let title = "Notification";
         let body = "You have a new message.";
-        let icon = "/favicon.ico";
+        let icon = "./favicon.ico";
         let notificationData = {};
 
         if (data.callType === "incoming") {
+          const audio = new Audio("./ringtone.mp3"); // Provide the path to your sound file
+          audio.play().catch((error) => console.error("Audio play error:", error));
           title = data.callerName || "Incoming Call";
           body = "Incoming call...";
           notificationData = { callerId: data.callerId };
