@@ -33,7 +33,7 @@ const CallUI = ({ status, callEndingId, callData }) => {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
-  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi} = useContext(CallContext);
+  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi, setCallStatus} = useContext(CallContext);
 
   const acceptCallHandler = () => {
     stopRingtone();
@@ -55,7 +55,8 @@ const CallUI = ({ status, callEndingId, callData }) => {
   }
 
   const hideCallView = () => {
-    setShowCallUi(false)
+    setShowCallUi(false);
+    setCallStatus("Ringing")
   }
 
 
@@ -63,7 +64,7 @@ const CallUI = ({ status, callEndingId, callData }) => {
   const stopRingtone = () => {
     if (window.ringtoneAudio) {
       window.ringtoneAudio.pause();
-      window.ringtoneAudio.currentTime = 0;
+      window.ringtoneAudio = null
     }
   };
 

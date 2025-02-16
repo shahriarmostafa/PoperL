@@ -22,16 +22,38 @@ export default function CallProvider({ children }) {
   //call ui setup
   const [showCallUi , setShowCallUi] = useState(false);
   const [callLeavingUID, setCallLeavingUID] = useState("");
-  const [callStatus, setCallStatus] = useState("");
+  const [callStatus, setCallStatus] = useState("Ringing");
   const [callData, setCallData] = useState(null);
-  const [callTimeoutId, setCallTimeoutId] = useState(null);
+  // const [callTimeoutId, setCallTimeoutId] = useState(null);
+
+  let callTimeoutId;
+
+  const startTimeout = (uid) => {
+    callTimeoutId = setTimeout(async () => {        
+      if (callStatus === "Ringing") { 
+        await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
+        setCallStatus("missed");
+  
+        if (rtc.localAudioTrack) {
+          rtc.localAudioTrack.close();
+        }
+        if (rtc.client) {
+          await rtc.client.leave();
+        }
+      }
+    }, 40000);
+  };
+  
+
 
 
 
 //play ringtone for call
 const playRingtone = () => {
-  window.ringtoneAudio = new Audio("/ringtone.mp3");
-  window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+  if (!window.ringtoneAudio) {
+    window.ringtoneAudio = new Audio("/ringtone.mp3");
+    window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+  }
 };
 
 
@@ -140,27 +162,36 @@ const playRingtone = () => {
 
   // Updated UI to open whiteboard from context
     const startAudioCallUI = (channelName, token, uid) => {
+
       listenForCallReceive(uid);
       joinChannel(channelName, token, uid);
 
-      // Set a timeout for 30 seconds
-  const timeoutId = setTimeout(async () => {
-    if (callStatus === "Ringing") { 
-      await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
-      setCallStatus("missed");
 
-      if (rtc.localAudioTrack) {
-        rtc.localAudioTrack.close();
-      }
-      if (rtc.client) {
-        await rtc.client.leave();
-      }
-    }
-  }, 40000); // 30 seconds
+      startTimeout(uid); // Starts the timeout
 
-  // Store timeoutId to clear it later if needed
-  setCallTimeoutId(timeoutId);
-    };
+        
+      // // Set a timeout for 30 seconds
+
+
+      // const timeoutId =  setTimeout(async () => {        
+        
+      //   if (callStatus === "Ringing") { 
+      //     await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
+      //     setCallStatus("missed");
+
+      //     if (rtc.localAudioTrack) {
+      //       rtc.localAudioTrack.close();
+      //     }
+      //     if (rtc.client) {
+      //       await rtc.client.leave();
+      //     }
+      //   }
+      // }, 40000); // 40 seconds
+
+      // Store timeoutId to clear it later if needed
+      // setCallTimeoutId(timeoutId);
+      
+      };
 
   
 
@@ -240,6 +271,10 @@ const playRingtone = () => {
     return onSnapshot(callRef, async (docSnapshot) => {
       if (docSnapshot.exists() && docSnapshot.data().status === "ended") {
         setCallStatus("ended");
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio.currentTime = 0;
+        }
         if (rtc.localAudioTrack) {
           rtc.localAudioTrack.close();
         }
@@ -252,10 +287,7 @@ const playRingtone = () => {
         if (window.ringtoneAudio) {
           window.ringtoneAudio.pause();
           window.ringtoneAudio.currentTime = 0;
-        }
-        if (window.ringtoneAudio) {
-          window.ringtoneAudio.pause();
-          window.ringtoneAudio.currentTime = 0;
+          window.ringtoneAudio = null
         }
         setCallStatus("missed");
       }
@@ -267,7 +299,7 @@ const playRingtone = () => {
     return onSnapshot(callRef, async(docSnapshot) => {
       if(docSnapshot.exists() && docSnapshot.data().status === "accepted"){
         setCallStatus("accepted");
-        clearTimeout(callTimeoutId); // Stop the timeout
+         clearTimeout(callTimeoutId); // Stop the timeout
       }
       if(docSnapshot.exists() && docSnapshot.data().status === "rejected"){
         setCallStatus("rejected");

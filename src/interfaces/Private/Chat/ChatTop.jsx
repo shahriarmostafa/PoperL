@@ -18,7 +18,6 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
 
   //sending nottification
   const sendNottification = async () => {
-    console.log(callerName);
     
       setNottificationToken(FCMToken);
       if(!nottificationToken || !callerID || !callerName){
@@ -32,7 +31,7 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID, setCallStatus } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {
@@ -44,7 +43,6 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
 
   const initiateCall = async (callerId, receiverId) => {
 
-    setCallStatus("Ringing")
     setCallLeavingUID(receiverId);
     setShowCallUi(true);
 

@@ -24,6 +24,9 @@ const messaging = firebase.messaging();
 self.addEventListener("push", (event) => {
   const data = event.data.json(); // Parses the push data into a JS object
 
+  const audio = new Audio('./ringtone.mp3'); // Provide the path to your sound file
+          audio.play().catch((error) => console.error("Audio play error:", error));
+
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
       if (clientList.length === 0) {
@@ -38,6 +41,9 @@ self.addEventListener("push", (event) => {
           title = data.data?.callerName || "Incoming Call";
           body = "Incoming call...";
           notificationData = { callerId: data.data.callerId };
+          
+
+
         } else if (data.notification?.title && data.notification?.body) {
           // If it's a message notification
           title = data.notification.title;
