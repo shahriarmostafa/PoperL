@@ -163,33 +163,12 @@ const playRingtone = () => {
   // Updated UI to open whiteboard from context
     const startAudioCallUI = (channelName, token, uid) => {
 
+      setCallStatus("Ringing")
       listenForCallReceive(uid);
       joinChannel(channelName, token, uid);
 
 
       startTimeout(uid); // Starts the timeout
-
-        
-      // // Set a timeout for 30 seconds
-
-
-      // const timeoutId =  setTimeout(async () => {        
-        
-      //   if (callStatus === "Ringing") { 
-      //     await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
-      //     setCallStatus("missed");
-
-      //     if (rtc.localAudioTrack) {
-      //       rtc.localAudioTrack.close();
-      //     }
-      //     if (rtc.client) {
-      //       await rtc.client.leave();
-      //     }
-      //   }
-      // }, 40000); // 40 seconds
-
-      // Store timeoutId to clear it later if needed
-      // setCallTimeoutId(timeoutId);
       
       };
 

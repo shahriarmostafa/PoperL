@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
 import { db } from "../../../firebase/firebase.init";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import axios from "axios";
 import { useContext, useState } from "react";
 import { CallContext } from "../../../providers/CallProvider";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 export default function ChatTop({channel, callerID, receiver, callerName}) {
 
@@ -13,18 +13,20 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
   const profileImg = receiver?.profileImage;
   const FCMToken = receiver?.FCMToken;
 
+  const axiosSecure = useAxiosSecure();
+
   //nottification information
-  const [nottificationToken, setNottificationToken] = useState("");
 
   //sending nottification
-  const sendNottification = async () => {
+  const sendNottification = async (nottificationToken) => {
     
-      setNottificationToken(FCMToken);
+      console.log(nottificationToken, callerID, callerName);
+      
       if(!nottificationToken || !callerID || !callerName){
           console.log("FCM and token not found");
           return;
       }
-      await axios.post("https://backend-eta-blue-92.vercel.app/send-call-notification", { nottificationToken, callerName, callerID });
+      await axiosSecure.post("/send-call-notification", { nottificationToken, callerName, callerID });
       
   }
 
@@ -34,7 +36,7 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
   const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
-    const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-token", {
+    const response = await axiosSecure.post("/generate-token", {
       channelName,
       receiverID,
     });
@@ -91,7 +93,7 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, uid);
 
-    sendNottification();
+    sendNottification(FCMToken);
     
   };
 

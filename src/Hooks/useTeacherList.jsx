@@ -4,12 +4,12 @@ import useAxiosSecure from "./useAxiosSecure";
 export default function useTeacherList(){
     const axiosSecure = useAxiosSecure();
 
-    const {isLoading, data: teacherList = []} = useQuery({
+    const {isLoading, data: teacherList = [], refetch} = useQuery({
         queryKey: ["teacherList"],
         queryFn: async() => {
             const res = await axiosSecure.get("/teacherList")
             return res.data.teachers
         }
     })    
-    return [isLoading, teacherList]
+    return [isLoading, teacherList, refetch]
 }

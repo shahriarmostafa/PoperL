@@ -61,10 +61,7 @@ export default function Home(){
             <Link to="/complain" className="btn btn-danger">Complain</Link>
             <Link to="/maintainance/teacherList" className="btn btn-danger">Teachers</Link>
 
-              <div className="user">
-                  {user?.displayName}
-              </div>
-              <button onClick={handleLogOut}>Sign Out</button>
+  
               <hr />
               <Link to="/subscription"><button>Ghuira dekho?</button></Link>
               <Link to="/chat"><button className="btn btn-success">Chat</button></Link>
@@ -85,6 +82,18 @@ export default function Home(){
               handleInstallClick()
             }
           })
+          
+        }
+        else{
+          return(
+            <>
+              <div className="user">
+                  {user?.displayName}
+              </div>
+              <button className="btn btn-danger" onClick={handleLogOut}>Sign Out</button>
+            </>
+          )
+          
         }
       }
 }

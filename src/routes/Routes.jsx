@@ -24,6 +24,7 @@ import Subscription from '../interfaces/general/Subscription';
 import UserPrivateRouter from './UserPrivateRouter';
 import Complain from '../interfaces/Private/Complain';
 import TeacherSignUp from "../interfaces/before-login/TeacherSignUp";
+import ApplyList from "../interfaces/owner/Teachers/ApplyList";
 
 
 const router = createBrowserRouter([
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
               {
                 path: "teachers",
                 element: <Teachers></Teachers>
+              },
+              {
+                path: "applicants",
+                element: <ApplyList></ApplyList>
               },
               {
                 path: 'add-admin',

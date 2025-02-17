@@ -14,8 +14,8 @@ import { createClient } from "@supabase/supabase-js";
 
 //tools
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import { resizeImage } from '../../../providers/ImageResizer';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 export default function ChatBox(){
     //setup of supabase storage
@@ -23,33 +23,47 @@ export default function ChatBox(){
     const anonkey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91eXd5d2lwYWhzcW53aGpyc2doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMjAwMDAsImV4cCI6MjA1NDY5NjAwMH0.cnu01awFpyLQMMmTBXdKgIMLIqEnW97X62lTUCDcxGU";
     const supabase = createClient(public_url, anonkey);
 
-    //nottification information
-    const [nottificationToken, setNottificationToken] = useState("");
-    const [senderName, setSenderName] = useState("");
-
-    //sending nottification
-    const sendNottification = async (nottificationMessage) => {
-        
-        setNottificationToken(receiver?.FCMToken);
-        setSenderName(user?.displayName);
-        if(!nottificationToken || ! nottificationMessage){
-            console.log("FCM and token not found");
-            return;
-        }
-        await axios.post("https://backend-eta-blue-92.vercel.app/send-notification", { senderName, nottificationToken, nottificationMessage });
-        
-    }
-
-
+    //api's
+    const axiosSecure = useAxiosSecure();
 
 
     //chat informations
     const [chats, setChats] = useState([]);
     const [lastMessageMntsAgo, setLastMessageMntsAgo] = useState(0);
     const {chatId, receiver} = getChatBoxData();
-    
+
     //auth infromations
     const {user} = useContext(AuthContext);
+
+
+
+
+
+
+
+    
+
+
+    
+    
+
+    //sending nottification
+    const sendNottification = async (nottificationMessage, nottificationToken, senderName) => {
+        if(!nottificationToken || ! nottificationMessage || !senderName){
+            console.log("FCM and token not found");
+            return;
+        }
+        await axiosSecure.post("/send-notification", { senderName, nottificationToken, nottificationMessage });
+        
+    }
+
+
+
+
+    
+    
+    
+    
     
 
     //chat control
@@ -60,6 +74,7 @@ export default function ChatBox(){
     // scroll to bottom for new message
     useEffect(() => {
         endRef.current?.scrollIntoView({behavior: 'smooth'});
+
     }, [chats, uploadingImg]);
 
 
@@ -71,7 +86,9 @@ export default function ChatBox(){
             const createdAtValue = res.data().messages[lastMessageIndex].createdAt;
             const mntsAgoValue = Math.floor((Date.now() - createdAtValue)/ 60000);
             setLastMessageMntsAgo( mntsAgoValue );
-        })
+        });
+
+        
 
         return () => {
             unSub()
@@ -231,7 +248,7 @@ const startRecording = async () => {
                     }
                 }
             }
-            sendNottification("🎙️ Sent a Voice Message.")
+            sendNottification("🎙️ Sent a Voice Message.", receiver?.FCMToken, user?.displayName)
     
             setIsRecording(false);  // ✅ Moved outside the loop (only runs once)
         } catch (err) {
@@ -323,8 +340,9 @@ const startRecording = async () => {
             console.log(err);
         }
         inputRef.current.focus();
-        sendNottification(text || "📷 Sent an Image");
 
+
+        sendNottification(text || "📷 Sent an Image", receiver?.FCMToken, user?.displayName);
     }
          
     

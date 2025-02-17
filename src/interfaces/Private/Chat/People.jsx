@@ -32,7 +32,7 @@ export default function People(){
       };
 
     const handleOpenChat = async (chatIdTaken, receiverPerson, yourRole) => {
-        handleTouch
+        handleTouch()
         
         
 
@@ -79,7 +79,7 @@ export default function People(){
                 <div className="chat-list">
                     {
                          fetchedChatListData.map((x, index) => {                                                        
-                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole, x.isSeen)} isSeen={x.isSeen} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.yourRole == "student"? `Student ${index + 1}`: x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
+                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole, x.isSeen)} isSeen={x.isSeen} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
                         })
                     }
                 </div>
@@ -100,10 +100,9 @@ export default function People(){
         return(
             <div className="left-side">
                 <div className="chat-list">
-
                     {
                          chatList.map((x, index) => {                                                        
-                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole, x.isSeen)} isSeen={x.isSeen} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.yourRole == "student"? `Student ${index + 1}`: x.userss.displayName} lastMessage={x.lastMessage}></PeopleItem>
+                            return <PeopleItem clickFunc={() => handleOpenChat(x.chatId, x.userss, x.yourRole, x.isSeen)} isSeen={x.isSeen} userId={x.userss.uid} key={x.chatId} chatID={x.chatId} img={x.userss.photoURL} name={x.userss.displayName} lastMessage={x.lastMessage} isOnline={x.userss.isOnline}></PeopleItem>
                         })
                     }
                 </div>

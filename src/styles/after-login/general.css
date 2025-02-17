@@ -378,14 +378,28 @@ section.education-page .container .box .info button {
   padding: 14px;
   border-bottom: 1px solid #34495E;
 }
-.chat-page section.chat .left-side .chat-list .chat-item .img {
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic {
   width: 50px;
-  height: 50%;
+  height: 50px;
+  margin-right: 10px;
+  position: relative;
+}
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic .onlinestatus {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4E73DF;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic .img {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 10px;
 }
-.chat-page section.chat .left-side .chat-list .chat-item .img img {
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic .img img {
   width: 100%;
 }
 .chat-page section.chat .left-side .chat-list .chat-item .information {

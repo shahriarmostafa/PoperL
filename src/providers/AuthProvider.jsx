@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-import auth from "../firebase/firebase.init";
+import auth, { db } from "../firebase/firebase.init";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 export const AuthContext = createContext(null);
@@ -28,9 +29,36 @@ export default function AuthProvider({children}){
         return updateProfile(user, updatedData)
     }
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
             setUserProfileLoading(false);
+
+            if (currentUser) {
+                // Check if user is a teacher
+                const teacherDocRef = doc(db, "teacherCollection", currentUser.uid);
+                const teacherSnap = await getDoc(teacherDocRef);
+          
+                if (teacherSnap.exists()) {
+                  // Only update online status if user is a teacher
+                  await updateDoc(teacherDocRef, { isOnline: true });
+          
+                  // Set `isOnline: false` when they disconnect
+                  window.addEventListener("beforeunload", async () => {
+                    await updateDoc(teacherDocRef, { isOnline: false });
+                  });
+                  
+                  
+                // add this in logout later
+
+                //   const handleLogout = async () => {
+                //     if (user) {
+                //       const teacherDocRef = doc(db, "teacherCollection", user.uid);
+                //       await updateDoc(teacherDocRef, { isOnline: false });
+                //     }
+                //     await signOut(auth);
+                //   };
+                }
+              }
             
         })
         return () => {

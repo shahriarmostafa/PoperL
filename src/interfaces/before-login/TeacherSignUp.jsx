@@ -58,6 +58,9 @@ export default function TeacherSignUp(){
           Swal.resumeTimer();
           Swal.stopTimer();
           await editProfile(res.user, extraData);
+
+          console.log(res);
+          
       
           // Step 3: Prepare user data for the database
           const userInDataBase = {
@@ -68,6 +71,7 @@ export default function TeacherSignUp(){
             whatsapp: data.phone, // Collect WhatsApp number
             experience: 0,
             rating: 0,
+            joined: Date.now(),
             subjects: [],
             lessonMinutes: 0,
             revenuePercent: 0,
@@ -75,7 +79,8 @@ export default function TeacherSignUp(){
             ownerOfGroup: null,
             groupMembers: [],
             approved: false, // Default approval status
-            FCMToken: await requestForToken()
+            FCMToken: await requestForToken(),
+            isOnline: false
           };
       
           // Step 4: Add user data to the database

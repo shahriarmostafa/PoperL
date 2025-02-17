@@ -279,7 +279,7 @@ section.admin .display .view .analytics .table table tbody td .redi-buttons butt
 }
 section.admin .display .view .analytics .table table tbody td .redi-buttons button svg {
   fill: #ffffff;
-  width: 15px;
+  font-size: 16px;
 }
 section.admin .display .view .analytics .table table tbody td img {
   width: 30px;
@@ -296,6 +296,9 @@ section.admin .display .view .analytics .table table tbody .icon svg {
 }
 section.admin .display .view .analytics .admin-table tr, section.admin .display .view .analytics .admin-table td, section.admin .display .view .analytics .complain-table tr, section.admin .display .view .analytics .complain-table td {
   width: 50%;
+}
+section.admin .display .view .analytics .admin-table tr b, section.admin .display .view .analytics .admin-table td b, section.admin .display .view .analytics .complain-table tr b, section.admin .display .view .analytics .complain-table td b {
+  display: block;
 }
 section.admin .display .view .analytics .form {
   max-width: 500px;
