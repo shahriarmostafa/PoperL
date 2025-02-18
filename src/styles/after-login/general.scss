@@ -363,8 +363,31 @@ section.education-page{
                 &.teacher{
                     height: 200px;
                 }
+                position: relative;
+                    .online-status{
+                        position: absolute;
+                        display: flex;
+                        align-items: center;
+                        top: 15px;
+                        left: 15px;
+                        .text{
+                            font-size: 10px;
+                            font-weight: 700;
+                            margin-left: 2px;
+                        }
+                        .dot{
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: $gray;
+                        }
+                        &.online{
+                            .dot{
+                                background: $blue;
+                            }
+                        }
+                    }
                 img{
-                    z-index: 1;
                     width: 100%;
                 }
             }
@@ -434,11 +457,17 @@ section.education-page{
                         .onlinestatus{
                             width: 15px;
                             height: 15px;
+                            border: 2px solid $white;
                             border-radius: 50%;
-                            background: $blue;
                             position: absolute;
                             bottom: 0;
                             right: 0;
+                        }
+                        .online{
+                            background: $blue;
+                        }
+                        .offline{
+                            background: $gray;
                         }
                         .img{
                             width: 100%;
@@ -912,6 +941,7 @@ section.subscription{
         width: 100%;
     }
     .pages{
+        z-index: 10;
         position: fixed;
         bottom: 0;
         width: 100%;
@@ -924,6 +954,26 @@ section.subscription{
             align-items: center;
             li{
                 margin: 0;
+                &.number-of-unseen-chats{
+                    position: relative;
+                    .number-box{
+                        position: absolute;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 50%;
+                        background: $night-background;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        right: 10px;
+                        top: 10px;
+                        z-index: 20;
+                        b.number{
+                            color: $white;
+                            font-size: 10px;
+                        }
+                    }
+                }
                 a{
                     position: relative;
                     display: flex;

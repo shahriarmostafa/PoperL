@@ -317,12 +317,33 @@ section.education-page .container .box {
 section.education-page .container .box .photo {
   width: 100%;
   overflow: hidden;
+  position: relative;
 }
 section.education-page .container .box .photo.teacher {
   height: 200px;
 }
+section.education-page .container .box .photo .online-status {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 15px;
+  left: 15px;
+}
+section.education-page .container .box .photo .online-status .text {
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+section.education-page .container .box .photo .online-status .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #34495E;
+}
+section.education-page .container .box .photo .online-status.online .dot {
+  background: #4E73DF;
+}
 section.education-page .container .box .photo img {
-  z-index: 1;
   width: 100%;
 }
 section.education-page .container .box .info {
@@ -387,11 +408,17 @@ section.education-page .container .box .info button {
 .chat-page section.chat .left-side .chat-list .chat-item .profile-pic .onlinestatus {
   width: 15px;
   height: 15px;
+  border: 2px solid #ffffff;
   border-radius: 50%;
-  background: #4E73DF;
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic .online {
+  background: #4E73DF;
+}
+.chat-page section.chat .left-side .chat-list .chat-item .profile-pic .offline {
+  background: #34495E;
 }
 .chat-page section.chat .left-side .chat-list .chat-item .profile-pic .img {
   width: 100%;
@@ -784,6 +811,7 @@ section.subscription .container .packages .pack:last-child span.success {
     width: 100%;
   }
   .pages {
+    z-index: 10;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -798,6 +826,26 @@ section.subscription .container .packages .pack:last-child span.success {
   }
   .pages ul li {
     margin: 0;
+  }
+  .pages ul li.number-of-unseen-chats {
+    position: relative;
+  }
+  .pages ul li.number-of-unseen-chats .number-box {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #02031b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 10px;
+    top: 10px;
+    z-index: 20;
+  }
+  .pages ul li.number-of-unseen-chats .number-box b.number {
+    color: #ffffff;
+    font-size: 10px;
   }
   .pages ul li a {
     position: relative;

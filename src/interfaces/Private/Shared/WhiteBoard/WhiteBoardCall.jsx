@@ -3,6 +3,7 @@ import { CallContext } from "../../../../providers/CallProvider";
 import { AuthContext } from "../../../../providers/AuthProvider";
 import { WhiteWebSdk } from "white-web-sdk";
 import axios from "axios";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 export default function WhiteBoard({ UUID }) {
   const whiteboardRef = useRef(null);
@@ -11,6 +12,8 @@ export default function WhiteBoard({ UUID }) {
   const UID = user?.uid;
   const [room, setRoom] = useState(null);
   const [activeTool, setActiveTool] = useState("");
+
+  const axiosSecure = useAxiosSecure();
 
   const toolNames = [
     "pencil",
@@ -28,7 +31,7 @@ export default function WhiteBoard({ UUID }) {
 
   const getWhiteboardToken = async () => {
     try {
-      const response = await axios.post("https://backend-eta-blue-92.vercel.app/generate-whiteboard-token", {
+      const response = await axiosSecure.post("/generate-whiteboard-token", {
         UUID,
       });
       return response.data;

@@ -86,7 +86,7 @@ export default function TeacherSignUp(){
           // Step 4: Add user data to the database
           Swal.resumeTimer();
           Swal.stopTimer();
-          await axios.post("https://backend-eta-blue-92.vercel.app/newTeacher", userInDataBase);
+          await axiosSecure.post("/newTeacher", userInDataBase);
       
           // Step 5: Navigate to chat after successful completion
           Swal.resumeTimer();

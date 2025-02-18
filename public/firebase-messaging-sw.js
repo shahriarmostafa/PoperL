@@ -26,9 +26,15 @@ self.addEventListener("push", (event) => {
 
   console.log(data);
   
+  
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+
+      clientList.forEach((client) => {
+        client.postMessage({ type: "PLAY_NOTIFICATION_SOUND" });
+      });
+
       if (clientList.length === 0) {
         // App is NOT open, show notification
         let title;
@@ -48,6 +54,7 @@ self.addEventListener("push", (event) => {
           // If it's a message notification
           title = data.notification.title;
           body = data.notification.body;
+          clientList[0].postMessage({ type: "PLAY_NOTIFICATION_SOUND" });
         }
 
         // Show the notification

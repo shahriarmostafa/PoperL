@@ -43,3 +43,11 @@ if ("serviceWorker" in navigator) {
       console.error("Service Worker registration failed:", error);
     });
 }
+
+//notification sound
+navigator.serviceWorker.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "PLAY_NOTIFICATION_SOUND") {
+    const audio = new Audio("/notification.wav");
+    audio.play().catch((err) => console.log("Error playing sound:", err));
+  }
+});

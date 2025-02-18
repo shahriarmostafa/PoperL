@@ -7,6 +7,7 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 export default function SignIn(){
     const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +19,7 @@ export default function SignIn(){
     const location = useLocation()
     const navigate = useNavigate();
 
+        const axiosSecure = useAxiosSecure();
     
 
     
@@ -29,7 +31,7 @@ export default function SignIn(){
     const setTokenToDataBase = async(uid) => {
         const token = await requestForToken();
         if (!token) return;
-        axios.post("https://backend-eta-blue-92.vercel.app/setTokenToProfile", {token, uid});
+        axiosSecure.post("/setTokenToProfile", {token, uid});
     }
 
 

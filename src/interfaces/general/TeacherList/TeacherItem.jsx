@@ -9,7 +9,7 @@ import { getChatBoxData } from '../../../Hooks/getChatBoxData';
 
 
 
-export default function TeacherItem({img, name, rating, experience, id, receiver}){
+export default function TeacherItem({img, name, rating, experience, id, receiver, isOnline}){
 
     const {user} = useContext(AuthContext);
 
@@ -113,12 +113,16 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
     return(
         <div className="box teacher">
             <div className="photo">
+              <div className={`online-status ${isOnline && "online"}`}>
+                <div className="dot"></div>
+                <div className="text">{isOnline? "Online": "Ofline"}</div>
+              </div>
                 <img src={img || avatar} alt=""></img>
             </div>
             <div className="info">
                 <h3 className="name">{name}</h3>
                 <span className="rating">{rating}/5.0 Appreciated</span>
-                <span className="level">{experience}PT Experienced</span>
+                <span className="level">{experience} PT Experienced</span>
                 <button onClick={handleAddChat}>Add Teacher To Chat</button>
             </div>
         </div>

@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 import { db } from "../firebase/firebase.init";
 import { AuthContext } from "./AuthProvider";
 import WhiteBoard from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
-import axios from "axios";
 import CallUI from "../interfaces/Private/Shared/CallUi/CallUi";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export const CallContext = createContext();
 
@@ -17,6 +17,9 @@ export default function CallProvider({ children }) {
 
   const { user } = useContext(AuthContext);
   const UID = user?.uid;
+
+
+  const axiosSecure = useAxiosSecure();
 
 
   //call ui setup
@@ -32,6 +35,10 @@ export default function CallProvider({ children }) {
     callTimeoutId = setTimeout(async () => {        
       if (callStatus === "Ringing") { 
         await setDoc(doc(db, "calls", uid), { status: "missed" }, { merge: true });
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio = null
+        }
         setCallStatus("missed");
   
         if (rtc.localAudioTrack) {
@@ -43,6 +50,12 @@ export default function CallProvider({ children }) {
       }
     }, 40000);
   };
+
+
+  
+  
+
+
   
 
 
@@ -79,7 +92,7 @@ const playRingtone = () => {
     console.log("Called");
     
     try {
-      const response = await axios.post("https://backend-eta-blue-92.vercel.app/create-whiteboard-room", {
+      const response = await axiosSecure.post("/create-whiteboard-room", {
       });
       return response.data;
     } catch (error) {
@@ -168,8 +181,13 @@ const playRingtone = () => {
       joinChannel(channelName, token, uid);
 
 
+
+      if (!window.ringtoneAudio) {
+        window.ringtoneAudio = new Audio("/ringbacktone.mp3");
+        window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+      }
+
       startTimeout(uid); // Starts the timeout
-      
       };
 
   
@@ -253,6 +271,8 @@ const playRingtone = () => {
         if (window.ringtoneAudio) {
           window.ringtoneAudio.pause();
           window.ringtoneAudio.currentTime = 0;
+          window.ringtoneAudio = null;
+          
         }
         if (rtc.localAudioTrack) {
           rtc.localAudioTrack.close();
@@ -277,10 +297,18 @@ const playRingtone = () => {
     const callRef = doc(db, "calls", userId);
     return onSnapshot(callRef, async(docSnapshot) => {
       if(docSnapshot.exists() && docSnapshot.data().status === "accepted"){
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio = null
+        }
         setCallStatus("accepted");
          clearTimeout(callTimeoutId); // Stop the timeout
       }
       if(docSnapshot.exists() && docSnapshot.data().status === "rejected"){
+        if (window.ringtoneAudio) {
+          window.ringtoneAudio.pause();
+          window.ringtoneAudio = null
+        }
         setCallStatus("rejected");
         clearTimeout(callTimeoutId); // Stop the timeout
         if (rtc.localAudioTrack) {

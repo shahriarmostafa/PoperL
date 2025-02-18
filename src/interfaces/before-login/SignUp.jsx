@@ -67,7 +67,7 @@ export default function SignUp(){
             FCMToken: await requestForToken() || null
           };
       
-          await axios.post("https://backend-eta-blue-92.vercel.app/newStudent", userInDataBase);
+          await axiosSecure.post("/newStudent", userInDataBase);
       
           // Navigate to chat and complete the flow
           Swal.resumeTimer();
