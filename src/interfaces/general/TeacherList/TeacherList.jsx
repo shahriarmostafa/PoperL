@@ -1,5 +1,4 @@
 import TeacherItem from "./TeacherItem"
-import Nav from '../../Private/Shared/Nav/Nav';
 import useTeacherList from "../../../Hooks/useTeacherList";
 export default function TeacherList(){
 
@@ -7,7 +6,6 @@ export default function TeacherList(){
     
     return(
         <>
-            <Nav></Nav>
             <section className="education-page night-view">
                 <div className="container">
                     {

@@ -31,8 +31,11 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
 
-      clientList.forEach((client) => {
+      if (data.notification?.title && data.notification?.body) {
         client.postMessage({ type: "PLAY_NOTIFICATION_SOUND" });
+      }
+
+      clientList.forEach((client) => {
       });
 
       if (clientList.length === 0) {
@@ -54,7 +57,6 @@ self.addEventListener("push", (event) => {
           // If it's a message notification
           title = data.notification.title;
           body = data.notification.body;
-          clientList[0].postMessage({ type: "PLAY_NOTIFICATION_SOUND" });
         }
 
         // Show the notification

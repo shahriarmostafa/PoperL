@@ -20,7 +20,12 @@ export default function AuthProvider({children}){
         setUserProfileLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
-    const logOut = () => {
+    const logOut = async() => {
+        const teacherDocRef = doc(db, "teacherCollection", currentUser.uid);
+        const teacherSnap = await getDoc(teacherDocRef);
+        if (teacherSnap.exists()) {
+            await updateDoc(teacherDocRef, { isOnline: false });
+        }
         setUserProfileLoading(true);
         return signOut(auth);
     }

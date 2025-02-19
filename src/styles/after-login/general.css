@@ -381,7 +381,7 @@ section.education-page .container .box .info button {
   height: 100vh;
 }
 .chat-page section.chat.people {
-  height: calc(100% - 81px);
+  height: calc(100% - 70px);
 }
 .chat-page section.chat .left-side {
   width: 30%;
@@ -853,11 +853,12 @@ section.subscription .container .packages .pack:last-child span.success {
     width: 70px;
     height: 70px;
     justify-content: center;
+    align-items: center;
     border-radius: 50%;
     transition: 0.2s ease-out;
   }
   .pages ul li a svg {
-    width: 25px;
+    font-size: 25px;
     fill: #ffffff;
   }
   .pages ul li a::before {

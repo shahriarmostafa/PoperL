@@ -432,7 +432,7 @@ section.education-page{
     height: 100vh;
     section.chat{
         &.people{
-            height: calc(100% - 81px);
+            height: calc(100% - 70px);
         }
         .left-side{
             width: 30%;
@@ -980,10 +980,11 @@ section.subscription{
                     width: 70px;
                     height: 70px;
                     justify-content: center;
+                    align-items: center;
                     border-radius: 50%;
                     transition: 0.2s ease-out;                
                     svg{
-                        width: 25px;
+                        font-size: 25px;
                         fill: $white;
                     }
                     &::before{

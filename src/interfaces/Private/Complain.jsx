@@ -1,11 +1,9 @@
 import { FaEdit, FaEye } from 'react-icons/fa';
 import '../../styles/private/private.css';
-import Nav from './Shared/Nav/Nav';
 import { MdDelete } from 'react-icons/md';
 export default function Complain(){
     return (
         <section className="complain">
-            <Nav></Nav>
             <div className="container">
                 <form action="" className="complain-form">
                 <h2>Enter your complain here</h2>

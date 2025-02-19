@@ -1,10 +1,8 @@
 import '../../styles/after-login/general.css';
-import Nav from '../Private/Shared/Nav/Nav';
 
 export default function Subscription() {
     return(
     <>
-        <Nav></Nav>
         <section className="subscription night-view">
             <div className="container py-5">
                 <div className="title">
