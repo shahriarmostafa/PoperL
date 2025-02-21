@@ -5,10 +5,13 @@ import { Navigate, useLocation } from "react-router-dom";
 export default function UserPublicRouter({children}) {
     const {user, userProfileLoading} = useContext(AuthContext);
     const location = useLocation();
-    if(user){
-        return <Navigate state={location.pathname} to="/user"></Navigate>;
+    if(userProfileLoading){
+        return "Loading..."
+    }
+    if(!user){
+        return children;
     }
     else{
-        return children
+        return <Navigate state={location.pathname} to="/user"></Navigate>
     }
 }
