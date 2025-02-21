@@ -53,23 +53,22 @@ export default function Home(){
 
 
 
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        return (
-          <div className="home">
-            <Link to="/maintainance/admins" className="btn btn-danger">Admin</Link>
-            <Link to="/complain" className="btn btn-danger">Complain</Link>
-            <Link to="/maintainance/teacherList" className="btn btn-danger">Teachers</Link>
+      // if (window.matchMedia('(display-mode: standalone)').matches) {
+      //   return (
+      //     <div className="home">
+      //       <Link to="/maintainance/admins" className="btn btn-danger">Admin</Link>
+      //       <Link to="/complain" className="btn btn-danger">Complain</Link>
+      //       <Link to="/maintainance/teacherList" className="btn btn-danger">Teachers</Link>
 
   
-              <hr />
-              <Link to="/subscription"><button>Ghuira dekho?</button></Link>
-              <Link to="/chat"><button className="btn btn-success">Chat</button></Link>
-              <Link to="/TeacherList"><button className="btn btn-success mx-3">Teacher List</button></Link>
-              <Link to="/TeacherSignUp"><button className="btn btn-success mx-3">Teacher Sign Up</button></Link>
-          </div>
-      );
-      } 
-      else {
+      //         <hr />
+      //         <Link to="/subscription"><button>Ghuira dekho?</button></Link>
+      //         <Link to="/chat"><button className="btn btn-success">Chat</button></Link>
+      //         <Link to="/TeacherList"><button className="btn btn-success mx-3">Teacher List</button></Link>
+      //         <Link to="/TeacherSignUp"><button className="btn btn-success mx-3">Teacher Sign Up</button></Link>
+      //     </div>
+      // );
+      // } 
         if(installPrompt){
           Swal.fire({
             title: "Download PoperL",
@@ -87,11 +86,10 @@ export default function Home(){
               <div className="user">
                   {user?.displayName}
               </div>
-              <button className="btn btn-danger" onClick={handleLogOut}>Sign Out</button>
+              <button className="btn btn-danger" onClick={user? handleLogOut : handleInstallClick}>Sign Out</button>
             </>
           )
           
-        }
         
       }
 }
