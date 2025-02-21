@@ -80,16 +80,15 @@ export default function Home(){
               handleInstallClick()
             }
           })
-
-          return(
-            <>
-              <div className="user">
-                  {user?.displayName}
-              </div>
-              <button className="btn btn-danger" onClick={user? handleLogOut : handleInstallClick}>Sign Out</button>
-            </>
-          )
-          
-        
       }
+
+      return(
+        <>
+          <div className="user">
+              {user?.displayName}
+          </div>
+          <button className="btn btn-danger" onClick={user? handleLogOut : handleInstallClick}>Sign Out</button>
+        </>
+      )
 }
+
