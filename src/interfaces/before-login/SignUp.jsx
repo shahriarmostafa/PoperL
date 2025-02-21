@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { requestForToken } from '../../firebase/firebase.init';
-import axios from 'axios';
 
 export default function SignUp(){
 
@@ -64,7 +63,8 @@ export default function SignUp(){
             email: res.user?.email,
             displayName: res.user?.displayName,
             photoURL: res.user?.providerData[0]?.photoURL,
-            FCMToken: await requestForToken() || null
+            FCMToken: await requestForToken() || null,
+            activePackage: null
           };
       
           await axiosSecure.post("/newStudent", userInDataBase);

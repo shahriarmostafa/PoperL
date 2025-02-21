@@ -21,7 +21,7 @@ export default function AuthProvider({children}){
         return signInWithEmailAndPassword(auth, email, password);
     }
     const logOut = async() => {
-        const teacherDocRef = doc(db, "teacherCollection", currentUser.uid);
+        const teacherDocRef = doc(db, "teacherCollection", user.uid);
         const teacherSnap = await getDoc(teacherDocRef);
         if (teacherSnap.exists()) {
             await updateDoc(teacherDocRef, { isOnline: false });

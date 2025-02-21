@@ -71,7 +71,8 @@ export default function Home(){
       );
       } 
       else {
-        if(installPrompt){
+        // if(installPrompt){
+        if(true){
           Swal.fire({
             title: "Download PoperL",
             showCancelButton: true,

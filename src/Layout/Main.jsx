@@ -9,7 +9,7 @@ export default function Main() {
 
         <>
         {
-            !location.pathname.startsWith("/chat/") && <Nav></Nav>
+            !location.pathname.startsWith("/user/chat/") && <Nav></Nav>
         }
             <Outlet></Outlet>
         </>

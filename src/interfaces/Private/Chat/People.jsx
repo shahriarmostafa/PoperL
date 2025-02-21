@@ -39,7 +39,7 @@ export default function People(){
         
         if(loading){
             changeChat(chatIdTaken, receiverPerson, yourRole);
-            navigate(`/chat/${chatIdTaken}`);
+            navigate(`/user/chat/${chatIdTaken}`);
             return
         }
         else{
@@ -52,7 +52,7 @@ export default function People(){
             })
 
             changeChat(chatIdTaken, receiverPerson, yourRole);
-            navigate(`/chat/${chatIdTaken}`);
+            navigate(`/user/chat/${chatIdTaken}`);
     
             userFinalChat[chatIndex].isSeen = true;
             const userChatRef = doc(db, "chatCollection", user.uid);

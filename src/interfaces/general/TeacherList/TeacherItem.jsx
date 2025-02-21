@@ -56,7 +56,7 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
             changeChat(existingChat.chatId, receiver, "teacher");
       
             // Navigate to the existing chat by its chatId
-            navigate(`/chat/${existingChat.chatId}`);
+            navigate(`/user/chat/${existingChat.chatId}`);
           } else {
             // If the chat does not exist, create a new chat
             const newChatRef = doc(chatDBRef);
@@ -94,7 +94,7 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
             });
       
             // Navigate to the newly created chat page
-            navigate("/chat");
+            navigate("/user/chat");
           }
         } catch (err) {
           // Handle any errors and stop the timer

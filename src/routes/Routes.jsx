@@ -25,51 +25,58 @@ import UserPrivateRouter from './UserPrivateRouter';
 import Complain from '../interfaces/Private/Complain';
 import TeacherSignUp from "../interfaces/before-login/TeacherSignUp";
 import ApplyList from "../interfaces/owner/Teachers/ApplyList";
+import UserPublicRouter from "./userPublicRouter";
+import Profile from "../interfaces/Private/Profile/Profile";
 
 
 const router = createBrowserRouter([
+  
     {
-      path: '/',
+      path: "/",
+      element: <UserPublicRouter><Home></Home></UserPublicRouter>
+    },
+    {
+      path: '/signup',
+      element: <UserPublicRouter><SignUp></SignUp></UserPublicRouter>
+    },
+    {
+      path: '/signin',
+      element: <UserPublicRouter><SignIn></SignIn></UserPublicRouter> 
+    },
+    {
+      path: '/user',
       element: <Main></Main>,
       children: [
-        {
-          path: '/',
-          element: <Home></Home>
-        },
-        {
-          path: '/signup',
-          element: <SignUp></SignUp>
-        },
-        {
-          path: '/signin',
-          element: <SignIn></SignIn>
-        },
         //teacher page
-        ,
+        
         {
-          path: '/teacherSignUp',
+          path: 'teacherSignUp',
           element: <TeacherSignUp></TeacherSignUp>
         },
         {
-          path: '/subscription',
+          path: 'subscription',
           element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
         },
         {
-          path: '/complain',
+          path: 'complain',
           element: <UserPrivateRouter><Complain></Complain></UserPrivateRouter>
         },
         {
-          path: '/TeacherList',
+          path: '',
           element: <UserPrivateRouter><TeacherList></TeacherList></UserPrivateRouter>
         },
         {
-          path: '/chat',
+          path: 'chat',
           element: <UserPrivateRouter><Chat></Chat></UserPrivateRouter>
         },
         {
-          path: '/chat/:chatId',
+          path: 'chat/:chatId',
           element: <ChatBox></ChatBox>
-        }
+        },
+        {
+          path: 'profile',
+          element: <Profile></Profile>
+        },
       ]
     },
     {
