@@ -81,9 +81,7 @@ export default function Home(){
               handleInstallClick()
             }
           })
-          
-        }
-        else{
+
           return(
             <>
               <div className="user">
@@ -94,5 +92,6 @@ export default function Home(){
           )
           
         }
+        
       }
 }
