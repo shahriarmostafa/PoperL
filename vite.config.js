@@ -19,7 +19,7 @@ export default defineConfig({
       ],
       workbox: {
         globPatterns: ['**/*.{html,js,css,png,jpg,svg,json}'], // Specify files to cache
-        maximumFileSizeToCacheInBytes: 8000000
+        maximumFileSizeToCacheInBytes: 9000000
       },
       manifest: {
         name: 'Platform of Perpetual Learnings',
