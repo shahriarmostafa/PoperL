@@ -36,6 +36,10 @@ const router = createBrowserRouter([
       element: <UserPublicRouter><Home></Home></UserPublicRouter>
     },
     {
+      path: '/teacherSignUp',
+      element: <TeacherSignUp></TeacherSignUp>
+    },
+    {
       path: '/signup',
       element: <UserPublicRouter><SignUp></SignUp></UserPublicRouter>
     },
@@ -49,10 +53,6 @@ const router = createBrowserRouter([
       children: [
         //teacher page
         
-        {
-          path: 'teacherSignUp',
-          element: <TeacherSignUp></TeacherSignUp>
-        },
         {
           path: 'subscription',
           element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
