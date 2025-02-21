@@ -121,7 +121,7 @@ export default function SignUp(){
                     <input {...register("checkbox")} type="checkbox" /> <span>Accept Tearms and Conditions</span>
                     <input type="submit" />
                 </form>
-                <p>Already have an account? <span><Link to="./signup">Sign Up</Link></span></p>
+                <p>Apply as a teacher? <span><Link to="/teacherSignUp">Sign Up</Link></span></p>
             </div>
         </div>  
     )
