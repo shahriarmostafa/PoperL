@@ -123,7 +123,7 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
                 <h3 className="name">{name}</h3>
                 <span className="rating">{rating}/5.0 Appreciated</span>
                 <span className="level">{experience} PT Experienced</span>
-                <button onClick={handleAddChat}>Add Teacher To Chat</button>
+                <button onClick={handleAddChat}>Message</button>
             </div>
         </div>
     )

@@ -18,9 +18,9 @@ const packages = [
       dailyMinutesLimit: 60
     },
     {
-      packageId: "daily_100",
+      packageId: "daily_110",
       name: "1 Day",
-      price: 100,
+      price: 110,
       durationDays: 1,
       dailyMinutesLimit: 60
     },

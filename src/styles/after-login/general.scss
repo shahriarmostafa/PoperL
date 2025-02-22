@@ -2,7 +2,7 @@
 // basic setup
 $white: #ffffff;
 $blue: #4E73DF;
-$shadow: #4e72df63;
+$shadow: #162a6663;
 $background: #EAEEF2;
 $night-background: #02031b;
 $red: #BD2130;
@@ -131,7 +131,7 @@ nav{
             background: $blue;
             box-shadow: 8px 8px 16px $shadow;
             transition: 0.3s;
-            z-index: 978986;
+            z-index: 99;
             display: none;
             ul{
                 padding: 0;
@@ -159,7 +159,11 @@ nav{
                         background: $night-background;
                         font-size: 14px;
                         color: $white;
-                        border-radius: 8px;                    
+                        border-radius: 8px;
+                        transition: 0.5s;
+                        &:active{
+                            transform: scale(105%);
+                        }                    
                     }
 
                     .switch {
@@ -343,20 +347,20 @@ section.profile{
   
 // subject page
 section.education-page{
-    min-height: calc(100% - 81px);
+    min-height: calc(100vh - 149px);
+
     .container{
         padding: 80px 10px;
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
         .box{
-            width: 200px;
-            max-width: 200px;
+            max-width: 180px;
             background: $white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 4px 4px 4px $lt-blue, -4px -4px 4px $blue, 4px -4px 4px $lt-blue, -4px 4px 4px $blue;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             .photo{
                 width: 100%;
                 overflow: hidden;
@@ -392,9 +396,10 @@ section.education-page{
                 }
             }
             .info{
-                padding: 14px;
+                padding: 16px;
+                text-align: center;
                 h3{
-                    font-size: 20px;
+                    font-size: 16px;
                     font-weight: 700;
                     color: $blue;
                 }
@@ -410,12 +415,12 @@ section.education-page{
                     -webkit-text-fill-color: transparent;
                 }
                 button{
-                    padding: 12px 20px;
+                    width: 100%;
+                    padding: 12px 12px;
                     background: $blue;
                     border: none;
                     color: $white;
-                    width: 100%;
-                    font-size: 14px;
+                    font-size: 12px;
                     font-weight: 500;
                     border-radius: 5px;
                     box-shadow: 4px 4px 8px $background;
@@ -782,7 +787,7 @@ section.subscription{
                 padding: 55px 35px;
                 margin-bottom: 35px;
                 border-radius: 15px;
-                box-shadow: -2px -2px 4px #292727, 2px 2px 8px #000000;
+                box-shadow: 2px 2px 4px $shadow, -2px -2px 4px $gray, 2px -2px 4px $shadow, -2px 2px 4px $gray;
                 .name{
                     margin-bottom: 20px;
                     h4{
@@ -792,18 +797,19 @@ section.subscription{
                     }
                 }
                 ul{
+                    padding: 0;
                     li{
                         color: $white;
                         font-size: 15px;
                         font-weight: 600;
                         margin-bottom: 4px;
+                        list-style-type: none;
                         span{
                             color: $lt-blue;
                         }
                     }
                 }
                 .coupon-link{
-                    margin-left: 16px;
                     button{
                         background: none;
                         border: none;
@@ -811,23 +817,26 @@ section.subscription{
                         color: $pinkish;
                         font-size: 14px;
                         font-weight: 600;
+                        padding: 0;
                         &:hover{
                             text-decoration: underline;
                         }
                     }
                 }
                 .procceed{
-                    padding: 20px 0 0 0;
+                    margin-top: 4px;
                     button{
-                        padding: 14px 65px;
-                        background: linear-gradient(to right bottom, $pinkish, $d-blue);
+                        padding: 10px 45px;
+                        background: linear-gradient(to right bottom, $d-blue, $pinkish);
                         border: none;
-                        border-radius: 25px;
-                        margin-left: 16px;
                         color: $white;
+                        border-radius: 5px;
                         font-size: 14px;
                         font-weight: 600;
-
+                        transition: 0.5s;
+                        &:active{
+                            transform: scale(105%);
+                        }
                     }
                 }
                 &:last-child{

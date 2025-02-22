@@ -295,6 +295,7 @@ const startRecording = async () => {
         let imgUrl = null;
 
         if(image){
+            setIsOpen(false)
             const fileName = `${Date.now()}_${image.name}`;
             const {data, error} = await supabase.storage.from("poperl_chat_data").upload(fileName, image, {
                 cacheControl: 'public, max-age=3600',

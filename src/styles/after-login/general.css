@@ -110,9 +110,9 @@ nav .container .dropdown {
   top: 85px;
   width: 250px;
   background: #4E73DF;
-  box-shadow: 8px 8px 16px rgba(78, 114, 223, 0.3882352941);
+  box-shadow: 8px 8px 16px rgba(22, 42, 102, 0.3882352941);
   transition: 0.3s;
-  z-index: 978986;
+  z-index: 99;
   display: none;
 }
 nav .container .dropdown ul {
@@ -143,6 +143,10 @@ nav .container .dropdown ul li button {
   font-size: 14px;
   color: #ffffff;
   border-radius: 8px;
+  transition: 0.5s;
+}
+nav .container .dropdown ul li button:active {
+  transform: scale(105%);
 }
 nav .container .dropdown ul li .switch {
   position: relative;
@@ -294,7 +298,7 @@ section.profile .informations .about-us p {
 }
 
 section.education-page {
-  min-height: calc(100% - 81px);
+  min-height: calc(100vh - 149px);
 }
 section.education-page .container {
   padding: 80px 10px;
@@ -303,13 +307,12 @@ section.education-page .container {
   flex-wrap: wrap;
 }
 section.education-page .container .box {
-  width: 200px;
-  max-width: 200px;
+  max-width: 180px;
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 4px 4px 4px #54FFFB, -4px -4px 4px #4E73DF, 4px -4px 4px #54FFFB, -4px 4px 4px #4E73DF;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 section.education-page .container .box .photo {
   width: 100%;
@@ -344,10 +347,11 @@ section.education-page .container .box .photo img {
   width: 100%;
 }
 section.education-page .container .box .info {
-  padding: 14px;
+  padding: 16px;
+  text-align: center;
 }
 section.education-page .container .box .info h3 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   color: #4E73DF;
 }
@@ -363,12 +367,12 @@ section.education-page .container .box .info .level {
   -webkit-text-fill-color: transparent;
 }
 section.education-page .container .box .info button {
-  padding: 12px 20px;
+  width: 100%;
+  padding: 12px 12px;
   background: #4E73DF;
   border: none;
   color: #ffffff;
-  width: 100%;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   border-radius: 5px;
   box-shadow: 4px 4px 8px #EAEEF2;
@@ -691,7 +695,7 @@ section.subscription .container .packages .pack {
   padding: 55px 35px;
   margin-bottom: 35px;
   border-radius: 15px;
-  box-shadow: -2px -2px 4px #292727, 2px 2px 8px #000000;
+  box-shadow: 2px 2px 4px rgba(22, 42, 102, 0.3882352941), -2px -2px 4px #34495E, 2px -2px 4px rgba(22, 42, 102, 0.3882352941), -2px 2px 4px #34495E;
 }
 section.subscription .container .packages .pack .name {
   margin-bottom: 20px;
@@ -701,17 +705,18 @@ section.subscription .container .packages .pack .name h4 {
   font-size: 25px;
   color: #54FFFB;
 }
+section.subscription .container .packages .pack ul {
+  padding: 0;
+}
 section.subscription .container .packages .pack ul li {
   color: #ffffff;
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 4px;
+  list-style-type: none;
 }
 section.subscription .container .packages .pack ul li span {
   color: #54FFFB;
-}
-section.subscription .container .packages .pack .coupon-link {
-  margin-left: 16px;
 }
 section.subscription .container .packages .pack .coupon-link button {
   background: none;
@@ -720,22 +725,26 @@ section.subscription .container .packages .pack .coupon-link button {
   color: #D40A6C;
   font-size: 14px;
   font-weight: 600;
+  padding: 0;
 }
 section.subscription .container .packages .pack .coupon-link button:hover {
   text-decoration: underline;
 }
 section.subscription .container .packages .pack .procceed {
-  padding: 20px 0 0 0;
+  margin-top: 4px;
 }
 section.subscription .container .packages .pack .procceed button {
-  padding: 14px 65px;
-  background: linear-gradient(to right bottom, #D40A6C, #2196F3);
+  padding: 10px 45px;
+  background: linear-gradient(to right bottom, #2196F3, #D40A6C);
   border: none;
-  border-radius: 25px;
-  margin-left: 16px;
   color: #ffffff;
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 600;
+  transition: 0.5s;
+}
+section.subscription .container .packages .pack .procceed button:active {
+  transform: scale(105%);
 }
 section.subscription .container .packages .pack:last-child .name h4 {
   background: linear-gradient(to right, gold, #D40A6C, gold);

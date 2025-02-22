@@ -10,7 +10,7 @@ export default function Package({name, duration, callLimit, price}){
                     <li>Max Call Limit: {callLimit} minutes</li>
                     <li>Price:  
                         <span> {price}  <span className="taka-sign"> &#2547;</span> </span>
-                        {price > 100 && <span className="success">(SAVE  {100 * duration - price}<span className="taka-sign">&#2547;</span>)</span> } 
+                        {price > 200 && <span className="success">(SAVE  {110 * duration - price}<span className="taka-sign">&#2547;</span>)</span> } 
                     </li>
                 </ul>
             </div>

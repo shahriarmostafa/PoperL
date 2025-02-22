@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
 
 
-import Home from '../interfaces/before-login/Home';
+import Home from '../interfaces/before-login/Home/Home';
 import SignIn from '../interfaces/before-login/SignIn';
 import SignUp from '../interfaces/before-login/SignUp';
 
@@ -48,26 +48,26 @@ const router = createBrowserRouter([
       element: <UserPublicRouter><SignIn></SignIn></UserPublicRouter> 
     },
     {
-      path: '/user',
-      element: <Main></Main>,
+      path: 'user',
+      element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
       children: [
         //teacher page
         
         {
           path: 'subscription',
-          element: <UserPrivateRouter><Subscription></Subscription></UserPrivateRouter>
+          element: <Subscription></Subscription>
         },
         {
           path: 'complain',
-          element: <UserPrivateRouter><Complain></Complain></UserPrivateRouter>
+          element: <Complain></Complain>
         },
         {
           path: '',
-          element: <UserPrivateRouter><TeacherList></TeacherList></UserPrivateRouter>
+          element: <TeacherList></TeacherList>
         },
         {
           path: 'chat',
-          element: <UserPrivateRouter><Chat></Chat></UserPrivateRouter>
+          element: <Chat></Chat>
         },
         {
           path: 'chat/:chatId',
