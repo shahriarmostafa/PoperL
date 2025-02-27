@@ -1,13 +1,13 @@
-export default function Package({name, packageID, duration, callLimit, price, activateFunction}){
+export default function Pack({name, duration, callLimit, price}){
     return (
-        <div className="pack">
+        <div className="pack-home">
             <div className="name">
                 <h4>{name}</h4>
             </div>
             <div className="details">
                 <ul>
                     <li>Duration: {duration < 1? (duration * 24) + " Hours" : duration +" Days"}</li>
-                    <li>Call Limit: {callLimit} minutes</li>
+                    <li>Max Call Limit: {callLimit} minutes</li>
                     <li>Price:  
                         <span> {price}  <span className="taka-sign"> &#2547;</span> </span>
                         {price > 200 && <span className="success">(SAVE  {110 * duration - price}<span className="taka-sign">&#2547;</span>)</span> } 
@@ -18,7 +18,7 @@ export default function Package({name, packageID, duration, callLimit, price, ac
                 <button>Enter a refer email for discount</button>
             </div>
             <div className="procceed">
-                <button onClick={() => activateFunction(duration, packageID, callLimit)}>START</button>
+                <button>START</button>
             </div>
         </div>
     )

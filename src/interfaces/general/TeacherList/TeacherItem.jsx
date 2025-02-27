@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { getChatBoxData } from '../../../Hooks/getChatBoxData';
+import useSubscription from '../../../Hooks/checkSubscription';
 
 
 
@@ -13,9 +14,34 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
 
     const {user} = useContext(AuthContext);
 
+    const {isSubscribed, subLoading } = useSubscription(user?.uid);
+
+
     const {changeChat} = getChatBoxData();
+
     const navigate = useNavigate();
+
     const handleAddChat = async () => {
+
+
+        if(!isSubscribed && !subLoading){
+          Swal.fire({
+            text: "Not Subscribed!",
+            icon: "info",
+            text: "Please subscribe to continue",
+            showCancelButton: true,
+            confirmButtonText: "Subscribe",
+            confirmButtonColor: "green"
+          }).then(response => {
+            if(response.isConfirmed){
+              navigate("/user/subscription")
+            }
+          })
+          return;
+        }
+
+
+
         const chatDBRef = collection(db, "chatDB");
         const userChatDBRef = collection(db, "chatCollection");
       

@@ -64,7 +64,7 @@ export default function SignUp(){
             displayName: res.user?.displayName,
             photoURL: res.user?.providerData[0]?.photoURL,
             FCMToken: await requestForToken() || null,
-            activePackage: null
+            subscription: null
           };
       
           await axiosSecure.post("/newStudent", userInDataBase);

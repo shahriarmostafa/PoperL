@@ -1,4 +1,4 @@
-import {useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import useChatList from "../../../Hooks/useChatList";
 import PeopleItem from "./PeopleItem";
@@ -8,6 +8,7 @@ import { db } from "../../../firebase/firebase.init";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { storeChatList } from "../../../Hooks/storeChatList";
+import useSubscription from "../../../Hooks/checkSubscription";
 
 
 export default function People(){
@@ -23,7 +24,7 @@ export default function People(){
     const {fetchedChatListData, setFetchedData} = storeChatList();
 
     
-
+    const {isSubscribed, subLoading } = useSubscription(user?.uid);
     
     const handleTouch = () => {
         if (navigator.vibrate) {
@@ -71,9 +72,9 @@ export default function People(){
     
 
     
-
     
-    if (loading) {
+    
+    if (loading || subLoading) {
         return (
             <div className="left-side">
                 <div className="chat-list">
@@ -83,9 +84,26 @@ export default function People(){
                         })
                     }
                 </div>
+                <b>Reloading Chat...</b>
             </div>
         )
     }
+
+
+    // if(!isSubscribed){
+    //     return (
+    //         <div className=" left-side d-flex align-items-center text-center justify-content-center">
+    //             <div className="inner">
+    //             <b className="message">You are not subscribed</b>
+    //             <b className="message">Please select a package</b>
+
+    //             <Link to="/user/subscription"><button className="btn btn-secondary mt-2">Select Package</button></Link>
+    //             </div>
+
+    //         </div>
+    //     )
+    // }
+
     if (error || chatList.length == 0){ 
         return (
             <div className=" left-side d-flex align-items-center text-center justify-content-center">

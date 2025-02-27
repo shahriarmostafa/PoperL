@@ -5,10 +5,177 @@ $blue: #4E73DF;
 $shadow: #162a6663;
 $background: #EAEEF2;
 $night-background: #02031b;
-$red: #BD2130;
+$red: #dc3545;
 $purple: #8043DC;
 $lt-blue: #54FFFB;
 $d-blue: #2196F3;
 $pinkish: #D40A6C;
 $green: #1E7E34;
 $gray: #34495E;
+
+
+header{
+    background: rgba( 255, 255, 255, 0.01 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.01 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    .logo{
+        max-width: 120px;
+        img{
+            width: 100%;
+        }
+    }
+}
+
+
+/* Header and Hero Container */
+.header-hero-container {
+    background: linear-gradient(to right bottom, #bd21316e, $blue);
+    position: relative;
+    height: auto; /* Adjust height dynamically */
+    padding-bottom: 2rem; /* Add padding to ensure hero content is visible */
+    .hero-section{
+        padding: 200px 0;
+    }
+  }
+  
+  /* Slider Container */
+  .slider-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Cover the entire header and hero section */
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .slider-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out; /* Smooth transition */
+  }
+  
+  .slider-image.active {
+    opacity: 0.5; /* Adjust opacity for better readability */
+  }
+  
+  /* Feature Box */
+  .feature-box {
+    background: #2c2c2c !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+  }
+  
+  /* Z-Index for Content */
+  .position-relative.z-index-1 {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Mobile Optimization */
+  @media (max-width: 768px) {
+    .header-hero-container {
+      padding-bottom: 1rem; /* Reduce padding for mobile */
+    }
+  
+    .slider-image {
+      opacity: 0.7; /* Increase opacity for better visibility on mobile */
+    }
+  
+    .display-4 {
+      font-size: 2rem; /* Smaller font size for mobile */
+    }
+  
+    .lead {
+      font-size: 1rem; /* Smaller font size for mobile */
+    }
+  }
+
+  /* Custom styles for the Package component */
+.pack-home {
+    background: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .pack-home:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+      
+      .name h4 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .details ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .details li {
+        color: #ccc;
+        margin-bottom: 0.5rem;
+      }
+      
+      .taka-sign {
+        color: #dc3545;
+      }
+      
+      .success {
+        color: #4caf50;
+        font-weight: bold;
+      }
+      
+      .coupon-link button, .procceed button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      
+      .coupon-link button {
+        background: #444;
+        color: #fff;
+      }
+      
+      .coupon-link button:hover {
+        background: #555;
+      }
+      
+      .procceed button {
+        background: $red;
+        color: #fff;
+      }
+      
+      .procceed button:hover {
+        background: $red;
+      }
+  }
+  
+  
+  
+  
+
+
+

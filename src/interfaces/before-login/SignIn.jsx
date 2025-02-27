@@ -71,7 +71,7 @@ export default function SignIn(){
 
       
             // Navigate to the intended page or fallback to the default route
-            navigate(location?.state || "/");
+            navigate(location?.state || "/user/teachers");
       
             // Resume the timer and display success
             Swal.resumeTimer();

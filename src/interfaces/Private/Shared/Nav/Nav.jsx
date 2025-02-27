@@ -28,7 +28,7 @@ export default function Nav() {
         })
     }
 
-        const {unseenCount} = useChatList();
+    const {unseenCount} = useChatList();
 
         
 
@@ -45,7 +45,7 @@ export default function Nav() {
                     <div className="pages pc-nav">
                         <ul className="">
                             <li><NavLink to="/user/chat">SUBJECTS</NavLink></li>
-                            <li><NavLink to="/user/">CONTENTS</NavLink></li>
+                            <li><NavLink to="/user">CONTENTS</NavLink></li>
                             <li><NavLink to="/user/TeacherList">Study</NavLink></li>
                             <li><NavLink to="/user/subscription">Subscription</NavLink></li>
                             <li><NavLink to="/user/chat">CHAT</NavLink></li>
@@ -55,7 +55,7 @@ export default function Nav() {
                     <div className="pages shadow-fix mobile-nav">
                             <ul className="container">
                                 <li>
-                                    <NavLink to="/user">
+                                    <NavLink to="/user/teachers">
                                         <FaUserGraduate></FaUserGraduate>
                                     </NavLink>
                                 </li>
@@ -84,7 +84,7 @@ export default function Nav() {
                                 </li>
                             </ul>
                     </div>
-                    <div onClick={() => setShowDropDown(!showDropDown)} className="profile-pic d-flex">
+                    <div onClick={() => setShowDropDown(!showDropDown)} className="profile-pic">
                         <div className="inner">
                             <img src={user?.photoURL || avatar} alt=""/>
                         </div>
