@@ -6,7 +6,6 @@ import '../../styles/before-login/form.css'
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 export default function SignIn(){
@@ -71,7 +70,7 @@ export default function SignIn(){
 
       
             // Navigate to the intended page or fallback to the default route
-            navigate(location?.state || "/user/teachers");
+            navigate(location?.state || "/");
       
             // Resume the timer and display success
             Swal.resumeTimer();

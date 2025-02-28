@@ -23,10 +23,10 @@
 }
 
 .night-view {
-  background: #02031b;
+  background: #0A0F1E;
 }
 .night-view .icon {
-  background: linear-gradient(#02031b, #02031b);
+  background: linear-gradient(#0A0F1E, #0A0F1E);
   box-shadow: -3px -3px 4px #292727, 3px 4px 3px #000000;
 }
 .night-view b, .night-view p {
@@ -87,7 +87,7 @@ nav .container .profile-pic {
   background: rgba(51, 51, 51, 0.1215686275);
   transition: 0.5s;
   justify-content: center;
-  border: 5px solid #02031b;
+  border: 5px solid #0A0F1E;
 }
 nav .container .profile-pic:active {
   transform: scale(0.8);
@@ -137,7 +137,7 @@ nav .container .dropdown ul li a svg {
 nav .container .dropdown ul li button {
   padding: 8px 25px;
   border: none;
-  background: #02031b;
+  background: #0A0F1E;
   font-size: 14px;
   color: #ffffff;
   border-radius: 8px;
@@ -171,7 +171,7 @@ nav .container .dropdown ul li .switch .slider {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #02031b;
+  background-color: #0A0F1E;
   transition: 0.4s;
   border-radius: 20px;
 }
@@ -193,20 +193,20 @@ nav .container .dropdown ul hr {
 
 section.profile .background {
   width: 100%;
-  height: 400px;
+  height: 200px;
   border-radius: 100% 0% 100% 0%/0% 50% 50% 100%;
   background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url(../../assests//slider-image-1.jpg) center center no-repeat;
   background-size: cover;
 }
 section.profile .profile-pic {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   background: rgba(26, 19, 19, 0.8);
-  margin: -150px auto 0 auto;
+  margin: -80px 0 0 20px;
   overflow: hidden;
   justify-content: center;
-  border: 1px solid #2196F3;
+  border: 4px solid #34495E;
 }
 section.profile .profile-pic::after {
   content: "";
@@ -218,8 +218,8 @@ section.profile .profile-pic::after {
 }
 section.profile .profile-pic .inner {
   position: absolute;
-  width: 190px;
-  height: 190px;
+  width: 135px;
+  height: 135px;
   overflow: hidden;
   z-index: 45;
 }
@@ -227,16 +227,15 @@ section.profile .profile-pic .inner img {
   width: 100%;
 }
 section.profile .name {
-  margin-top: 5px;
+  margin: 5px 0 0 20px;
 }
 section.profile .name h2 {
-  text-align: center;
   font-weight: 700;
 }
 section.profile .informations {
   display: flex;
   flex-wrap: wrap;
-  padding: 80px 0;
+  padding: 40px 0;
   justify-content: space-around;
 }
 section.profile .informations .personal-info {
@@ -387,7 +386,7 @@ section.education-page .container .box .info button {
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
-  background: #02031b;
+  background: #0A0F1E;
 }
 .chat-page section.chat .left-side::-webkit-scrollbar-thumb {
   background: #54FFFB;
@@ -682,13 +681,55 @@ section.education-page .container .box .info button {
   cursor: pointer;
 }
 
+section.subscription {
+  min-height: calc(100vh - 146px);
+}
 section.subscription .container .title h2 {
   font-size: 30px;
   font-weight: 700;
   margin-bottom: 40px;
 }
-section.subscription .container .details h4 {
+section.subscription .container .inner-details {
+  padding: 150px 0;
+}
+section.subscription .container .inner-details .package-card {
+  background: rgba(15, 15, 30, 0.9);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 380px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 20px rgba(0, 198, 255, 0.4);
+}
+section.subscription .container .inner-details .package-card .section {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+section.subscription .container .inner-details .package-card .section p {
+  margin-bottom: 0;
+}
+section.subscription .container .inner-details .package-card .section.time-remaining p {
+  color: #FFD700;
+  text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+}
+section.subscription .container .inner-details .package-card .title {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
   color: #54FFFB;
+  margin-bottom: 5px;
+}
+section.subscription .container .inner-details .package-card .value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 section.subscription .container .packages {
   justify-content: space-evenly;
@@ -879,7 +920,7 @@ section.subscription .container .packages .pack:last-child span.success {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #02031b;
+    background: #0A0F1E;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -953,13 +994,13 @@ section.subscription .container .packages .pack:last-child span.success {
     display: block;
   }
   .shadow-fix li a.active::after {
-    box-shadow: -1px -10px #02031b !important;
+    box-shadow: -1px -10px #0A0F1E !important;
   }
   .shadow-fix li a.active::before {
-    box-shadow: 1px -10px #02031b !important;
+    box-shadow: 1px -10px #0A0F1E !important;
   }
   .shadow-fix li a.active {
-    border-color: #02031b !important;
+    border-color: #0A0F1E !important;
   }
 }
 .ripple-effect {

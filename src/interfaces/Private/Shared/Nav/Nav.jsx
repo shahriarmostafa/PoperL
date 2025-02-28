@@ -4,14 +4,16 @@ import { NavLink, Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../providers/AuthProvider';
 import useChatList from "../../../../Hooks/useChatList";
-import { FaStickyNote, FaUserGraduate } from 'react-icons/fa';
+import { FaStickyNote, FaUser, FaUserGraduate } from 'react-icons/fa';
 import { IoChatbox } from 'react-icons/io5';
 import { RiFileSearchFill } from 'react-icons/ri';
+import useSubscription from "../../../../Hooks/checkSubscription"
 
 export default function Nav() {
     const {user, logOut} = useContext(AuthContext);
     const [showDropDown, setShowDropDown] = useState();
 
+    const { userRole } = useSubscription(user?.uid);
 
 
     
@@ -29,6 +31,7 @@ export default function Nav() {
     }
 
     const {unseenCount} = useChatList();
+
 
         
 
@@ -54,11 +57,22 @@ export default function Nav() {
                     </div>
                     <div className="pages shadow-fix mobile-nav">
                             <ul className="container">
-                                <li>
-                                    <NavLink to="/user/teachers">
-                                        <FaUserGraduate></FaUserGraduate>
-                                    </NavLink>
-                                </li>
+                                {userRole === "student"? (
+                                    <li>
+                                        <NavLink to="/user/teachers">
+                                            <FaUserGraduate></FaUserGraduate>
+                                        </NavLink>
+                                    </li>
+
+                                ): (
+                                    <li>
+                                        <NavLink to="/user/profile">
+                                            <FaUser></FaUser>
+                                        </NavLink>
+                                    </li>
+                                    )
+                                }
+                                
                                 <li className='number-of-unseen-chats'>
                                     {
                                         unseenCount?<div className="number-box">
@@ -72,16 +86,22 @@ export default function Nav() {
                                         <IoChatbox></IoChatbox>
                                     </NavLink>
                                 </li>
-                                <li>
+                                
+                                {userRole === "student" && (
+                                    <>
+                                    <li>
                                     <NavLink to="/user/complain">
                                         <FaStickyNote></FaStickyNote>
                                     </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/user/subscription">
-                                        <RiFileSearchFill></RiFileSearchFill>
-                                    </NavLink>
-                                </li>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/user/subscription">
+                                            <RiFileSearchFill />
+                                        </NavLink>
+                                    </li>
+                                    </>
+                                    
+                                )}
                             </ul>
                     </div>
                     <div onClick={() => setShowDropDown(!showDropDown)} className="profile-pic">

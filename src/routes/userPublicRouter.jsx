@@ -12,6 +12,6 @@ export default function UserPublicRouter({children}) {
         return children;
     }
     else{
-        return <Navigate state={location.pathname} to="/user"></Navigate>
+        return <Navigate state={location.pathname} to="/user/chat"></Navigate>
     }
 }

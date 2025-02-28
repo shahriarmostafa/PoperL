@@ -24,9 +24,9 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
     const handleAddChat = async () => {
 
 
-        if(!isSubscribed && !subLoading){
+        if(!isSubscribed){
           Swal.fire({
-            text: "Not Subscribed!",
+            title: "Not Subscribed!",
             icon: "info",
             text: "Please subscribe to continue",
             showCancelButton: true,

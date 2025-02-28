@@ -4,7 +4,7 @@ $white: #ffffff;
 $blue: #4E73DF;
 $shadow: #162a6663;
 $background: #EAEEF2;
-$night-background: #02031b;
+$night-background: #0A0F1E;
 $red: #BD2130;
 $purple: #8043DC;
 $lt-blue: #54FFFB;
@@ -223,20 +223,20 @@ nav{
 section.profile{
     .background{
         width: 100%;
-        height: 400px;
+        height: 200px;
         border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
         background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),url(../../assests//slider-image-1.jpg) center center no-repeat;
         background-size: cover;
     }
     .profile-pic{
         position: relative;
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         background: #1a1313cc;
-        margin: -150px auto 0 auto;
+        margin: -80px 0 0 20px;
         overflow: hidden;
         justify-content: center;
-        border: 1px solid $d-blue;
+        border: 4px solid $gray;
         &::after{
             content: '';
             position: absolute;
@@ -247,8 +247,8 @@ section.profile{
         }
         .inner{
             position: absolute;
-            width: 190px;
-            height: 190px;
+            width: 135px;
+            height: 135px;
             overflow: hidden;
             z-index: 45;
             img{
@@ -258,16 +258,15 @@ section.profile{
 
     }
     .name{
-        margin-top: 5px;
+        margin: 5px 0 0 20px;
         h2{
-            text-align: center;
             font-weight: 700;
         }
     }
     .informations{
         display: flex;
         flex-wrap: wrap;
-        padding: 80px 0;
+        padding: 40px 0;
         justify-content: space-around;
         .personal-info{
             width: 45%;
@@ -775,6 +774,7 @@ section.education-page{
 
 
 section.subscription{
+    min-height: calc(100vh - 146px);
     .container{
         .title{
             h2{
@@ -783,11 +783,55 @@ section.subscription{
                 margin-bottom: 40px;
             }
         }
-        .details{
-            h4{
-                color: $lt-blue;
+        .inner-details{
+            padding: 150px 0;
+            .package-card {
+                background: rgba(15, 15, 30, 0.9); // Slightly transparent dark card
+                padding: 30px;
+                border-radius: 16px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                text-align: center;
+                max-width: 380px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: 0.3s ease-in-out;
+                box-shadow: 0 4px 20px rgba(0, 198, 255, 0.4);
+                
+                .section {
+                    padding: 15px;
+                    margin: 10px 0;
+                    border-radius: 12px;
+                    background: rgba(255, 255, 255, 0.08);
+                    text-align: center;
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                    p{
+                        margin-bottom: 0;
+                    }
+                    &.time-remaining{
+                        p{
+                            color: #FFD700; // Gold for importance
+                            text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+                        }
+                    }
+                }
+        
+                .title {
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    color: $lt-blue; // Gold for a premium effect
+                    margin-bottom: 5px;
+                }
+        
+                .value {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #ffffff;
+                    letter-spacing: 0.5px;
+                }
             }
         }
+        
+        
         .packages{
             justify-content: space-evenly;
             .pack{

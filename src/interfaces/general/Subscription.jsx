@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import '../../styles/after-login/general.css';
 import Package from './Package/Package';
 import { AuthContext } from '../../providers/AuthProvider';
@@ -19,6 +19,8 @@ export default function Subscription() {
 
   const { subscription, isSubscribed, subLoading } = useSubscription(user?.uid);
 
+    //count down
+    const [timeRemaining, setTimeRemaining] = useState(0);
 
 
   const packages = [
@@ -77,6 +79,7 @@ export default function Subscription() {
           purchasedAt: serverTimestamp()
         }
       })
+      window.location.reload(false)
       return true;
 
     }catch(err) {
@@ -85,16 +88,42 @@ export default function Subscription() {
     }
   }
 
-  function getTimeDifference(startDate, expiryDate) {
-    const start = new Date(startDate);
-    const expiry = new Date(expiryDate);
-    const diffInMs = expiry - start; // Difference in milliseconds
+  useEffect(() => {
 
+    if(timeRemaining <= 0) return
+
+    const liveValidation = setTimeout(() => {
+      setTimeRemaining(prev => prev - 1000);
+    }, 1000)
+  
+    return () => clearTimeout(liveValidation)
+
+  }, [timeRemaining])
+
+
+
+  function getTimeDifference(diffInMs) {
+    
     const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-    return  `${days} Days, ${hours} Hours, and ${minutes} Minutes`;
-}
+    const seconds = Math.floor((diffInMs % 60000) / 1000);
+
+    return {days, hours, minutes, seconds}
+  }
+
+  useEffect(() => {
+    const start = new Date();
+    const expiry = new Date(subscription?.expiryDate);
+    const diffInMs = expiry - start; // Difference in milliseconds
+    setTimeRemaining(diffInMs)
+    
+  }, [subscription])
+
+  const {days, hours, minutes, seconds} = getTimeDifference(timeRemaining)
+
+
+  
 
 
   if(subLoading || !isSubscribed || !subscription){
@@ -118,18 +147,35 @@ export default function Subscription() {
 
 
     return(
-        <section className="subscription night-view">
-            <div className="container py-5">
-                <div className="title text-center">
-                    <h2>Your Package</h2>
-                </div>
-                <div className="details">
-                  <div className="remainingDays">
-                    <h4>Package Remaining: {getTimeDifference(new Date().toISOString(), subscription.expiryDate)}</h4>
-                    <h4>Call Limit: {subscription.callLimit}</h4>
-                  </div>
-                </div>
+      <section className="subscription night-view">
+          <div className="container">
+            <div className="inner-details">
+            <div className="package-card">
+      
+      {/* Package Name */}
+      <div className="section package-info">
+        <h2 className="title">Package</h2>
+        <p className="value">{subscription.packageName || "Weekly Package"}</p>
+      </div>
+
+      {/* Time Remaining */}
+      <div className="section time-remaining">
+        <h2 className="title">Time Remaining</h2>
+        <p className="value">{days > 0 && `${days} Days,`} {`${hours}:${minutes}:${seconds}`}</p>
+      </div>
+
+      {/* Call Remaining */}
+      <div className="section call-info">
+        <h2 className="title">Call Remaining</h2>
+        <p className="value">{subscription.callLimit} Minutes</p>
+      </div>
+      
+    </div>
             </div>
-        </section>
+          </div>
+      </section>
+
+    
+    
     )
 }
