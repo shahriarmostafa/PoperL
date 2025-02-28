@@ -31,7 +31,7 @@ export default function ChatBox(){
     //chat informations
     const [chats, setChats] = useState([]);
     const [lastMessageMntsAgo, setLastMessageMntsAgo] = useState(0);
-    const {chatId, receiver} = getChatBoxData();
+    const {chatId, receiver, yourRole} = getChatBoxData();
 
     //auth infromations
     const {user} = useContext(AuthContext);
@@ -128,20 +128,37 @@ export default function ChatBox(){
 
     //send voice message
     const [mediaRecorder, setMediaRecorder] = useState(null);
-const [isRecording, setIsRecording] = useState(false);
+    const [isRecording, setIsRecording] = useState(false);
 
-const useVoiceMessage = () => {
-    Swal.fire({
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Start Recording?"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            startRecording();
-        }
+function getDuration(audioBlob) {
+    return new Promise((resolve) => {
+        const audioURL = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioURL);
+
+        audio.addEventListener("loadedmetadata", () => {
+            if (audio.duration === Infinity || isNaN(audio.duration)) {
+                // Fallback method for Chrome
+                audio.currentTime = 100000000; // Seek far ahead
+                audio.addEventListener("timeupdate", function onTimeUpdate() {
+                    audio.removeEventListener("timeupdate", onTimeUpdate);
+                    resolve(audio.duration);
+                });
+            } else {
+                resolve(audio.duration);
+            }
+        });
+
+        audio.addEventListener("error", () => {
+            resolve(0); // Return 0 if there's an error
+        });
+
+        // Set the source and load metadata
+        audio.src = audioURL;
+        audio.load();
     });
-};
+}
+
+
 
 const startRecording = async () => {
     setIsRecording(true);
@@ -159,13 +176,28 @@ const startRecording = async () => {
             const audioBlob = new Blob(chunks, { type: "audio/webm" });
             stream.getTracks().forEach(track => track.stop()); // ✅ Stop the mic stream
 
-            if (isRecording) {                 
-                await sendVoiceMessage(audioBlob);  // ✅ Only send if not canceled
+            const duration = await getDuration(audioBlob);
+
+            const result = await Swal.fire({
+                title: "Send Voice Message?",
+                text: `Duration: ${duration} seconds`,
+                showCancelButton: true,
+                confirmButtonText: "Send",
+                cancelButtonText: "Cancel"
+            });
+        
+            if (result.isConfirmed) {
+                
+                await sendVoiceMessage(audioBlob, duration); // Only send if confirmed
+            } else {
+                console.log("Voice message canceled");
             }
         };
 
         setMediaRecorder(recorder);
         recorder.start();
+
+        
 
         let swalInterval = setInterval(() => {
             let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
@@ -179,19 +211,16 @@ const startRecording = async () => {
             imageUrl: voiceMessageGiff,
             imageWidth: 100,
             imageAlt: "Recording Voice...",
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Send",
-            cancelButtonText: "Cancel",
+            confirmButtonText: "STOP",
             allowOutsideClick: false,
-        }).then((result) => {
+        }).then(async (result) => {
             clearInterval(swalInterval);
 
             if (result.isConfirmed) {
                 recorder.stop();
             } else {
-                setIsRecording(false);
                 recorder.stop();
             }
         });
@@ -207,7 +236,8 @@ const startRecording = async () => {
 
 
 
-    const sendVoiceMessage = async (newBlob) => {
+
+    const sendVoiceMessage = async (newBlob, duration) => {
         if (!newBlob) return;
     
         const fileName = `${Date.now()}.webm`;
@@ -249,14 +279,42 @@ const startRecording = async () => {
                     }
                 }
             }
+
+
+
+            let voicePoints = 0;
+
+            if (duration >= 8 && duration <= 30) voicePoints = 1;
+            else if (duration > 30 && duration <= 60) voicePoints = 2;
+            else if (duration > 60 && duration <= 120) voicePoints = 3;
+            else if (duration > 120) voicePoints = 5;
+
+            
+
+            // ✅ Update teacher's points in `teacherCollection`
+            const teacherRef = doc(db, "teacherCollection", user?.uid);
+            const teacherData = await getDoc(teacherRef);
+
+            if (teacherData.exists()) {
+                const currentPoints = teacherData.data().points;
+                if(voicePoints > 0){
+                    await updateDoc(teacherRef, { points: currentPoints + voicePoints });
+                }
+            }
+
+
+            //sending notification to the user
             sendNottification("🎙️ Sent a Voice Message.", receiver?.FCMToken, user?.displayName)
     
-            setIsRecording(false);  // ✅ Moved outside the loop (only runs once)
+            
         } catch (err) {
             alert("Something wrong with sending message");
         }
     
     };
+
+
+    
 
     
 
@@ -295,7 +353,7 @@ const startRecording = async () => {
         let imgUrl = null;
 
         if(image){
-            setIsOpen(false)
+            setIsOpen(false);
             const fileName = `${Date.now()}_${image.name}`;
             const {data, error} = await supabase.storage.from("poperl_chat_data").upload(fileName, image, {
                 cacheControl: 'public, max-age=3600',
@@ -338,6 +396,31 @@ const startRecording = async () => {
                 }
                 setUploadingImg(false);
             });
+
+            //determining the points teacher gets
+
+            let textPoints = 0;
+            const textLength = text.trim().length;
+            if (textLength > 8 && textLength <= 50) textPoints = 2;
+            else if (textLength > 50 && textLength <= 150) textPoints = 4;
+            else if (textLength > 150 && textLength <= 300) textPoints = 6;
+            else if (textLength > 300 ) textPoints = 8;
+
+            // Check if sender is a teacher
+            const teacherRef = doc(db, "teacherCollection", user.uid);
+            const teacherSnap = await getDoc(teacherRef);
+
+            if(teacherSnap.exists()){
+                let pointsToAdd = textPoints + (imgUrl? 5: 0);
+                if(pointsToAdd > 0){
+                    await updateDoc(teacherRef, {
+                        points: (teacherSnap.data().points) + pointsToAdd
+                    })
+                }
+            }
+
+
+
         } catch (err) {
             console.log(err);
         }
@@ -369,10 +452,10 @@ const startRecording = async () => {
     
 
     return (
-        <div className="chat-page">
-            <section className="chat night-view">
+            <div className="chat-page">
+                <section className="chat night-view">
                     <div className="chat-box">
-                        <ChatTop callerID={user.uid} receiver={receiver} channel={chatId} callerName={user?.displayName}></ChatTop>
+                        <ChatTop callerID={user?.uid} receiverRole={yourRole} receiver={receiver} channel={chatId} callerName={user?.displayName}></ChatTop>
                         <div className="container conversation">
                             <div className="all-message">
                                 {
@@ -408,7 +491,7 @@ const startRecording = async () => {
 
                         {/* type message */}
                         <div className="typing-area d-flex justify-content-center">
-                            <button onClick={useVoiceMessage} className="voice-message d-flex">
+                            <button onClick={startRecording} className="voice-message d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
                             </button>
                             <form method='post' className='d-flex' onSubmit={handleInputChange}>
@@ -437,7 +520,7 @@ const startRecording = async () => {
                         </div>
                     </div>
                 </section>
-        </div>
+            </div>
             
     )
 }

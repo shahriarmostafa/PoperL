@@ -15,22 +15,72 @@ $gray: #34495E;
 
 
 section.complain{
-    padding: 0px 0 80px 0;
+    padding: 60px 0 80px 0;
     background: $night-background;
     min-height: calc(100vh - 145px);
-    form.complain-form{
-        margin: auto;
-        max-width: 600px;
-        padding: 50px;
-        input,textarea{
-            width: 100%;
-            display: block;
-            margin-bottom: 10px;
-        }
-    }
+        form.complain-form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px ;
+            background: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            h2 {
+              text-align: center;
+              color: $white;
+              margin-bottom: 15px;
+            }
+          
+            input,
+            textarea {
+              border: none;
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 15px;
+              border-radius: 5px;
+              font-size: 16px;
+              transition: border 0.3s;
+              background: rgba(255, 255, 255, 0.08);
+              &:focus {
+                border-color: $d-blue;
+                outline: none;
+              }
+            }
+          
+            span {
+              display: block;
+              margin-bottom: 5px;
+              font-size: 14px;
+              color: #666;
+            }
+          
+            input[type="file"] {
+              padding: 5px;
+              border: none;
+              background: rgba(255, 255, 255, 0.08);
+              color: #666;
+            }
+          
+            input[type="submit"] {
+              background: $d-blue;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+              transition: background 0.3s;
+          
+              &:hover {
+                background: $blue;
+              }
+            }
+          }
+          
+    
 
     .view-complains{
+        margin-top: 50px;
         ul{
+            max-width: 100%;
+            padding: 0;
             li{
                 list-style-type: none;
                 padding: 15px 40px;

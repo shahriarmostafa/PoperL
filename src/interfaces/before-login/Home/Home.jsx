@@ -8,7 +8,7 @@ import sliderImg2 from "../../../assests/slider-image-2.jpg";
 import sliderImg3 from "../../../assests/slider-image-3.jpg";
  
 
-import Pack from './pack';
+import Pack from './Pack';
 
 export default function Home(){
   

@@ -383,7 +383,7 @@ const playRingtone = () => {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {showCallUi && <CallUI callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>}
+    {showCallUi && <CallUI UID={UID} callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>}
   </CallContext.Provider>
   );
 }

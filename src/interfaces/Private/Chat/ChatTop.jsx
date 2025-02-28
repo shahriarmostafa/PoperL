@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
 import { db } from "../../../firebase/firebase.init";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CallContext } from "../../../providers/CallProvider";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-export default function ChatTop({channel, callerID, receiver, callerName}) {
+export default function ChatTop({channel, callerID, receiver, callerName, receiverRole}) {
 
   const receiverID = receiver?.uid;
   const userName = receiver?.displayName;
@@ -47,6 +48,27 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
 
     setCallLeavingUID(receiverId);
     setShowCallUi(true);
+
+    const studentRef = doc(db, "studentCollection", callerId);
+    const studentSnap = await getDoc(studentRef);
+
+    if (studentSnap.exists()) {
+        const studentData = studentSnap.data();
+        const callLimit = studentData.subscription?.callLimit;
+
+        if (callLimit <= 0) {
+          setShowCallUi(false);
+            Swal.fire("Call Limit is over", "You need to buy new package to call again", "question");
+            return; // Stop execution if the limit is exceeded
+        }
+    } else {
+        Swal.fire("Error", "Student data not found.", "error");
+        return;
+      }
+
+
+
+
 
 
     const channelName = channel; // Unique channel name
@@ -119,13 +141,17 @@ export default function ChatTop({channel, callerID, receiver, callerName}) {
         </div>
 
         <div className="right d-flex align-items-center">
-          <div className="call-audio d-flex">
-            <button onClick={() => initiateCall(callerID, receiverID)}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-              </svg>
-            </button>
-          </div>
+          {
+            receiverRole == 'teacher' && (
+              <div className="call-audio d-flex">
+                <button onClick={() => initiateCall(callerID, receiverID)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
+                  </svg>
+                </button>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

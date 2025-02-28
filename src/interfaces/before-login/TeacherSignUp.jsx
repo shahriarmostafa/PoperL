@@ -73,11 +73,11 @@ export default function TeacherSignUp(){
             rating: 0,
             joined: Date.now(),
             subjects: [],
-            lessonMinutes: 0,
+            points: 0,
             revenuePercent: 0,
             joinedGroup: null,
             ownerOfGroup: null,
-            groupMembers: [],
+            groupMembers: 0,
             approved: false, // Default approval status
             FCMToken: await requestForToken(),
             isOnline: false

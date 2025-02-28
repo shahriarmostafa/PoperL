@@ -167,7 +167,7 @@ export default function Subscription() {
       {/* Call Remaining */}
       <div className="section call-info">
         <h2 className="title">Call Remaining</h2>
-        <p className="value">{subscription.callLimit} Minutes</p>
+        <p className="value">{parseInt(subscription.callLimit)} Minutes, {Math.round((subscription.callLimit % 1) * 60)} seconds</p>
       </div>
       
     </div>

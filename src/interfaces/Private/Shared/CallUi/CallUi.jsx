@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import { MdCallEnd } from 'react-icons/md';
 import { CallContext } from '../../../../providers/CallProvider';
+import { doc, increment, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../firebase/firebase.init';
 
-const CallUI = ({ status, callEndingId, callData }) => {
+const CallUI = ({ status, callEndingId, callData, UID}) => {
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
@@ -47,7 +49,39 @@ const CallUI = ({ status, callEndingId, callData }) => {
 
   const endCall = async () => {
     clearInterval(intervalId);
+
+    // Determine call points based on duration
+    let callPoints = 0;
+    if (seconds >= 10 && seconds < 40) callPoints = 1;   // 1-2 min
+    else if (seconds >= 40 && seconds < 180) callPoints = 2;   // 1-2 min
+    else if (seconds >= 180 && seconds < 300) callPoints = 5;   // 3-5 min
+    else if (seconds >= 300 && seconds < 600) callPoints = 10;  // 6-10 min
+    else if (seconds >= 600 && seconds < 900) callPoints = 15;  // 11-15 min
+    else if (seconds >= 900 && seconds < 1200) callPoints = 20; // 16-20 min
+    else if (seconds >= 1200 && seconds < 1500) callPoints = 25; // 21-25 min
+    else if (seconds >= 1500) callPoints = 30; // 26-30 min
+
     await leaveChannel(callEndingId);
+
+    // Update teacher's points if callPoints > 0
+
+
+    
+    if (callPoints > 0) {
+      const teacherRef = doc(db, "teacherCollection", callEndingId);
+      
+      await updateDoc(teacherRef, {
+          points: increment(callPoints),
+      });
+    }
+
+    const studentId = UID == callEndingId? callData.callerId : UID;
+
+    const studentRef = doc(db, "studentCollection", studentId);
+    await updateDoc(studentRef, {
+        "subscription.callLimit": increment(-seconds / 60), // Convert seconds to minutes
+    });
+
   };
 
   const openBoard = () => {

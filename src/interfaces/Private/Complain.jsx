@@ -2,16 +2,20 @@ import { FaEdit, FaEye } from 'react-icons/fa';
 import '../../styles/private/private.css';
 import { MdDelete } from 'react-icons/md';
 export default function Complain(){
+
+    const doIt = (e) => {
+        e.preventDefault()
+    }
     return (
         <section className="complain">
             <div className="container">
-                <form action="" className="complain-form">
+                <form onSubmit={doIt} action="" className="complain-form">
                 <h2>Enter your complain here</h2>
                     <input name="subject" placeholder="Enter a subject for your complain" type="text" />
                     <input name="phone" placeholder="Enter you whatsapp number for contact (optional)" type="number" />
                     <span>Submit a photo if needed (optional)</span>
                     <input type="file" />
-                    <textarea rows={10} required name="complain" id=""placeholder="Describe your complain here"></textarea>
+                    <textarea rows={6} required name="complain" id=""placeholder="Describe your complain here"></textarea>
                     <input type="submit" value="Submit" />
                 </form>
                 <div className="view-complains">
