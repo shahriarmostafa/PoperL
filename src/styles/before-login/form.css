@@ -14,7 +14,7 @@
 .form form {
   max-width: 200px;
 }
-.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit], .form form input[type=number] {
+.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit], .form form input[type=number], .form form select {
   box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
   border: none;
   outline: none;
@@ -26,7 +26,7 @@
   margin: 10px 0;
   font-size: 12px;
 }
-.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit], .form form input[type=number][type=submit] {
+.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit], .form form input[type=number][type=submit], .form form select[type=submit] {
   background: #4E73DF;
   box-shadow: none;
   color: #ffffff;

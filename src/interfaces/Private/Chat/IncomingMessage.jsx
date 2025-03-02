@@ -1,5 +1,11 @@
+import { FaHeart, FaThumbsDown } from "react-icons/fa";
+import {setTeacherFeedback} from "../../../Hooks/setTeacherFeedBack";
 
-export default function IncomingMessage ({message, image, audio, isFirstInGroup, isLastInGroup, viewImage}){
+export default function IncomingMessage ({message, image, audio, isFirstInGroup, isLastInGroup, viewImage, senderId, showFeedback, chatId, index}){
+    
+    const handleLike = () => setTeacherFeedback(senderId, true, chatId, index);
+    const handleDislike = () => setTeacherFeedback(senderId, false, chatId, index);
+    
     return (
         <div className={`incoming-message ${isFirstInGroup ? "first-in-group" : ""} 
           ${isLastInGroup ? "last-in-group" : ""}`}>
@@ -26,6 +32,12 @@ export default function IncomingMessage ({message, image, audio, isFirstInGroup,
                     </div>
                     : '' 
                 }
+                {showFeedback && (
+                    <div className="feedback">
+                        <button className="dislike" onClick={handleDislike}><FaThumbsDown></FaThumbsDown></button>
+                        <button className="love" onClick={handleLike}><FaHeart></FaHeart></button>
+                    </div>
+                )}
             </div>
         </div>
     )

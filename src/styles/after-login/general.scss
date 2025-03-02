@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
 // basic setup
 $white: #ffffff;
-$blue: #4E73DF;
+$blue: #5468FF;
 $shadow: #162a6663;
 $background: #EAEEF2;
 $night-background: #0A0F1E;
 $red: #BD2130;
 $purple: #8043DC;
-$lt-blue: #54FFFB;
+$lt-blue: #5adaff;
 $d-blue: #2196F3;
 $pinkish: #D40A6C;
 $green: #1E7E34;
@@ -346,83 +346,186 @@ section.education-page{
     min-height: calc(100vh - 145px);
 
     .container{
-        padding: 80px 10px;
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        .box{
-            max-width: 180px;
-            background: $white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 4px 4px 4px $lt-blue, -4px -4px 4px $blue, 4px -4px 4px $lt-blue, -4px 4px 4px $blue;
-            margin-bottom: 20px;
-            .photo{
-                width: 100%;
+        .filter-tabs{
+            padding: 60px 0 12px 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+
+
+            /* CSS */
+            .button-29 {
+                align-items: center;
+                appearance: none;
+                border: 0;
+                background: #5468FF;
+                border-radius: 6px;
+                box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+                box-sizing: border-box;
+                color: #fff;
+                cursor: pointer;
+                display: inline-flex;
+                font-family: "JetBrains Mono",monospace;
+                height: 48px;
+                justify-content: center;
+                line-height: 1;
+                list-style: none;
                 overflow: hidden;
-                &.teacher{
-                    height: 200px;
-                }
+                padding-left: 16px;
+                padding-right: 16px;
                 position: relative;
-                    .online-status{
-                        position: absolute;
-                        display: flex;
-                        align-items: center;
-                        top: 15px;
-                        left: 15px;
-                        .text{
-                            font-size: 10px;
-                            font-weight: 700;
-                            margin-left: 2px;
-                        }
-                        .dot{
-                            width: 10px;
-                            height: 10px;
-                            border-radius: 50%;
-                            background: $gray;
-                        }
-                        &.online{
+                text-align: left;
+                text-decoration: none;
+                transition: box-shadow .15s,transform .15s, background 0.15s;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                white-space: nowrap;
+                will-change: box-shadow,transform;
+                font-size: 18px;
+            }
+
+            .button-29.active {
+                box-shadow: #3c4fe0 0 5px 6px inset;
+                transform: translateY(-5px);
+                background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+
+
+            }
+
+            // .button-29:hover {
+            //     box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+            //     transform: translateY(-5px);
+            // }
+
+            .button-29:active {
+                box-shadow: #3c4fe0 0 3px 7px inset;
+            }
+            
+        }
+        .filter-dropdown{
+            h5{
+                color: $white;
+                margin-top: 15px;
+                font-weight: 600;
+
+            }
+            select {
+                appearance: none;
+                color: #ffffff;
+                padding: 12px 15px;
+                font-size: 16px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background 0.3s ease, box-shadow 0.3s ease;
+                box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+                outline: none;
+                font-weight: bold;
+                text-align: center;
+                background: #5468ff;
+                width: 100%;
+                max-width: 300px;
+                min-width: 200px;
+                margin: auto;
+                display: block;
+            }
+            select {
+                background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: right 15px center;
+                background-size: 18px;
+            }
+            /* Option styling */
+            select option {
+                background-color: #ffffff;
+                color: #000000;
+            }
+        }
+        .teacher-wrapper{
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            padding: 50px 0;
+            gap: 2px;
+            .box{
+                max-width: 180px;
+                background: $white;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 4px 4px 4px $lt-blue, -4px -4px 4px $blue, 4px -4px 4px $lt-blue, -4px 4px 4px $blue;
+                margin-bottom: 20px;
+                .photo{
+                    width: 100%;
+                    height: auto;
+                    overflow: hidden;
+                    position: relative;
+                        .online-status{
+                            position: absolute;
+                            display: flex;
+                            align-items: center;
+                            top: 15px;
+                            left: 15px;
+                            .text{
+                                font-size: 10px;
+                                font-weight: 700;
+                                margin-left: 2px;
+                            }
                             .dot{
-                                background: $blue;
+                                width: 10px;
+                                height: 10px;
+                                border-radius: 50%;
+                                background: $gray;
+                            }
+                            &.online{
+                                .dot{
+                                    background: $blue;
+                                }
                             }
                         }
+                    img{
+                        width: 100%;
                     }
-                img{
-                    width: 100%;
                 }
-            }
-            .info{
-                padding: 16px;
-                text-align: center;
-                h3{
-                    font-size: 16px;
-                    font-weight: 700;
-                    color: $blue;
-                }
-                span{
-                    font-size: 14px;
-                    font-weight: 800;
-                    display: block;
-                    margin-bottom: 5px;
-                }
-                .level{
-                    background: linear-gradient(to right, gold, $pinkish, gold);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
-                button{
-                    width: 100%;
-                    padding: 12px 12px;
-                    background: $blue;
-                    border: none;
-                    color: $white;
-                    font-size: 12px;
-                    font-weight: 500;
-                    border-radius: 5px;
-                    box-shadow: 4px 4px 8px $background;
+                .info{
+                    padding: 12px 16px 12px 16px;
+                    // text-align: center;
+                    h3{
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: $blue;
+                    }
+                    span{
+                        font-size: 14px;
+                        font-weight: 800;
+                        display: block;
+                        margin-bottom: 5px;
+                    }
+                    .level{
+                        background: linear-gradient(to right, gold, $pinkish, gold);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+                    button{
+                        width: 100%;
+                        padding: 12px 12px;
+                        background: $blue;
+                        border: none;
+                        color: $white;
+                        font-size: 12px;
+                        font-weight: 500;
+                        border-radius: 5px;
+                        box-shadow: 4px 4px 8px $background;
+                        box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+                        transition: box-shadow 0.15s;
+                        &.active{
+                            box-shadow: none;
+                        }
+                    }
                 }
             }
         }
+        
     }
 }
 // subject page
@@ -430,10 +533,10 @@ section.education-page{
 
 //  chat page
 .chat-page{
-    height: calc(100vh - 84px);
+    height: calc(100vh - 145px);
     section.chat{
         &.people{
-            height: calc(100% - 62px);
+            height: 100%;
         }
         .left-side{
             width: 30%;
@@ -525,7 +628,7 @@ section.education-page{
         .chat-box{
             height: 100vh;
             .conversation{
-                height: calc(100% - 114px);
+                height: calc(100% - 121px);
                 overflow-y: scroll;
 
                 &::-webkit-scrollbar-thumb{
@@ -656,8 +759,27 @@ section.education-page{
                             color: $white;
                             background: $gray;
                         }
-                        .photo{
-                            margin-left: 15px;
+
+                        .feedback{
+                            float: right;
+                            button{
+                                border: none;
+                                background: none;
+                                transition: 3s;
+                                &:hover{
+                                    transform: translateY(-1000px);
+                                }
+                            }
+                            .love{
+                                svg{
+                                    color: $d-blue;
+                                }
+                            }
+                            .dislike{
+                                svg{
+                                    color: $blue;
+                                }
+                            }
                         }
                     }
                 }
@@ -669,6 +791,7 @@ section.education-page{
                         // color: #e6e3e3;
                         color: $lt-blue;
                         font-style: italic;
+                        margin-top: 12px;
                     }
                 }
                 .uploading{
@@ -681,7 +804,7 @@ section.education-page{
             }
             
             .typing-area{
-                padding: 8px 0;
+                padding: 10px 0;
                 justify-content: center;
                 border-top: 1px solid $blue;
                 background: $blue;
@@ -703,16 +826,20 @@ section.education-page{
                     }
                 }
                 form{
+                    width: 80%;
                     gap: 3px;
                     .inbox{
-                        max-width: 80%;
-                        input{
+                        width: 90%;
+                        textarea{
                             width: 100%;
-                            padding: 10px 18px;
+                            padding: 14px 18px;
                             border-radius: 25px;
-                            font-size: 11px;
+                            font-size: 12px;
                             font-weight: 700;
                             border: none;
+                            min-width: 0;
+                            overflow-y: auto;
+                            overflow-x: auto;
                             &:focus{
                                 outline: none;
                             }
@@ -1027,7 +1154,7 @@ section.subscription{
         .chat-box{
             width: 100%;
             .conversation{
-                height: calc(100% - 122px);
+                height: calc(100% - 121px);
             }
         }
     }

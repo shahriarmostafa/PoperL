@@ -147,8 +147,8 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
             </div>
             <div className="info">
                 <h3 className="name">{name}</h3>
-                <span className="rating">{rating}/5.0 Appreciated</span>
-                <span className="level">{experience} PT Experienced</span>
+                <span className="rating">{Number(rating).toFixed(1)}/5.0 Appreciated</span>
+                <span className={experience > 0 && `level`}>{experience}PP Experience</span>
                 <button onClick={handleAddChat}>Message</button>
             </div>
         </div>

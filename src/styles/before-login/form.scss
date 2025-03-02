@@ -20,7 +20,7 @@ $green: rgb(27, 153, 27);
     align-items: center;
     form{
         max-width: 200px;
-        input[type="text"], input[type="password"], input[type="email"], input[type="submit"], input[type="number"]{
+        input[type="text"], input[type="password"], input[type="email"], input[type="submit"], input[type="number"], select{
             box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
             border: none;
             outline: none;

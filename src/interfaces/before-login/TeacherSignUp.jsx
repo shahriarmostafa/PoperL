@@ -70,9 +70,10 @@ export default function TeacherSignUp(){
             photoURL: res.user?.providerData[0]?.photoURL,
             whatsapp: data.phone, // Collect WhatsApp number
             experience: 0,
-            rating: 0,
+            rating: 4,
             joined: Date.now(),
             subjects: [],
+            category: data.category,
             points: 0,
             revenuePercent: 0,
             joinedGroup: null,
@@ -126,12 +127,16 @@ export default function TeacherSignUp(){
                 <h1 className="headline">Sign Up as a teacher</h1>
                 {/* the form */}
                 <form onSubmit={handleSubmit(teacherOnSubmit)}>
-                    <input {...register("name", {required: true, maxLength: 30})} type='text' placeholder='Enter Your Full Name' />
+                    <input {...register("name", {required: true, maxLength: 30})} type='text' placeholder='Your Full Name' />
                     <input {...register("email", {required: true})} type="email" placeholder='Enter your email' required />
-                    <input {...register("phone", {required: true})} type="number" placeholder='Enter your whatsapp number' required />
+                    <input {...register("phone", {required: true})} type="number" placeholder='Whatsapp number' required />
+                    <select {...register("category")} name="" id="">
+                      <option value="school/college">School/College</option>
+                      <option value="university">University</option>
+                    </select>
                     <div className="password-box">                            
                         <div className="write-password">
-                            <input {...register("password", {minLength: 8})} type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >
+                            <input {...register("password", {minLength: 8})} type={showPassword? 'text' : 'password'} placeholder='Your Password'  >
                             </input>
                             <button className="show-pass-btn" onClick={() => setShowPassword(!showPassword)}>{changeIcon()}</button>
                         </div>

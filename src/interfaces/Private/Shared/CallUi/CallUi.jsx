@@ -3,11 +3,12 @@ import { MdCallEnd } from 'react-icons/md';
 import { CallContext } from '../../../../providers/CallProvider';
 import { doc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebase.init';
-
+import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
 const CallUI = ({ status, callEndingId, callData, UID}) => {
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
+  const [disabledReview, setDisabledReview] = useState(false);
   const callerName = status == "Ringing"? "Teacher" : "Student";
 
   useEffect(() => {
@@ -54,12 +55,12 @@ const CallUI = ({ status, callEndingId, callData, UID}) => {
     let callPoints = 0;
     if (seconds >= 10 && seconds < 40) callPoints = 1;   // 1-2 min
     else if (seconds >= 40 && seconds < 180) callPoints = 2;   // 1-2 min
-    else if (seconds >= 180 && seconds < 300) callPoints = 5;   // 3-5 min
-    else if (seconds >= 300 && seconds < 600) callPoints = 10;  // 6-10 min
-    else if (seconds >= 600 && seconds < 900) callPoints = 15;  // 11-15 min
-    else if (seconds >= 900 && seconds < 1200) callPoints = 20; // 16-20 min
-    else if (seconds >= 1200 && seconds < 1500) callPoints = 25; // 21-25 min
-    else if (seconds >= 1500) callPoints = 30; // 26-30 min
+    else if (seconds >= 180 && seconds < 300) callPoints = 3;   // 3-5 min
+    else if (seconds >= 300 && seconds < 600) callPoints = 5;  // 6-10 min
+    else if (seconds >= 600 && seconds < 900) callPoints = 8;  // 11-15 min
+    else if (seconds >= 900 && seconds < 1200) callPoints = 12; // 16-20 min
+    else if (seconds >= 1200 && seconds < 1500) callPoints = 15; // 21-25 min
+    else if (seconds >= 1500) callPoints = 20; // 26-30 min
 
     await leaveChannel(callEndingId);
 
@@ -102,6 +103,17 @@ const CallUI = ({ status, callEndingId, callData, UID}) => {
     }
   };
 
+  //review for teacher
+  const handleLike = () => {
+    setDisabledReview(true);
+    setTeacherFeedback(callEndingId, true, null, null);
+  
+  };
+  const handleDislike = () => {
+    setDisabledReview(true)
+    setTeacherFeedback(callEndingId, false, null, null)
+  };
+
 
   return (
     <div className="call-ui-container">
@@ -136,12 +148,26 @@ const CallUI = ({ status, callEndingId, callData, UID}) => {
 
         {
           status === "accepted" &&
-          <div className="call-actions">
-            <button onClick={endCall} className="end-call-button">
-              <MdCallEnd></MdCallEnd>
-            </button>
-            <button onClick={openBoard} className="whiteboard-button">Show Whiteboard</button>
-          </div>
+          (<>
+            {
+              callEndingId != UID && (
+                <div className="feedback  my-2">
+                  <h3 className='text-center'>Add a Review?</h3>
+                  <button onClick={handleLike} className="dislike btn btn-success mx-1" disabled={disabledReview}>Good Teacher</button>
+                  <button onClick={handleDislike} className="love btn btn-danger" disabled={disabledReview}>Not Good</button>
+                  {disabledReview && <h5 className='text-success'>Thanks for adding a review</h5>}
+                </div>
+              )
+            }
+            <div className="call-actions">
+              <button onClick={endCall} className="end-call-button">
+                <MdCallEnd></MdCallEnd>
+              </button>
+              <button onClick={openBoard} className="whiteboard-button">Show Whiteboard</button>
+            </div>
+          </>
+          
+          )
         }
         
         {

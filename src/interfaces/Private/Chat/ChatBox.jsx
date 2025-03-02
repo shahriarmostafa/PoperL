@@ -79,7 +79,7 @@ export default function ChatBox(){
     }, [chats, uploadingImg]);
 
 
-    //last message mnts ago view
+    //last message mnts ago view // chats view // feedback view
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "chatDB", chatId), (res)=> {
             setChats(res.data());
@@ -87,9 +87,10 @@ export default function ChatBox(){
             const createdAtValue = res.data().messages[lastMessageIndex].createdAt;
             const mntsAgoValue = Math.floor((Date.now() - createdAtValue)/ 60000);
             setLastMessageMntsAgo( mntsAgoValue );
+
         });
 
-        
+
 
         return () => {
             unSub()
@@ -103,7 +104,6 @@ export default function ChatBox(){
     //download image
     const downloadImage = (image) => { 
         Swal.fire({
-            icon: "download",
             imageUrl: image,
             imageWidth: 300,
             imageAlt: "Custom image",
@@ -118,10 +118,6 @@ export default function ChatBox(){
                 link.target = '_blank';
                 link.download = 'image.jpg'; // You can set the filename as you prefer
                 link.click();
-              Swal.fire({
-                title: "Downloaded!",
-                icon: "success"
-              });
             }
           });;
     }
@@ -259,6 +255,7 @@ const startRecording = async () => {
                 messages: arrayUnion({
                     audioUrl: audioUrl,
                     senderId: user.uid,
+                    lastMessageFeedback: null,
                     createdAt: Date.now()
                 }),
             });
@@ -274,6 +271,7 @@ const startRecording = async () => {
                     if (chatIndex !== -1) {
                         finalData.chats[chatIndex].lastMessage = "🎙️ Voice Message";
                         finalData.chats[chatIndex].isSeen = id === user.uid;
+                        finalData.chats[chatIndex].lastMessageFeedback = null;
                         finalData.chats[chatIndex].updatedAt = Date.now();
                         await updateDoc(userChatRef, { chats: finalData.chats });
                     }
@@ -376,7 +374,8 @@ const startRecording = async () => {
                     senderId: user.uid,
                     ...(text &&  {text: text}), // Save text message
                     createdAt: Date.now(),
-                    ...(imgUrl &&  {imageUrl: imgUrl})
+                    ...(imgUrl &&  {imageUrl: imgUrl}),
+                    lastMessageFeedback: null
                 }),
             });
     
@@ -389,6 +388,7 @@ const startRecording = async () => {
                     const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
                     finalData.chats[chatIndex].lastMessage = text || "📷 Image";
                     finalData.chats[chatIndex].isSeen = id === user.uid ? true : false;
+                    finalData.chats[chatIndex].lastMessageFeedback = null;
                     finalData.chats[chatIndex].updatedAt = Date.now();
                     await updateDoc(userChatRef, {
                         chats: finalData.chats
@@ -461,9 +461,11 @@ const startRecording = async () => {
                                 {
                                     chats?.messages?.map((chat, index)=>{
                                         const isFirstInGroup = index === 0 || chats.messages[index - 1]?.senderId !== chat.senderId;
-                                            const isLastInGroup = index === chats.messages.length - 1 || chats.messages[index + 1]?.senderId !== chat.senderId;
+                                        const isLastInGroup = index === chats.messages.length - 1 || chats.messages[index + 1]?.senderId !== chat.senderId;
+                                        // Identify the last message in the chat
+                                        
                                         if(chat.senderId === user.uid) return <SentMessage viewImage={downloadImage} message={chat.text} image={chat.imageUrl} audio={chat.audioUrl} key={chat.createdAt} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></SentMessage>
-                                        return <IncomingMessage viewImage={downloadImage} message={chat.text} audio={chat.audioUrl} key={chat.createdAt} image={chat.imageUrl} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></IncomingMessage>
+                                        return <IncomingMessage index={index} chatId={chatId} showFeedback={yourRole == "teacher" && isLastInGroup && chat.lastMessageFeedback === null} senderId={chat.senderId} viewImage={downloadImage} message={chat.text} audio={chat.audioUrl} key={chat.createdAt} image={chat.imageUrl} isFirstInGroup={isFirstInGroup} isLastInGroup={isLastInGroup}></IncomingMessage>
                                     })
                                 }
                                 <div className="last-message">
@@ -508,7 +510,7 @@ const startRecording = async () => {
                                 </div> */}
                                 
                                 <div className="inbox d-flex">
-                                    <input autoComplete="off" ref={inputRef} name="message" type="text" placeholder="Enter your message here..."></input>
+                                    <textarea autoComplete="off" rows={1} ref={inputRef} name="message" type="text" placeholder="Enter your message here..."></textarea>
                                 </div>
                                 <div className="transfer">
                                     <label htmlFor="send" className='send d-flex'>
