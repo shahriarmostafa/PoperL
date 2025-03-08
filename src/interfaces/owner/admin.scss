@@ -209,8 +209,9 @@ section.admin{
                             justify-content: center;
                             align-items: center;
                             align-items: center;
-                            img{
-                                width: 30px;
+                            svg{
+                                font-size: 30px;
+                                fill: #fff;
                             }
                         }
                         .subject{
@@ -309,10 +310,9 @@ section.admin{
                             }
                         }
                         .icon{
-                            width: 20px;
                             margin: auto;
                             svg{
-                                width: 100%;
+                                font-size: 18px;
                                 fill: $blue;
                             }
                         }

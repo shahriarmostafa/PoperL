@@ -7,11 +7,12 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import SocialSignUp from './shared/SocialSignUp';
 
 export default function SignIn(){
     const [showPassword, setShowPassword] = useState(false);
 
-    const {userSignIn}= useContext(AuthContext);
+    const {userSignIn, signInWithGoogle}= useContext(AuthContext);
 
 
 
@@ -94,6 +95,55 @@ export default function SignIn(){
           });
 
       };
+
+    const googleSignIn = async () => {
+                      try{
+        
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: "bottom-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                      });
+                    
+                      const timerInstance = Toast.fire({
+                        icon: "info",
+                        title: "Processing your request...",
+                      });
+        
+                      Swal.stopTimer();
+        
+                      
+                    const response = await signInWithGoogle()
+                    
+                    const userInDataBase = {
+                      uid: response.user?.uid,
+                      email: response.user?.email,
+                      displayName: response.user?.displayName,
+                      photoURL: response.user?.providerData[0]?.photoURL,
+                      FCMToken: await requestForToken() || null,
+                      subscription: null
+                    };
+                    Swal.resumeTimer();
+                  Swal.stopTimer();
+                    
+                    const checkTeacher = await axiosSecure.post("/newTeacher", userInDataBase);
+                      if(!checkTeacher.data.success){
+                        await axiosSecure.post("/newStudent", userInDataBase);
+                      }
+                    Swal.resumeTimer();
+              
+                    navigate("/user/chat");
+                      }catch (err){
+                        Swal.update({
+                          icon: "error",
+                          title: "An error occurred",
+                          text: err.message,
+                        });
+                        console.log(err);
+                    }   
+              }
       
     function changeIcon(){
         if(showPassword == true){
@@ -125,29 +175,26 @@ export default function SignIn(){
         sendPasswordResetEmail(auth, currentEmail).then().catch(err => err)
     }
     return (
-        <div className="sign-in page">
-            <div className="container">
+        <div className="sign-in page auth-page">
             <div className="form">
-                <h1 className="headline">Sign In</h1>
-                <form onSubmit={formSubmitHandler}>
-                <input ref={emailRef} name="email" type="email" placeholder='Enter your email' required />
-                <div className="password-box">                            
-                    <div className="write-password">
-                        <input name="password" type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >
-                        </input>
-                        <button className="show-pass-btn" onClick={() => setShowPassword(!showPassword)}>{changeIcon()}</button>
-                    </div>
-                
-                    </div>
-                    <input type="submit" />
-                </form>
+                    <h1 className="headline">Sign In</h1>
+                    <form onSubmit={formSubmitHandler}>
+                    <input ref={emailRef} name="email" type="email" placeholder='Enter your email' required />
+                    <div className="password-box">                            
+                        <div className="write-password">
+                            <input name="password" type={showPassword? 'text' : 'password'} placeholder='Enter Your Password'  >
+                            </input>
+                            <button className="show-pass-btn" onClick={() => setShowPassword(!showPassword)}>{changeIcon()}</button>
+                        </div>
 
-                <a href='#' onClick={forgotPassHandle}>Forgot Password?</a>
-                <p href='#'>Don't have an account? <span><Link to="/signup">Sign Up</Link></span></p>
-            </div>
-            </div>
-            <div className="directions">
-            </div>
+                        </div>
+                        <input type="submit" />
+                    </form>
+
+                    <a href='#' onClick={forgotPassHandle}>Forgot Password?</a>
+                    <p href='#'>Don't have an account? <span><Link to="/signup">Sign Up</Link></span></p>
+                    <SocialSignUp googleSignIn={googleSignIn}></SocialSignUp>
+                </div>
         </div>  
     )
 }

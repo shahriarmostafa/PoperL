@@ -7,11 +7,11 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { requestForToken } from '../../firebase/firebase.init';
-
+import SocialSignUp from "./shared/SocialSignUp"
 export default function SignUp(){
 
     const { register, handleSubmit } = useForm();
-    const {createUser, editProfile} = useContext(AuthContext);
+    const {createUser, editProfile, signInWithGoogle} = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const axiosSecure = useAxiosSecure()
 
@@ -71,7 +71,7 @@ export default function SignUp(){
       
           // Navigate to chat and complete the flow
           Swal.resumeTimer();
-          navigate("/chat");
+          navigate("/user/teachers");
       
           Swal.update({
             icon: "success",
@@ -90,6 +90,53 @@ export default function SignUp(){
         }
       };
 
+    const googleSignIn = async () => {
+                  try{
+    
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+                
+                  const timerInstance = Toast.fire({
+                    icon: "info",
+                    title: "Processing your request...",
+                  });
+    
+                  Swal.stopTimer();
+    
+                  
+                const response = await signInWithGoogle()
+                
+                const userInDataBase = {
+                  uid: response.user?.uid,
+                  email: response.user?.email,
+                  displayName: response.user?.displayName,
+                  photoURL: response.user?.providerData[0]?.photoURL,
+                  FCMToken: await requestForToken() || null,
+                  subscription: null
+                };
+                Swal.resumeTimer();
+              Swal.stopTimer();
+                
+                await axiosSecure.post("/newStudent", userInDataBase);
+                Swal.resumeTimer();
+          
+                navigate("/user/teacher");
+                  }catch (err){
+                    Swal.update({
+                      icon: "error",
+                      title: "An error occurred",
+                      text: err.message,
+                    });
+                    console.log(err);
+                } 
+                  
+          }
+
     //change icon for form
     const changeIcon = () => {
         if(showPassword == true){
@@ -100,7 +147,7 @@ export default function SignUp(){
         }
     }
     return (
-        <div className="sign-up page">
+        <div className="sign-up auth-page">
             <div className="form container">
                 <h1 className="headline">Sign Up</h1>
                 {/* the form */}
@@ -122,6 +169,7 @@ export default function SignUp(){
                     <input type="submit" />
                 </form>
                 <p>Apply as a teacher? <span><Link to="/teacherSignUp">Sign Up</Link></span></p>
+                <SocialSignUp googleSignIn={googleSignIn}></SocialSignUp>
             </div>
         </div>  
     )

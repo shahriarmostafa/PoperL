@@ -157,9 +157,9 @@ nav{
                         font-size: 14px;
                         color: $white;
                         border-radius: 8px;
-                        transition: 0.5s;
+                        transition: 0.1s;
                         &:active{
-                            transform: scale(105%);
+                            transform: scale(80%);
                         }                    
                     }
 
@@ -221,10 +221,11 @@ nav{
 
 // profile page
 section.profile{
+    min-height: calc(100vh - 145px);
     .background{
         width: 100%;
-        height: 200px;
-        border-radius:100% 0% 100% 0% / 0% 50% 50% 100%;
+        height: 240px;
+        border-radius:100% 0% 100% 0% / 0% 30% 30% 100%;
         background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),url(../../assests//slider-image-1.jpg) center center no-repeat;
         background-size: cover;
     }
@@ -328,6 +329,8 @@ section.profile{
                 }
             }
         }
+
+        
         .about-us{
             width: 45%;
             h3{
@@ -922,7 +925,7 @@ section.subscription{
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 transition: 0.3s ease-in-out;
                 box-shadow: 0 4px 20px rgba(0, 198, 255, 0.4);
-                
+                margin: auto;
                 .section {
                     padding: 15px;
                     margin: 10px 0;
@@ -1015,7 +1018,7 @@ section.subscription{
                         font-weight: 600;
                         transition: 0.5s;
                         &:active{
-                            transform: scale(105%);
+                            transform: scale(80%);
                         }
                     }
                 }

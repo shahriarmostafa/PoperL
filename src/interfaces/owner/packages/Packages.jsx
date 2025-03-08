@@ -1,26 +1,31 @@
 import {Link, useLoaderData} from 'react-router-dom';
 import Pack from './Pack';
 import '../admin.css';
-import { useState } from 'react';
+import usePackages from "../../../Hooks/usePackages"
+import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+
 export default function Packages(){
-    const Packages = useLoaderData();
-    const [loadedPackages, setLoadedPackages] = useState(Packages);
 
-    const axiosSecure = useAxiosSecure();
+    const [isLoading, packageData, refetch] = usePackages();
 
-    const handleDelete = (id) => {
-        axiosSecure.delete(`/pack/${id}`)
-        .then(res => res.json())
-        .then(data => {
-            if(data.deletedCount == 1){
-                const filteredData = loadedPackages.filter(x => x._id != id);
-                // use tanstack query and refetch here instead of filter and state
-                setLoadedPackages(filteredData);
-            } 
+    const axiosSecure = useAxiosSecure()
+
+    const deleteFun = (id) => {
+        Swal.fire({
+            title: "Delte!",
+            text: "Are you sure you want to delete?",
+            showCancelButton: true,
+            showConfirmButton: true
+        }).then (async (result) => {
+            if(result.isConfirmed){
+                await axiosSecure.delete(`/pack/${id}`)
+                refetch()
+            }
         })
-               
     }
+
+    
     return (
         <div className="analytics">
             <div className="redi-buttons mb-4 d-flex">
@@ -29,9 +34,17 @@ export default function Packages(){
                 </Link>
             </div>
             <div className="packages">
-                {/* {loadedPackages.map(x => {
-                    return <Pack id={x._id} deletePack={handleDelete} key={x._id} packName={x.packageName} price={x.price} packageLimit={x.duration}></Pack>
-                })} */}
+                {packageData.map(x => {
+                    return <Pack 
+                    id={x._id} 
+                    callDuration={x.dailyMinutesLimit} 
+                    key={x._id} 
+                    packName={x.name} 
+                    price={x.price} 
+                    packageLimit={x.durationDays}
+                    deleteFun={deleteFun}>
+                    </Pack>
+                })}
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap");
-.form {
-  max-width: 100%;
+.auth-page .form {
+  width: 100%;
   min-height: 100vh;
   margin: 0px auto;
   background: #e3edf7;
@@ -11,10 +11,10 @@
   justify-content: center;
   align-items: center;
 }
-.form form {
+.auth-page .form form {
   max-width: 200px;
 }
-.form form input[type=text], .form form input[type=password], .form form input[type=email], .form form input[type=submit], .form form input[type=number], .form form select {
+.auth-page .form form input[type=text], .auth-page .form form input[type=password], .auth-page .form form input[type=email], .auth-page .form form input[type=submit], .auth-page .form form input[type=number], .auth-page .form form select {
   box-shadow: inset 6px 6px 8px rgba(78, 114, 223, 0.3882352941), inset -8px -8px 8px #ffffff;
   border: none;
   outline: none;
@@ -26,18 +26,18 @@
   margin: 10px 0;
   font-size: 12px;
 }
-.form form input[type=text][type=submit], .form form input[type=password][type=submit], .form form input[type=email][type=submit], .form form input[type=submit][type=submit], .form form input[type=number][type=submit], .form form select[type=submit] {
+.auth-page .form form input[type=text][type=submit], .auth-page .form form input[type=password][type=submit], .auth-page .form form input[type=email][type=submit], .auth-page .form form input[type=submit][type=submit], .auth-page .form form input[type=number][type=submit], .auth-page .form form select[type=submit] {
   background: #4E73DF;
   box-shadow: none;
   color: #ffffff;
 }
-.form form .write-password, .form form .confirm-password {
+.auth-page .form form .write-password, .auth-page .form form .confirm-password {
   position: relative;
 }
-.form form .write-password input, .form form .confirm-password input {
+.auth-page .form form .write-password input, .auth-page .form form .confirm-password input {
   width: 100%;
 }
-.form form .write-password .show-pass-btn, .form form .confirm-password .show-pass-btn {
+.auth-page .form form .write-password .show-pass-btn, .auth-page .form form .confirm-password .show-pass-btn {
   position: absolute;
   background: none;
   border: none;
@@ -45,4 +45,24 @@
   top: 0;
   bottom: 0;
   right: 2px;
+}
+.auth-page .form .socialSignUp {
+  justify-content: center;
+  gap: 12px;
+}
+.auth-page .form .socialSignUp button {
+  padding: 10px 40px;
+  background: #e3edf7;
+  border: none;
+  box-shadow: -4px -4px 6px rgba(78, 114, 223, 0.3882352941), 6px 6px 8px #ffffff;
+}
+.auth-page .form .socialSignUp button:active {
+  box-shadow: inset 4px 4px 8px rgba(78, 114, 223, 0.3882352941), inset -6px -6px 8px #ffffff;
+}
+.auth-page .form .socialSignUp button.google img {
+  width: 20px;
+}
+.auth-page .form .socialSignUp button.facebook svg {
+  font-size: 19px;
+  fill: #4E73DF;
 }/*# sourceMappingURL=form.css.map */

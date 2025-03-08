@@ -6,7 +6,7 @@ export default function Package({name, packageID, duration, callLimit, price, ac
             </div>
             <div className="details">
                 <ul>
-                    <li>Duration: {duration < 1? (duration * 24) + " Hours" : duration +" Days"}</li>
+                    <li>Duration: {duration < 24? duration + " Hours" : (duration /24) + " Days"}</li>
                     <li>Call Limit: {callLimit} minutes</li>
                     <li>Price:  
                         <span> {price}  <span className="taka-sign"> &#2547;</span> </span>
@@ -18,7 +18,7 @@ export default function Package({name, packageID, duration, callLimit, price, ac
                 <button>Enter a refer email for discount</button>
             </div>
             <div className="procceed">
-                <button onClick={() => activateFunction(duration, packageID, callLimit)}>START</button>
+                <button onClick={() => activateFunction(duration, packageID, callLimit, name, price)}>START</button>
             </div>
         </div>
     )

@@ -5,7 +5,8 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase.init';
 import useSubscription from '../../Hooks/checkSubscription';
-
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import usePackages from '../../Hooks/usePackages';
   
   
 
@@ -22,55 +23,23 @@ export default function Subscription() {
     //count down
     const [timeRemaining, setTimeRemaining] = useState(0);
 
+    const axiosSecure = useAxiosSecure();
 
-  const packages = [
-    {
-      packageId: "houry_30",
-      name: "Hourly",
-      price: 30,
-      durationDays: 1/24,
-      dailyMinutesLimit: 30
-    },
-    {
-      packageId: "three_hour_80",
-      name: "Three Hours",
-      price: 80,
-      durationDays: 1/8,
-      dailyMinutesLimit: 60
-    },
-    {
-      packageId: "daily_110",
-      name: "1 Day",
-      price: 110,
-      durationDays: 1,
-      dailyMinutesLimit: 60
-    },
-    {
-      packageId: "weekly_500",
-      name: "Weekly",
-      price: 500,
-      durationDays: 7,
-      dailyMinutesLimit: 60
-    },
-    {
-      packageId: "monthly_1500",
-      name: "30 Days",
-      price: 1500,
-      durationDays: 30,
-      dailyMinutesLimit: 60
-    }
-  ];
+  const [isLoading, packageData, refetch] = usePackages();
 
-  const startSubscription = async (durationDays , packageID, callLimit) => {
+  
+
+  const startSubscription = async (durationDays , packageID, callLimit, packageName, price) => {
     try{
       const userRef = doc(db, "studentCollection", user.uid);
       const currentDate = new Date();
       const expiryDate = new Date(currentDate);
-      expiryDate.setHours(currentDate.getHours() + durationDays * 24);
+      expiryDate.setHours(currentDate.getHours() + Math.ceil(durationDays));
 
       await updateDoc(userRef, {
         subscription: {
           packageID,
+          packageName,
           startDate: currentDate.toISOString(),
           expiryDate: expiryDate.toISOString(),
           callLimit: callLimit,
@@ -78,7 +47,12 @@ export default function Subscription() {
           paymentStatus: "approved",
           purchasedAt: serverTimestamp()
         }
-      })
+      });
+
+      
+
+      axiosSecure.post("/subscriptions", {uid: user.uid, name: user.displayName, packageName, price, startDate: currentDate.toISOString()})      
+
       window.location.reload(false)
       return true;
 
@@ -135,8 +109,15 @@ export default function Subscription() {
                   </div>
                   <div className="packages d-flex flex-wrap">
                       
-                      {packages.map(pack => {
-                          return <Package packageID={pack.packageId} name={pack.name} duration={pack.durationDays} callLimit={pack.dailyMinutesLimit} price={pack.price} key={pack.packageId} activateFunction={startSubscription}></Package>
+                      {packageData.map(pack => {
+                          return <Package 
+                          packageID={pack._id} 
+                          name={pack.name} 
+                          duration={pack.durationDays} 
+                          callLimit={pack.dailyMinutesLimit} 
+                          price={pack.price} 
+                          key={pack._id} 
+                          activateFunction={startSubscription}></Package>
                       })}
                   </div>
               </div>
@@ -152,23 +133,23 @@ export default function Subscription() {
             <div className="inner-details">
             <div className="package-card">
       
-      {/* Package Name */}
-      <div className="section package-info">
-        <h2 className="title">Package</h2>
-        <p className="value">{subscription.packageName || "Weekly Package"}</p>
-      </div>
+              {/* Package Name */}
+              <div className="section package-info">
+                <h2 className="title">Package</h2>
+                <p className="value">{subscription.packageName}</p>
+              </div>
 
-      {/* Time Remaining */}
-      <div className="section time-remaining">
-        <h2 className="title">Time Remaining</h2>
-        <p className="value">{days > 0 && `${days} Days,`} {`${hours}:${minutes}:${seconds}`}</p>
-      </div>
+              {/* Time Remaining */}
+              <div className="section time-remaining">
+                <h2 className="title">Remaining</h2>
+                <p className="value">{days > 0 && `${days} Days,`} {`${hours}:${minutes}:${seconds} Hours`}</p>
+              </div>
 
-      {/* Call Remaining */}
-      <div className="section call-info">
-        <h2 className="title">Call Remaining</h2>
-        <p className="value">{parseInt(subscription.callLimit)} Minutes, {Math.round((subscription.callLimit % 1) * 60)} seconds</p>
-      </div>
+              {/* Call Remaining */}
+              <div className="section call-info">
+                <h2 className="title">Call Remaining</h2>
+                <p className="value">{parseInt(subscription.callLimit)} Minutes, {Math.round((subscription.callLimit % 1) * 60)} seconds</p>
+              </div>
       
     </div>
             </div>

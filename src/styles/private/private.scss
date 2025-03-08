@@ -77,6 +77,9 @@ section.complain{
     
 
     .view-complains{
+      h3{
+        color: $white;
+      }
         margin-top: 50px;
         ul{
             max-width: 100%;

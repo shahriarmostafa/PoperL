@@ -107,7 +107,7 @@ self.addEventListener("notificationclick", (event) => {
           notifications.forEach((notification) => notification.close());
         });
       } else {
-        clients.openWindow("/chat").then(() => {
+        clients.openWindow("/user/chat").then(() => {
           self.registration.getNotifications().then((notifications) => {
             notifications.forEach((notification) => notification.close());
           });

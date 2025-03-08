@@ -5,7 +5,7 @@ import Main from "../Layout/Main";
 import Home from '../interfaces/before-login/Home/Home';
 import SignIn from '../interfaces/before-login/SignIn';
 import SignUp from '../interfaces/before-login/SignUp';
-
+import Error from "../interfaces/before-login/shared/Error";
 
 // owner pages
 import Change from '../interfaces/owner/admin-change/Change';
@@ -27,13 +27,18 @@ import TeacherSignUp from "../interfaces/before-login/TeacherSignUp";
 import ApplyList from "../interfaces/owner/Teachers/ApplyList";
 import UserPublicRouter from "./userPublicRouter";
 import Profile from "../interfaces/Private/Profile/Profile";
+import Dashboard from "../interfaces/owner/dashboard/Dashboard";
+import Salary from "../interfaces/owner/salary/Salary";
+import History from "../interfaces/owner/history/History";
+import ComplainList from "../interfaces/owner/complains/ComplainList";
 
 
 const router = createBrowserRouter([
   
     {
       path: "/",
-      element: <UserPublicRouter><Home></Home></UserPublicRouter>
+      element: <UserPublicRouter><Home></Home></UserPublicRouter>,
+      errorElement: <Error></Error>
     },
     {
       path: '/teacherSignUp',
@@ -84,9 +89,12 @@ const router = createBrowserRouter([
         element: <Maintainance></Maintainance>,
         children: [
               {
+                path: "dashboard",
+                element: <Dashboard></Dashboard>
+              },
+              {
                 path: 'admins',
-                element: <Change></Change>,
-                loader: () => fetch("https://backend-eta-blue-92.vercel.app/user")
+                element: <Change></Change>
               },
               {
                 path: "teachers",
@@ -97,23 +105,35 @@ const router = createBrowserRouter([
                 element: <ApplyList></ApplyList>
               },
               {
-                path: 'add-admin',
-                element: <AddAdmin></AddAdmin>
+                path: "salary",
+                element: <Salary></Salary>
+              },
+              {
+                path: "history",
+                element: <History></History>
+              },
+              {
+                path: "complains",
+                element: <ComplainList></ComplainList>
               },
               {
                 path: 'packages',
-                element: <Packages></Packages>,
-                loader: () => fetch("https://backend-eta-blue-92.vercel.app/pack")
+                element: <Packages></Packages>
               },
               {
                 path: 'add-package',
                 element: <AddPackage></AddPackage>
               },
               {
-                path: 'pack/:id',
-                element: <EditPack></EditPack>,
-                loader: ({params}) => fetch(`https://backend-eta-blue-92.vercel.app/pack/${params.id}`)
+                path: 'pack/:id/:name/:price/:packageLimit/:callDuration',
+                element: <EditPack></EditPack>
+              },
+              {
+                path: 'add-admin',
+                element: <AddAdmin></AddAdmin>
               }
+
+              
         ]
     }
 ])

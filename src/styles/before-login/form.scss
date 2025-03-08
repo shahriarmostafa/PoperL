@@ -7,52 +7,86 @@ $shadow: #4e72df63;
 $background: #EEF2F7;
 $red: #ff0019;
 $green: rgb(27, 153, 27);
-.form{
-    max-width: 100%;
-    min-height: 100vh;
-    margin: 0px auto;
-    background: #e3edf7;
-    padding: 35px;
-    box-shadow: 8px 8px 16px $shadow, -10px -10px 10px $white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    form{
-        max-width: 200px;
-        input[type="text"], input[type="password"], input[type="email"], input[type="submit"], input[type="number"], select{
-            box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
-            border: none;
-            outline: none;
-            padding: 10px 20px;
-            font-weight: 600;
-            border-radius: 4px;
-            background: #e3edf7;
-            width: 100%;
-            margin: 10px 0;
-            font-size: 12px;
-            &[type="submit"]{
-                background: $blue;
-                box-shadow: none;
-                color: $white;
-            }
-        }
-        .write-password, .confirm-password{
-            position: relative;
-            input{
-                width: 100%;
-            }
-            .show-pass-btn{
-                position: absolute;
-                background: none;
-                border: none;
-                color: gray;
-                top: 0;
-                bottom: 0;
-                right: 2px;
-            }
-        }
-    }
 
+
+
+.auth-page{
+    .form{
+        width: 100%;
+        min-height: 100vh;
+        margin: 0px auto;
+        background: #e3edf7;
+        padding: 35px;
+        box-shadow: 8px 8px 16px $shadow, -10px -10px 10px $white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        form{
+            max-width: 200px;
+            input[type="text"], input[type="password"], input[type="email"], input[type="submit"], input[type="number"], select{
+                box-shadow: inset 6px 6px 8px $shadow, inset -8px -8px 8px $white;
+                border: none;
+                outline: none;
+                padding: 10px 20px;
+                font-weight: 600;
+                border-radius: 4px;
+                background: #e3edf7;
+                width: 100%;
+                margin: 10px 0;
+                font-size: 12px;
+                &[type="submit"]{
+                    background: $blue;
+                    box-shadow: none;
+                    color: $white;
+                }
+            }
+            .write-password, .confirm-password{
+                position: relative;
+                input{
+                    width: 100%;
+                }
+                .show-pass-btn{
+                    position: absolute;
+                    background: none;
+                    border: none;
+                    color: gray;
+                    top: 0;
+                    bottom: 0;
+                    right: 2px;
+                }
+            }
+        }
+
+        .socialSignUp{
+            justify-content: center;
+            gap: 12px;
+            button{
+                padding: 10px 40px;
+                background: #e3edf7;
+                border: none;
+                box-shadow: -4px -4px 6px $shadow, 6px 6px 8px $white;
+                &:active{
+                    box-shadow: inset 4px 4px 8px $shadow, inset -6px -6px 8px $white;
+                }
+            }
+            
+            button.google{
+                img{
+                    width: 20px;
+                }
+            }
+            button.facebook{
+                svg{
+                    font-size: 19px;
+                    fill: $blue;
+                }
+            }
+        }
+    
+    }
 }
+
+
+
 

@@ -28,13 +28,7 @@ const useSubscription = (userId) => {
                     setSubscription(subscription);
                 }
             } else {
-                // Check if user is in teacherCollection
-                const teacherRef = doc(db, "teacherCollection", userId);
-                const teacherSnap = await getDoc(teacherRef);
-
-                if (teacherSnap.exists()) {
                     setUserRole("teacher");
-                }
             }
 
             setLoading(false);

@@ -197,8 +197,9 @@ section.admin .display .view .analytics .st-and-te .box .icon {
   align-items: center;
   align-items: center;
 }
-section.admin .display .view .analytics .st-and-te .box .icon img {
-  width: 30px;
+section.admin .display .view .analytics .st-and-te .box .icon svg {
+  font-size: 30px;
+  fill: #fff;
 }
 section.admin .display .view .analytics .st-and-te .box .subject {
   margin-top: 10px;
@@ -287,11 +288,10 @@ section.admin .display .view .analytics .table table tbody td img {
   border-radius: 50%;
 }
 section.admin .display .view .analytics .table table tbody .icon {
-  width: 20px;
   margin: auto;
 }
 section.admin .display .view .analytics .table table tbody .icon svg {
-  width: 100%;
+  font-size: 18px;
   fill: #4E73DF;
 }
 section.admin .display .view .analytics .admin-table tr, section.admin .display .view .analytics .admin-table td, section.admin .display .view .analytics .complain-table tr, section.admin .display .view .analytics .complain-table td {

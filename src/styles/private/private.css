@@ -58,6 +58,9 @@ section.complain form.complain-form input[type=submit]:hover {
 section.complain .view-complains {
   margin-top: 50px;
 }
+section.complain .view-complains h3 {
+  color: #ffffff;
+}
 section.complain .view-complains ul {
   max-width: 100%;
   padding: 0;

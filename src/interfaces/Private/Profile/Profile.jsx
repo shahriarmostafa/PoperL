@@ -32,7 +32,7 @@ export default function Profile() {
         <div className="background"></div>
         <div className="profile-pic d-flex">
             <div className="inner">
-                <img src={avatar} alt=""/>
+                <img src={user?.photoURL || avatar} alt=""/>
             </div>
         </div>
         <div className="name">
@@ -75,10 +75,11 @@ export default function Profile() {
                     </b> 
                 </div>
             </div>
+
             
             { profileData && <div className="personal-info teacher-id-info">
                 {
-                    profileData.approved? <>
+                <>
                     <h3 className="mb-3">Teacher Account's <br/> Informations</h3>
                 <div className="user-level mb-3 d-flex">
                     <div className="icon d-flex">
@@ -106,7 +107,7 @@ export default function Profile() {
                 </div>
                 <div className="edit-profile py-3">
                     <button>Leave Group</button>
-                </div></> : <h2>Loading...</h2>
+                </div></>
                 }
             </div>}
         </div>

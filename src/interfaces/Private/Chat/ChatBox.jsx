@@ -302,8 +302,9 @@ const startRecording = async () => {
 
 
             //sending notification to the user
-            sendNottification("🎙️ Sent a Voice Message.", receiver?.FCMToken, user?.displayName)
-    
+            if(lastMessageMntsAgo < 10){
+                sendNottification("🎙️ Sent a Voice Message.", receiver?.FCMToken, user?.displayName)
+            }    
             
         } catch (err) {
             alert("Something wrong with sending message");
@@ -426,8 +427,9 @@ const startRecording = async () => {
         }
         inputRef.current.focus();
 
-
-        sendNottification(text || "📷 Sent an Image", receiver?.FCMToken, user?.displayName);
+        if(lastMessageMntsAgo < 10){
+            sendNottification(text || "📷 Sent an Image", receiver?.FCMToken, user?.displayName);
+        }
     }
 
 
@@ -493,12 +495,12 @@ const startRecording = async () => {
 
                         {/* type message */}
                         <div className="typing-area d-flex justify-content-center">
-                            <button onClick={startRecording} className="voice-message d-flex">
+                            <button disabled={lastMessageMntsAgo > 60 && yourRole == "student" && true} onClick={startRecording} className="voice-message d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
                             </button>
                             <form method='post' className='d-flex' onSubmit={handleInputChange}>
                                 <div className="select-image d-flex">
-                                <input ref={imageInputRef} onChange={imgChangeHandler} type="file" accept="image/*" id="file-input" name='image' className="file-input" style={{ display: 'none' }} />
+                                <input disabled={lastMessageMntsAgo > 60 && yourRole != "teacher" && true} ref={imageInputRef} onChange={imgChangeHandler} type="file" accept="image/*" id="file-input" name='image' className="file-input" style={{ display: 'none' }} />
                                     <label htmlFor="file-input">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                         <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/>
@@ -510,7 +512,7 @@ const startRecording = async () => {
                                 </div> */}
                                 
                                 <div className="inbox d-flex">
-                                    <textarea autoComplete="off" rows={1} ref={inputRef} name="message" type="text" placeholder="Enter your message here..."></textarea>
+                                    <textarea disabled={lastMessageMntsAgo > 60 && yourRole == "student" && true} autoComplete="off" rows={1} ref={inputRef} name="message" type="text" placeholder="Enter your message here..."></textarea>
                                 </div>
                                 <div className="transfer">
                                     <label htmlFor="send" className='send d-flex'>

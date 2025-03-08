@@ -139,7 +139,7 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
     return(
         <div className="box teacher">
             <div className="photo">
-              <div className={`online-status ${isOnline && "online"}`}>
+              <div className={ isOnline? "online online-status" : "online-status"}>
                 <div className="dot"></div>
                 <div className="text">{isOnline? "Online": "Ofline"}</div>
               </div>

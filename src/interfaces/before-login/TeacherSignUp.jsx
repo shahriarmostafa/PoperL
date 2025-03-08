@@ -7,12 +7,14 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { requestForToken } from '../../firebase/firebase.init';
-import axios from 'axios';
+import SocialSignUp from './shared/SocialSignUp';
+
+
 
 export default function TeacherSignUp(){
 
     const { register, handleSubmit } = useForm();
-    const {createUser, editProfile} = useContext(AuthContext);
+    const {createUser, editProfile, signInWithGoogle} = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const axiosSecure = useAxiosSecure()
 
@@ -75,7 +77,7 @@ export default function TeacherSignUp(){
             subjects: [],
             category: data.category,
             points: 0,
-            revenuePercent: 0,
+            revenuePercent: 0.75,
             joinedGroup: null,
             ownerOfGroup: null,
             groupMembers: 0,
@@ -91,7 +93,7 @@ export default function TeacherSignUp(){
       
           // Step 5: Navigate to chat after successful completion
           Swal.resumeTimer();
-          navigate("/chat");
+          navigate("/user/chat");
       
           Swal.update({
             icon: "success",
@@ -110,6 +112,94 @@ export default function TeacherSignUp(){
         }
 
       };
+
+
+      const googleSignIn = () => {
+          Swal.fire({
+            title: 'Whatsapp number and category',
+            html:
+              '<input id="swal-input1" type="number" class="swal2-input" placeholder="WhatsApp Number">' +
+              '<select id="swal-input2" class="swal2-select">' +
+                '<option value="school/college">School/College</option>' +
+                '<option value="university">University</option>' +
+              '</select>',
+            showCancelButton: true,
+            showConfirmButton: true,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            preConfirm: () => {
+              const whatsappNumber = document.getElementById('swal-input1').value;
+              const selectedOption = document.getElementById('swal-input2').value;
+      
+              if (!whatsappNumber) {
+                Swal.showValidationMessage('Please enter your WhatsApp number');
+                return false;
+              }
+      
+              return { whatsappNumber, selectedOption };
+            },
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try{
+                const { whatsappNumber, selectedOption } = result.value;
+
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+              });
+            
+              const timerInstance = Toast.fire({
+                icon: "info",
+                title: "Processing your request...",
+              });
+
+              Swal.stopTimer();
+
+              
+            const response = await signInWithGoogle()
+            
+            const userInDataBase = {
+              uid: response.user?.uid,
+              email: response.user?.email,
+              displayName: response.user?.displayName,
+              photoURL: response.user?.providerData[0]?.photoURL,
+              whatsapp: whatsappNumber, // Collect WhatsApp number
+              experience: 0,
+              rating: 4,
+              joined: Date.now(),
+              subjects: [],
+              category: selectedOption,
+              points: 0,
+              revenuePercent: 0.75,
+              joinedGroup: null,
+              ownerOfGroup: null,
+              groupMembers: 0,
+              approved: false, // Default approval status
+              FCMToken: await requestForToken(),
+              isOnline: false
+            };
+            Swal.resumeTimer();
+          Swal.stopTimer();
+            
+            await axiosSecure.post("/newTeacher", userInDataBase);
+            Swal.resumeTimer();
+      
+            navigate("/user/chat");
+              }catch (err){
+                Swal.update({
+                  icon: "error",
+                  title: "An error occurred",
+                  text: err.message,
+                });
+                console.log(err);
+            } 
+              
+            }
+          });
+      }
       
 
     //change icon for form
@@ -122,7 +212,7 @@ export default function TeacherSignUp(){
         }
     }
     return (
-        <div className="sign-up page">
+        <div className="sign-up auth-page">
             <div className="form container">
                 <h1 className="headline">Sign Up as a teacher</h1>
                 {/* the form */}
@@ -149,6 +239,7 @@ export default function TeacherSignUp(){
                     <input type="submit" />
                 </form>
                 <p>Student Sign up? <span><Link to="/signup">Sign Up</Link></span></p>
+                <SocialSignUp googleSignIn={googleSignIn}></SocialSignUp>
             </div>
         </div>  
     )

@@ -256,10 +256,22 @@ const playRingtone = () => {
     });
   };
 
+  const checkTeacher = async (userId) => {
+    const teacherRef = doc(db, "teacherCollection", userId);
+    const teacherSnap = await getDoc(teacherRef);
+    if (teacherSnap.exists()) {
+        return true
+    }
+  }
+
+
+
   useEffect(() => {
     if (!UID) return;
     initializeClient();
-    listenForCalls(UID);
+    if(checkTeacher(UID)){
+        listenForCalls(UID);
+    }
   }, [UID]);
 
 
