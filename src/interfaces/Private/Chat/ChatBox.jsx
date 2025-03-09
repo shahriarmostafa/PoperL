@@ -18,6 +18,9 @@ import { resizeImage } from '../../../providers/ImageResizer';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import ImagePopUp from './ImagePopUp';
 
+import socket from "../../../Hooks/socket"
+
+
 export default function ChatBox(){
     //setup of supabase storage
     const public_url = "https://ouywywipahsqnwhjrsgh.supabase.co";
@@ -81,20 +84,33 @@ export default function ChatBox(){
 
     //last message mnts ago view // chats view // feedback view
     useEffect(() => {
-        const unSub = onSnapshot(doc(db, "chatDB", chatId), (res)=> {
-            setChats(res.data());
-            const lastMessageIndex = res.data().messages.length - 1;
-            const createdAtValue = res.data().messages[lastMessageIndex].createdAt;
-            const mntsAgoValue = Math.floor((Date.now() - createdAtValue)/ 60000);
-            setLastMessageMntsAgo( mntsAgoValue );
+        if (!chatId) return;
 
+        // Join the chat room
+        socket.emit('joinChatRoom', chatId);
+
+        // Listen for chat updates
+        socket.on('chatUpdate', (chatDoc) => {            
+            setChats(chatDoc);
         });
 
+        // Listen for last message timestamp updates
+        socket.on('lastMessageTimestamp', (mntsAgoValue) => {
+            setLastMessageMntsAgo(mntsAgoValue);
+        });
 
+        // Listen for errors
+        socket.on('chatError', (err) => {
+            console.error('Chat error:', err.message);
+        });
 
+        // Cleanup listeners on component unmount
         return () => {
-            unSub()
-        }
+            socket.off('chatUpdate');
+            socket.off('lastMessageTimestamp');
+            socket.off('chatError');
+            socket.emit('leaveChatRoom', chatId); // Optional: Leave the chat room
+        };
     }, [chatId]);
 
     //resize image
@@ -246,37 +262,21 @@ const startRecording = async () => {
             return;
         }
     
-        console.log("File path:", data.path);  // Log the path to verify
         const audioUrl = supabase.storage.from("poperl_chat_data").getPublicUrl(data.path).data.publicUrl;
+        
+        const message = {
+            chatId,
+            senderId: receiver.uid,
+            receiverId: receiver,
+            audioUrl,
+        };
+
+        // Emit the event to send the voice message
+        socket.emit('sendVoiceMessage', message);
         
         try {
             // ✅ Send message with audio URL
-            await updateDoc(doc(db, "chatDB", chatId), {
-                messages: arrayUnion({
-                    audioUrl: audioUrl,
-                    senderId: user.uid,
-                    lastMessageFeedback: null,
-                    createdAt: Date.now()
-                }),
-            });
-    
-            const userIds = [user.uid, receiver.uid];
-    
-            for (const id of userIds) {  // ✅ Changed forEach to `for...of` (await works properly)
-                const userChatRef = doc(db, "chatCollection", id);
-                const userChatData = await getDoc(userChatRef);
-                if (userChatData.exists()) {
-                    const finalData = userChatData.data();
-                    const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
-                    if (chatIndex !== -1) {
-                        finalData.chats[chatIndex].lastMessage = "🎙️ Voice Message";
-                        finalData.chats[chatIndex].isSeen = id === user.uid;
-                        finalData.chats[chatIndex].lastMessageFeedback = null;
-                        finalData.chats[chatIndex].updatedAt = Date.now();
-                        await updateDoc(userChatRef, { chats: finalData.chats });
-                    }
-                }
-            }
+            
 
 
 
@@ -370,33 +370,22 @@ const startRecording = async () => {
         }
 
         try {
-            await updateDoc(doc(db, "chatDB", chatId), {
-                messages: arrayUnion({
-                    senderId: user.uid,
-                    ...(text &&  {text: text}), // Save text message
-                    createdAt: Date.now(),
-                    ...(imgUrl &&  {imageUrl: imgUrl}),
-                    lastMessageFeedback: null
-                }),
-            });
-    
-            const userIds = [user.uid, receiver.uid];
-            userIds.forEach(async (id) => {
-                const userChatRef = doc(db, "chatCollection", id);
-                const userChatData = await getDoc(userChatRef);
-                if (userChatData.exists()) {
-                    const finalData = userChatData.data();
-                    const chatIndex = finalData.chats.findIndex(eachData => eachData.chatId === chatId);
-                    finalData.chats[chatIndex].lastMessage = text || "📷 Image";
-                    finalData.chats[chatIndex].isSeen = id === user.uid ? true : false;
-                    finalData.chats[chatIndex].lastMessageFeedback = null;
-                    finalData.chats[chatIndex].updatedAt = Date.now();
-                    await updateDoc(userChatRef, {
-                        chats: finalData.chats
-                    });
-                }
-                setUploadingImg(false);
-            });
+            const sentMessage = {
+                chatId,
+                senderId: user.uid,
+                text,
+                imgUrl,
+                receiverId: receiver.uid,
+            }
+
+            setChats((prevChats) => ({
+                ...prevChats,
+                messages: [...prevChats.messages, sentMessage],
+            }));
+            
+            const response = await axiosSecure.post("/sendMessage", sentMessage);
+            
+            setUploadingImg(false);
 
             //determining the points teacher gets
 

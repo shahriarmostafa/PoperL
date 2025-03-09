@@ -55,6 +55,8 @@ const router = createBrowserRouter([
     {
       path: 'user',
       element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
+      errorElement: <Error></Error>,
+
       children: [
         //teacher page
         
@@ -87,6 +89,7 @@ const router = createBrowserRouter([
     {
         path: 'maintainance',
         element: <Maintainance></Maintainance>,
+        errorElement: <Error></Error>,
         children: [
               {
                 path: "dashboard",

@@ -1,8 +1,9 @@
 import { doc, getDoc, increment, updateDoc } from "firebase/firestore"
 import { db } from "../firebase/firebase.init"
-
+import useAxiosSecure from "./useAxiosSecure"
 export const setTeacherFeedback = async (teacherId, isLike, chatId, index) => {
     const teacherRef = doc(db, "teacherCollection", teacherId);
+    const axiosSecure = useAxiosSecure()
 
     const teacherSnap = await getDoc(teacherRef);
     
@@ -10,7 +11,7 @@ export const setTeacherFeedback = async (teacherId, isLike, chatId, index) => {
 
     const {points, rating} = teacherSnap.data();
 
-    const newPoints = isLike && chatId? points + 2 : points + 5 ;
+    const newPoints = isLike && chatId? points + 2 : points - 2 ;
     const newRating = isLike ? ((5 - rating)/10):  -((5 - rating)/10);
 
     
@@ -23,23 +24,15 @@ export const setTeacherFeedback = async (teacherId, isLike, chatId, index) => {
     })
 
     if(!index || !chatId) return;
-
-    const chatRef = doc(db, "chatDB", chatId);
-
-
-    // Fetch chat data
-    const chatSnap = await getDoc(chatRef);
     
-    if (!chatSnap.exists()) return;
 
-    let chatData = chatSnap.data();
-    let messages = chatData.messages || [];
-
-    // Update only the selected message's feedback field
-    messages[index] = {
-        ...messages[index],
-        lastMessageFeedback: isLike ? "liked" : "disliked"
-    };
-
-    await updateDoc(chatRef, { messages });
+    try {
+        axiosSecure.put('/update-feedback', {
+            chatId,
+            index,
+            isLike,
+        });
+    } catch (error) {
+        console.error('Failed to update feedback:', error);
+    }
 }

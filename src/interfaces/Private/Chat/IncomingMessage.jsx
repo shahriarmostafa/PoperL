@@ -19,18 +19,18 @@ export default function IncomingMessage ({message, image, audio, isFirstInGroup,
                     </div>
                 }
                 {
-                    image?
+                    image &&
                     <div className="photo"  onClick={() => viewImage(image)}>
                         <img className="sent-image" src={image} alt=""></img>
                     </div>
-                : ''
+                
                 }
                 {
-                    message? 
+                    message &&
                     <div className="message">
-                        <span>{message}</span>
+                        {message}
                     </div>
-                    : '' 
+                    
                 }
                 {showFeedback && (
                     <div className="feedback">

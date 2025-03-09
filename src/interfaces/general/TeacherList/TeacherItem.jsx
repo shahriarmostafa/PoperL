@@ -1,18 +1,19 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import avatar from '../../../assests/avatar.avif';
-import { arrayUnion, collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/firebase.init';
 import { useContext } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { getChatBoxData } from '../../../Hooks/getChatBoxData';
 import useSubscription from '../../../Hooks/checkSubscription';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 
 
 export default function TeacherItem({img, name, rating, experience, id, receiver, isOnline}){
 
     const {user} = useContext(AuthContext);
+
+    const axiosSecure = useAxiosSecure()
 
     const {isSubscribed, subLoading } = useSubscription(user?.uid);
 
@@ -22,117 +23,85 @@ export default function TeacherItem({img, name, rating, experience, id, receiver
     const navigate = useNavigate();
 
     const handleAddChat = async () => {
-
-
-        if(!isSubscribed){
-          Swal.fire({
-            title: "Not Subscribed!",
-            icon: "info",
-            text: "Please subscribe to continue",
-            showCancelButton: true,
-            confirmButtonText: "Subscribe",
-            confirmButtonColor: "green"
-          }).then(response => {
-            if(response.isConfirmed){
-              navigate("/user/subscription")
-            }
-          })
-          return;
-        }
-
-
-
-        const chatDBRef = collection(db, "chatDB");
-        const userChatDBRef = collection(db, "chatCollection");
-      
-        // Initialize the SweetAlert toast
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom-end",
-          showConfirmButton: false,
-          timer: 1200, // Set a timeout of 5 seconds (adjust as needed)
-          timerProgressBar: true,
-        });
-      
-        // Show the toast with the "Adding new chat" message
-        const timerInstance = Toast.fire({
+      if (!isSubscribed) {
+        Swal.fire({
+          title: "Not Subscribed!",
           icon: "info",
-          title: "Checking existing chat...",
-        });
-      
-        try {
-          // Stop the timer while the check and creation process is ongoing
-          Swal.stopTimer();
-      
-          // Check if the chat already exists in the user's chat collection
-          const userChatSnapshot = await getDoc(doc(userChatDBRef, user.uid));
-          const userChats = userChatSnapshot.exists() ? userChatSnapshot.data().chats : [];
-      
-          // Look for a chat with the specified receiver
-          const existingChat = userChats.find(chat => chat.receiverId === id);
-      
-          if (existingChat) {
-            // If the chat already exists, navigate to chat/{chatId}
-            Swal.resumeTimer();
-            Swal.update({
-              icon: "info",
-              title: "Chat already exists, navigating...",
-            });
-
-            changeChat(existingChat.chatId, receiver, "teacher");
-      
-            // Navigate to the existing chat by its chatId
-            navigate(`/user/chat/${existingChat.chatId}`);
-          } else {
-            // If the chat does not exist, create a new chat
-            const newChatRef = doc(chatDBRef);
-            await setDoc(newChatRef, {
-              createdAt: serverTimestamp(),
-              messages: [],
-            });
-      
-            // Update the user's chat collection with the new chat
-            await updateDoc(doc(userChatDBRef, id), {
-              chats: arrayUnion({
-                yourRole: "student",
-                chatId: newChatRef.id,
-                lastMessage: "",
-                receiverId: user.uid,
-                updatedAt: Date.now(),
-              }),
-            });
-      
-            await updateDoc(doc(userChatDBRef, user.uid), {
-              chats: arrayUnion({
-                yourRole: "teacher",
-                chatId: newChatRef.id,
-                lastMessage: "",
-                receiverId: id,
-                updatedAt: Date.now(),
-              }),
-            });
-      
-            // Resume the timer and show a success message
-            Swal.resumeTimer();
-            Swal.update({
-              icon: "success",
-              title: "New chat added successfully!",
-            });
-      
-            // Navigate to the newly created chat page
-            navigate("/user/chat");
+          text: "Please subscribe to continue",
+          showCancelButton: true,
+          confirmButtonText: "Subscribe",
+          confirmButtonColor: "green",
+        }).then((response) => {
+          if (response.isConfirmed) {
+            navigate("/user/subscription");
           }
-        } catch (err) {
-          // Handle any errors and stop the timer
-          console.log(err);
-          Swal.stopTimer();
+        });
+        return;
+      }
+    
+      // Initialize the SweetAlert toast
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 1200, // Set a timeout of 1.2 seconds
+        timerProgressBar: true,
+      });
+    
+      // Show the toast with the "Checking existing chat..." message
+      const timerInstance = Toast.fire({
+        icon: "info",
+        title: "Checking existing chat...",
+      });
+    
+      try {
+        // Stop the timer while the check and creation process is ongoing
+        Swal.stopTimer();
+    
+        // Check if the chat already exists by calling the backend API
+        const response = await axiosSecure.get(`/chatExist/${user.uid}/${id}`);
+        
+        if (response.data.exists) {
+          // If chat exists, navigate to the existing chat
+          Swal.resumeTimer();
           Swal.update({
-            icon: "error",
-            title: "An error occurred",
-            text: err.message,
+            icon: "info",
+            title: "Chat already exists, navigating...",
           });
+    
+          changeChat(response.data.chatId, receiver, "teacher");
+    
+          navigate(`/user/chat/${response.data.chatId}`);
+        } else {
+          // If chat does not exist, create a new chat
+          const createChatResponse = await axiosSecure.post("/createChat", {
+            userId: user.uid,
+            receiverId: id,
+          });
+    
+          // Update Zustand state and navigate to the new chat page
+          changeChat(createChatResponse.data.chatId, receiver, "teacher");
+    
+          Swal.resumeTimer();
+          Swal.update({
+            icon: "success",
+            title: "New chat added successfully!",
+          });
+    
+          navigate(`/user/chat/${createChatResponse.data.chatId}`);
         }
-      };
+      } catch (err) {
+        // Handle any errors and stop the timer
+        console.log(err);
+        Swal.stopTimer();
+        Swal.update({
+          icon: "error",
+          title: "An error occurred",
+          text: err.message,
+        });
+      }
+    };
+    
       
       
       

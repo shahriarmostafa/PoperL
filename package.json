@@ -20,6 +20,7 @@
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.27.0",
+    "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.15.10",
     "white-web-sdk": "^2.16.52",
     "workbox-precaching": "^7.3.0",

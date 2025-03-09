@@ -8,12 +8,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { storeChatList } from "../../../Hooks/storeChatList";
 import useSubscription from "../../../Hooks/checkSubscription";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 export default function People(){
 
 
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure()
      
     const {changeChat} = getChatBoxData();
     //calling device user
@@ -50,10 +52,10 @@ export default function People(){
             navigate(`/user/chat/${chatIdTaken}`);
     
             userFinalChat[chatIndex].isSeen = true;
-            const userChatRef = doc(db, "chatCollection", user.uid);
             try{
-                await updateDoc(userChatRef, {
-                    chats: userFinalChat
+                axiosSecure.put("/mark-chat-as-seen", {
+                    userId: user.uid,
+                    chatId: chatIdTaken,
                 })
 
             }catch(err){
@@ -69,6 +71,8 @@ export default function People(){
     
     
     if (loading || subLoading) {
+        console.log(fetchedChatListData);
+        
         return (
             <div className="left-side">
                 <div className="chat-list">

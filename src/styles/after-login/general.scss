@@ -631,7 +631,7 @@ section.education-page{
         .chat-box{
             height: 100vh;
             .conversation{
-                height: calc(100% - 121px);
+                height: calc(100% - 116px);
                 overflow-y: scroll;
 
                 &::-webkit-scrollbar-thumb{
@@ -644,9 +644,9 @@ section.education-page{
                     justify-content: end;
                     min-height: 100%;
                     .my-message, .incoming-message{
-                        width: auto;
                         display: flex;
                         .info{
+                            width: 100%;
                             .name{
                                 span{
                                     display: block;
@@ -672,10 +672,12 @@ section.education-page{
                             }
                             .message{
                                 width: fit-content;
+                                max-width: 65%;
                                 padding: 12px 22px;
                                 font-size: 12px;
                                 font-weight: 700;
                                 margin-top: 1px;
+                                word-wrap: break-word;
                             }
                             .audio{
                                 width: 150px;
@@ -764,7 +766,6 @@ section.education-page{
                         }
 
                         .feedback{
-                            float: right;
                             button{
                                 border: none;
                                 background: none;
@@ -1154,12 +1155,7 @@ section.subscription{
                 }
             }
         }
-        .chat-box{
-            width: 100%;
-            .conversation{
-                height: calc(100% - 121px);
-            }
-        }
+
     }
     section.chat{
         .left-side{

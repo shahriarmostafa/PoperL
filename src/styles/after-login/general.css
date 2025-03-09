@@ -556,7 +556,7 @@ section.education-page .container .teacher-wrapper .box .info button.active {
   height: 100vh;
 }
 .chat-page section.chat .chat-box .conversation {
-  height: calc(100% - 121px);
+  height: calc(100% - 116px);
   overflow-y: scroll;
 }
 .chat-page section.chat .chat-box .conversation::-webkit-scrollbar-thumb {
@@ -570,8 +570,10 @@ section.education-page .container .teacher-wrapper .box .info button.active {
   min-height: 100%;
 }
 .chat-page section.chat .chat-box .conversation .all-message .my-message, .chat-page section.chat .chat-box .conversation .all-message .incoming-message {
-  width: auto;
   display: flex;
+}
+.chat-page section.chat .chat-box .conversation .all-message .my-message .info, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .info {
+  width: 100%;
 }
 .chat-page section.chat .chat-box .conversation .all-message .my-message .info .name span, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .info .name span {
   display: block;
@@ -595,10 +597,12 @@ section.education-page .container .teacher-wrapper .box .info button.active {
 .chat-page section.chat .chat-box .conversation .all-message .my-message .info .message, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .info .message {
   width: -moz-fit-content;
   width: fit-content;
+  max-width: 65%;
   padding: 12px 22px;
   font-size: 12px;
   font-weight: 700;
   margin-top: 1px;
+  word-wrap: break-word;
 }
 .chat-page section.chat .chat-box .conversation .all-message .my-message .info .audio, .chat-page section.chat .chat-box .conversation .all-message .incoming-message .info .audio {
   width: 150px;
@@ -673,9 +677,6 @@ section.education-page .container .teacher-wrapper .box .info button.active {
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .message {
   color: #ffffff;
   background: #34495E;
-}
-.chat-page section.chat .chat-box .conversation .all-message .incoming-message .feedback {
-  float: right;
 }
 .chat-page section.chat .chat-box .conversation .all-message .incoming-message .feedback button {
   border: none;
@@ -996,12 +997,6 @@ section.subscription .container .packages .pack:last-child span.success {
   section.chat .topper .container .call-audio button svg, section.chat .topper .container .call-video button svg {
     width: 16px;
     fill: #ffffff;
-  }
-  section.chat .chat-box {
-    width: 100%;
-  }
-  section.chat .chat-box .conversation {
-    height: calc(100% - 121px);
   }
   section.chat .left-side {
     width: 100% !important;

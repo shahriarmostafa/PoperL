@@ -22,7 +22,7 @@ export default function SentMessage({message, image, audio, isFirstInGroup, isLa
                     {
                         message? 
                         <div className="message">
-                            <span>{message}</span>
+                            {message}
                         </div>
                         : '' 
                     }
