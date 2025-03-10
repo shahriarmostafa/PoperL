@@ -19,6 +19,17 @@ export default function Home(){
     useEffect(() => {
         const handleBeforeInstallPrompt = (event) => {
         event.preventDefault();
+        Swal.fire({
+          title: "Install PoperL!",
+          text: "Download now?",
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonText: "Install"
+        }).then((result) => {
+          if(result.isConfirmed){
+            event.prompt()
+          }
+        })
         setInstallPrompt(event);
         console.log('beforeinstallprompt event captured');
         };
@@ -54,21 +65,21 @@ export default function Home(){
     return () => clearInterval(interval);
   }, [currentSlide]);
 
-  useEffect(() => {
-    if(installPrompt){
-      Swal.fire({
-        title: "Install PoperL!",
-        text: "Download now?",
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonText: "Install"
-      }).then((result) => {
-        if(result.isConfirmed){
-          handleInstallClick()
-        }
-      })
-    }
-  }, [installPrompt])
+  // useEffect(() => {
+  //   if(installPrompt){
+  //     Swal.fire({
+  //       title: "Install PoperL!",
+  //       text: "Download now?",
+  //       showCancelButton: true,
+  //       showConfirmButton: true,
+  //       confirmButtonText: "Install"
+  //     }).then((result) => {
+  //       if(result.isConfirmed){
+  //         handleInstallClick()
+  //       }
+  //     })
+  //   }
+  // }, [installPrompt])
 
 
 
