@@ -31,7 +31,7 @@ import Dashboard from "../interfaces/owner/dashboard/Dashboard";
 import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
-import CheckOwner from "./checkOwner";
+import CheckOwner from "./CheckOwner";
 
 
 const router = createBrowserRouter([
