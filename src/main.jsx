@@ -28,7 +28,6 @@ createRoot(document.getElementById('root')).render(
     </QueryClientProvider>
   </StrictMode>
 )
-
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/service-worker.js")
     .then((registration) => {
@@ -38,6 +37,7 @@ if ("serviceWorker" in navigator) {
       console.error("Service Worker registration failed:", error);
     });
 }
+
 
 
 
