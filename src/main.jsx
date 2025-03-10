@@ -4,8 +4,6 @@ import { RouterProvider } from 'react-router-dom';
 import AuthProvider from './providers/AuthProvider';
 import PageTransition from './providers/PageTransition';
 import CallProvider from './providers/CallProvider';
-// service worker for pwa
-import * as serviceWorker from './serviceWorker';
 
 import router from './routes/Routes';
 
@@ -45,6 +43,18 @@ if ("serviceWorker" in navigator) {
       console.error("Service Worker registration failed:", error);
     });
 }
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js")
+    .then((registration) => {
+      console.log("Service Worker registered successfully:", registration);
+    })
+    .catch((error) => {
+      console.error("Service Worker registration failed:", error);
+    });
+}
+
 
 //notification sound
 navigator.serviceWorker.addEventListener("message", (event) => {
