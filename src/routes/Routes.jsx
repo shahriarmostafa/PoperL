@@ -38,12 +38,12 @@ const router = createBrowserRouter([
   
     {
       path: "/",
-      element: <UserPublicRouter><Home></Home></UserPublicRouter>,
+      element: <Home></Home>,
       errorElement: <Error></Error>
     },
     {
       path: '/teacherSignUp',
-      element: <TeacherSignUp></TeacherSignUp>
+      element: <UserPublicRouter><TeacherSignUp></TeacherSignUp></UserPublicRouter>
     },
     {
       path: '/signup',

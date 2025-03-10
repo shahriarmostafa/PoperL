@@ -3,7 +3,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function CheckOwner ({children}){
-    const {user, loading} = useContext(AuthContext);
+    const {user, userProfileLoading} = useContext(AuthContext);
     const [isOwner, setIsOwner] = useState(false);
 
     const axiosSecure =  useAxiosSecure();
@@ -18,7 +18,7 @@ export default function CheckOwner ({children}){
 
     }, [user, isOwner]);
 
-    if(loading || !isOwner){
+    if(userProfileLoading || !isOwner){
         return "Verifying..."
     }
     if(isOwner){

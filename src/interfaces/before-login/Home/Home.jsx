@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./home.css";
 import logo from "/logo-text.png";
 import { FaChalkboardTeacher, FaCalendarAlt, FaComments } from 'react-icons/fa'; // React Icons for features
@@ -37,6 +37,8 @@ export default function Home(){
       setInstallPrompt(null);
     }
   };
+
+  const navigate = useNavigate()
 
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -121,7 +123,36 @@ export default function Home(){
 
 
       if (window.matchMedia('(display-mode: standalone)').matches) {
-        return <Navigate to="/signup"></Navigate>
+        return (
+<div className="education-page-home">
+      {/* Header with Logo and Menu Icon */}
+      <div className="header">
+        <img src="/512.png" alt="PoperL Logo" className="nav-logo" />
+        <div className="menu-icon">☰</div>
+      </div>
+
+      {/* Background with Gradient Animation */}
+      <div className="background"></div>
+
+      {/* Floating Shapes */}
+      <div className="shape shape1"></div>
+      <div className="shape shape2"></div>
+
+      {/* Hero Image with Parallax Effect */}
+      <img src="/logo-text.png" alt="Learning" className="hero-img" />
+
+      {/* Glassmorphism Message Box */}
+      <div className="message-box">
+        <h2>Unlock Your Potential with <span className="highlight">PoperL</span></h2>
+        <p>Gain expert knowledge anytime, anywhere.</p>
+      </div>
+
+      {/* Call to Action Button with Animation */}
+      <button className="cta-btn" onClick={() => navigate("/study")}>
+        Start Learning →
+      </button>
+    </div>
+        )
       } else{
         return (
           <div className="min-vh-100 bg-dark text-white d-flex flex-column align-items-center">
