@@ -31,7 +31,9 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>
 )
 
-serviceWorker.register();
+if ("serviceWorker" in navigator) {
+  serviceWorker.register();
+}
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
