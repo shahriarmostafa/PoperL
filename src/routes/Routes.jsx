@@ -31,6 +31,7 @@ import Dashboard from "../interfaces/owner/dashboard/Dashboard";
 import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
+import CheckOwner from "./checkOwner";
 
 
 const router = createBrowserRouter([
@@ -88,7 +89,7 @@ const router = createBrowserRouter([
     },
     {
         path: 'maintainance',
-        element: <Maintainance></Maintainance>,
+        element: <CheckOwner><Maintainance></Maintainance></CheckOwner>,
         errorElement: <Error></Error>,
         children: [
               {

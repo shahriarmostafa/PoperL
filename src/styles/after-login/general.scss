@@ -468,7 +468,10 @@ section.education-page{
                             display: flex;
                             align-items: center;
                             top: 15px;
-                            left: 15px;
+                            left: 12px;
+                            background: $white;
+                            padding: 2px 5px;
+                            border-radius: 4px;
                             .text{
                                 font-size: 10px;
                                 font-weight: 700;
@@ -631,7 +634,7 @@ section.education-page{
         .chat-box{
             height: 100vh;
             .conversation{
-                height: calc(100% - 116px);
+                height: calc(100% - 121px);
                 overflow-y: scroll;
 
                 &::-webkit-scrollbar-thumb{

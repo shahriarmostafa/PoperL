@@ -414,7 +414,10 @@ section.education-page .container .teacher-wrapper .box .photo .online-status {
   display: flex;
   align-items: center;
   top: 15px;
-  left: 15px;
+  left: 12px;
+  background: #ffffff;
+  padding: 2px 5px;
+  border-radius: 4px;
 }
 section.education-page .container .teacher-wrapper .box .photo .online-status .text {
   font-size: 10px;
@@ -556,7 +559,7 @@ section.education-page .container .teacher-wrapper .box .info button.active {
   height: 100vh;
 }
 .chat-page section.chat .chat-box .conversation {
-  height: calc(100% - 116px);
+  height: calc(100% - 121px);
   overflow-y: scroll;
 }
 .chat-page section.chat .chat-box .conversation::-webkit-scrollbar-thumb {

@@ -9,6 +9,7 @@ import sliderImg3 from "../../../assests/slider-image-3.jpg";
  
 
 import Pack from './Pack';
+import Swal from 'sweetalert2';
 
 export default function Home(){
   
@@ -52,6 +53,22 @@ export default function Home(){
 
     return () => clearInterval(interval);
   }, [currentSlide]);
+
+  useEffect(() => {
+    if(installPrompt){
+      Swal.fire({
+        title: "Install PoperL!",
+        text: "Download now?",
+        showCancelButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Install"
+      }).then((result) => {
+        if(result.isConfirmed){
+          handleInstallClick()
+        }
+      })
+    }
+  }, [installPrompt])
 
 
 

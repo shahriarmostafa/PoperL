@@ -4,7 +4,7 @@ export default function PeopleItem({img, name, lastMessage, clickFunc, isSeen, i
 
         
     return (
-            <div onClick={clickFunc} className={`${isSeen? "" : "active"} chat-item`}>
+            <div onClick={clickFunc} className={isSeen? "chat-item" : "active chat-item"}>
                 <div className="profile-pic">
                     <div className={isOnline && "onlinestatus online"}></div>
                     <div className="img">

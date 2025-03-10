@@ -70,9 +70,7 @@ export default function People(){
     
     
     
-    if (loading || subLoading) {
-        console.log(fetchedChatListData);
-        
+    if (loading || subLoading) {        
         return (
             <div className="left-side">
                 <div className="chat-list">

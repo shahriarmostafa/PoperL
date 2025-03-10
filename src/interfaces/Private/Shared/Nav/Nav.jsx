@@ -75,11 +75,11 @@ export default function Nav() {
                                 
                                 <li className='number-of-unseen-chats'>
                                     {
-                                        unseenCount?<div className="number-box">
+                                        unseenCount > 0 && <div className="number-box">
                                                         <b className="number">
                                                             {unseenCount}
                                                         </b>
-                                                    </div> : ""
+                                                    </div>
                                     }
                                     
                                     <NavLink to="/user/chat">

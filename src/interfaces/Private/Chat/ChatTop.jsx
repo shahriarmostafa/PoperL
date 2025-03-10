@@ -11,7 +11,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
   const receiverID = receiver?.uid;
   const userName = receiver?.displayName;
-  const profileImg = receiver?.profileImage;
+  const profileImg = receiver?.photoURL;
   const FCMToken = receiver?.FCMToken;
 
   const axiosSecure = useAxiosSecure();
