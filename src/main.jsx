@@ -30,8 +30,16 @@ createRoot(document.getElementById('root')).render(
 )
 
 if ("serviceWorker" in navigator) {
-  serviceWorker.register();
+  navigator.serviceWorker.register("/service-worker.js")
+    .then((registration) => {
+      console.log("Service Worker registered successfully:", registration);
+    })
+    .catch((error) => {
+      console.error("Service Worker registration failed:", error);
+    });
 }
+
+
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
@@ -45,15 +53,6 @@ if ("serviceWorker" in navigator) {
 }
 
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js")
-    .then((registration) => {
-      console.log("Service Worker registered successfully:", registration);
-    })
-    .catch((error) => {
-      console.error("Service Worker registration failed:", error);
-    });
-}
 
 
 //notification sound
