@@ -60,7 +60,7 @@ export default function Home(){
         title: "Install PoperL!",
         text: "Download now?",
         showCancelButton: true,
-        showCancelButton: true,
+        showConfirmButton: true,
         confirmButtonText: "Install"
       }).then((result) => {
         if(result.isConfirmed){
