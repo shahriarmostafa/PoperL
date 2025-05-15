@@ -21,7 +21,6 @@ export default function AuthProvider({children}){
 
 
     const signInWithGoogle = () => {
-        setUserProfileLoading(true);
         return signInWithPopup(auth, googleProvider)
     }
 
