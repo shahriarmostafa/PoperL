@@ -150,15 +150,7 @@ export default function Home(){
         <section className="text-center mt-5 position-relative z-index-1 hero-section">
           <h2 className="display-4 text-light">Learn Anytime, Anywhere</h2>
           <p className="lead text-secondary">Connect with expert teachers on-demand.</p>
-          {installPrompt ? (
-            <button onClick={handleInstallClick} className="btn btn-danger btn-lg mt-3">
-              Download
-            </button>
-          ) : (
-            <button onClick={handleInstallClick} className="btn btn-danger btn-lg mt-3">
-              Loading...
-            </button>
-          )}
+          <button className="btn btn-light"><Link to="/appHome">Go Home</Link></button>
         </section>
       </div>
 
