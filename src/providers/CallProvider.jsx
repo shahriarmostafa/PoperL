@@ -179,6 +179,8 @@ const playRingtone = () => {
       setCallStatus("Ringing")
       listenForCallReceive(uid);
       joinChannel(channelName, token, uid);
+      console.log("Start Call id: " + uid);
+      
 
 
 
@@ -195,6 +197,7 @@ const playRingtone = () => {
   const acceptCall = async (callData) => {
     try {
       await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
+      
       const callRef = doc(db, "calls", UID);
 
       // Fetch the document to check the current `uuid`
@@ -342,9 +345,10 @@ const playRingtone = () => {
       await leaveChannel(uid);  // Leave the existing call first
     }
     try {
-      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);      
       await publishLocalAudio();
-      
+      console.log("Working");
+
     } catch (error) {
       console.error("Error joining channel:", error);
     }

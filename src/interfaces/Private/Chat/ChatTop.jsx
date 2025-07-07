@@ -73,6 +73,9 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
+    console.log("Token: " + token);
+    console.log("RId: " + uid);
+    
 
     const callRef = doc(db, "calls", receiverId);
 
@@ -113,7 +116,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
     }
 
     listenForCallEnd(receiverId); // Listen for call termination
-    startAudioCallUI(channelName, token, receiverId);
+    startAudioCallUI(channelName, token, uid);
 
     sendNottification(FCMToken);
     
