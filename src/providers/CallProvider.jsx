@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { doc, setDoc, onSnapshot, getDoc } from "firebase/firestore";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import Swal from "sweetalert2";
@@ -28,6 +28,47 @@ export default function CallProvider({ children }) {
   const [callStatus, setCallStatus] = useState("Ringing");
   const [callData, setCallData] = useState(null);
   // const [callTimeoutId, setCallTimeoutId] = useState(null);
+
+
+  const client = useMemo(
+  () => AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }),
+  []
+);
+  // Basic Agora data
+  const rtc = useRef({
+  localAudioTrack: null,
+  client,
+}).current;
+
+  const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
+
+  function initializeClient() {
+
+    // rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    
+
+    rtc.client.on("user-published", async (user, mediaType) => {
+      await rtc.client.subscribe(user, mediaType);
+      console.log("Subscribe success");
+
+      if (mediaType === "audio") {
+        user.audioTrack.play();
+      }
+    });
+
+    rtc.client.on("user-unpublished", async (user) => {
+      await rtc.client.unsubscribe(user);
+    });
+
+    rtc.client.on("connection-state-change", evt => console.log(evt));
+  }
+  useEffect(() => {
+    initializeClient();
+  }, [])
+
+
+
+
 
   let callTimeoutId;
 
@@ -79,11 +120,7 @@ const playRingtone = () => {
 
 
 
-  // Basic Agora data
-  const rtc = {
-    localAudioTrack: null,
-    client: null, // AgoraRTC client object
-  };
+  
 
 
 
@@ -106,7 +143,6 @@ const playRingtone = () => {
 
 
 
-  const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
 
 
 
@@ -149,27 +185,47 @@ const playRingtone = () => {
 
   
 
-  function initializeClient() {
-    if (rtc.client) {
-      console.warn("AgoraRTC client already initialized.");
-      return;
-    }
+  
 
-    rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+  const listenForCalls = (userId) => {
+    if (!userId) return;
+    setCallLeavingUID(userId);
+    const callDocRef = doc(db, "calls", userId);
 
-    rtc.client.on("user-published", async (user, mediaType) => {
-      await rtc.client.subscribe(user, mediaType);
-      console.log("Subscribe success");
+    return onSnapshot(callDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const callData = docSnapshot.data();
 
-      if (mediaType === "audio") {
-        user.audioTrack.play();
+        if (callData.status === "ringing") {
+          listenForCallEnd(UID);
+          setCallStatus("ringing");
+          setCallData(callData);
+          setShowCallUi(true);
+          playRingtone();
+
+        }
       }
     });
+  };
 
-    rtc.client.on("user-unpublished", async (user) => {
-      await rtc.client.unsubscribe(user);
-    });
+  const checkTeacher = async (userId) => {
+    const teacherRef = doc(db, "teacherCollection", userId);
+    const teacherSnap = await getDoc(teacherRef);
+    if (teacherSnap.exists()) {
+        return true
+    }
   }
+
+
+
+  useEffect(() => {
+    if (!UID) return;
+    if(checkTeacher(UID)){
+        listenForCalls(UID);
+    }
+  }, [UID]);
+
+  
 
 
 
@@ -238,44 +294,7 @@ const playRingtone = () => {
   };
 
 
-  const listenForCalls = (userId) => {
-    if (!userId) return;
-    setCallLeavingUID(userId);
-    const callDocRef = doc(db, "calls", userId);
-
-    return onSnapshot(callDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const callData = docSnapshot.data();
-
-        if (callData.status === "ringing") {
-          listenForCallEnd(UID);
-          setCallStatus("ringing");
-          setCallData(callData);
-          setShowCallUi(true);
-          playRingtone();
-
-        }
-      }
-    });
-  };
-
-  const checkTeacher = async (userId) => {
-    const teacherRef = doc(db, "teacherCollection", userId);
-    const teacherSnap = await getDoc(teacherRef);
-    if (teacherSnap.exists()) {
-        return true
-    }
-  }
-
-
-
-  useEffect(() => {
-    if (!UID) return;
-    initializeClient();
-    if(checkTeacher(UID)){
-        listenForCalls(UID);
-    }
-  }, [UID]);
+  
 
 
   const listenForCallEnd = (userId) => {
@@ -337,13 +356,14 @@ const playRingtone = () => {
   }
 
   async function joinChannel(channelName, token, uid) {
-    if(!rtc.client){
-      initializeClient();
-    }
+    // if(!rtc.client){
+    //   initializeClient();
+    // }
     setChannel(channelName);
-    if (rtc.client.connectionState !== "DISCONNECTED") {
-      await leaveChannel(uid);  // Leave the existing call first
-    }
+    // if (rtc.client.connectionState !== "DISCONNECTED") {
+    //   await leaveChannel(uid);  // Leave the existing call first
+    // }
+    
     try {
       await rtc.client.join(AGORA_APP_ID, channelName, token, uid);      
       await publishLocalAudio();
