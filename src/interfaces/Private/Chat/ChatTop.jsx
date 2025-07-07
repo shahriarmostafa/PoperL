@@ -113,7 +113,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
     }
 
     listenForCallEnd(receiverId); // Listen for call termination
-    startAudioCallUI(channelName, token, uid);
+    startAudioCallUI(channelName, token, receiverId);
 
     sendNottification(FCMToken);
     
