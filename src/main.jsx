@@ -28,37 +28,37 @@ createRoot(document.getElementById('root')).render(
     </QueryClientProvider>
   </StrictMode>
 )
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js")
-    .then((registration) => {
-      console.log("Service Worker registered successfully:", registration);
-    })
-    .catch((error) => {
-      console.error("Service Worker registration failed:", error);
-    });
-}
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker.register("/service-worker.js")
+//     .then((registration) => {
+//       console.log("Service Worker registered successfully:", registration);
+//     })
+//     .catch((error) => {
+//       console.error("Service Worker registration failed:", error);
+//     });
+// }
 
 
 
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("/firebase-messaging-sw.js")
-    .then((registration) => {
-      console.log("Service Worker registered:", registration);
-    })
-    .catch((error) => {
-      console.error("Service Worker registration failed:", error);
-    });
-}
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("/firebase-messaging-sw.js")
+//     .then((registration) => {
+//       console.log("Service Worker registered:", registration);
+//     })
+//     .catch((error) => {
+//       console.error("Service Worker registration failed:", error);
+//     });
+// }
 
 
 
 
 //notification sound
-navigator.serviceWorker.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "PLAY_NOTIFICATION_SOUND") {
-    const audio = new Audio("/notification.wav");
-    audio.play().catch((err) => console.log("Error playing sound:", err));
-  }
-});
+// navigator.serviceWorker.addEventListener("message", (event) => {
+//   if (event.data && event.data.type === "PLAY_NOTIFICATION_SOUND") {
+//     const audio = new Audio("/notification.wav");
+//     audio.play().catch((err) => console.log("Error playing sound:", err));
+//   }
+// });

@@ -4,7 +4,7 @@ import { CallContext } from '../../../../providers/CallProvider';
 import { doc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebase.init';
 import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
-const CallUI = ({ status, callEndingId, callData, UID}) => {
+const CallUI = ({ status, callEndingId, UID}) => {
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
@@ -36,7 +36,7 @@ const CallUI = ({ status, callEndingId, callData, UID}) => {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
-  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi, setCallStatus} = useContext(CallContext);
+  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi, setCallStatus, callData} = useContext(CallContext);
 
   const acceptCallHandler = () => {
     stopRingtone();

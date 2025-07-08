@@ -179,7 +179,7 @@ const playRingtone = () => {
           setCallStatus("ringing");
           setCallData(callData);
           setShowCallUi(true);
-          playRingtone();
+          // playRingtone();
 
         }
       }
@@ -218,10 +218,10 @@ const playRingtone = () => {
 
 
 
-      if (!window.ringtoneAudio) {
-        window.ringtoneAudio = new Audio("/ringbacktone.mp3");
-        window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
-      }
+      // if (!window.ringtoneAudio) {
+      //   window.ringtoneAudio = new Audio("/ringbacktone.mp3");
+      //   window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+      // }
 
       startTimeout(receiverId); // Starts the timeout
       };
@@ -409,7 +409,7 @@ const playRingtone = () => {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {/* {showCallUi && <CallUI UID={UID} callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>} */}
+    {/* {showCallUi && <CallUI UID={UID} status={callStatus} callEndingId={callLeavingUID}></CallUI>} */}
   </CallContext.Provider>
   );
 }
