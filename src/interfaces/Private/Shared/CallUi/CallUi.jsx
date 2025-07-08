@@ -4,6 +4,7 @@ import { CallContext } from '../../../../providers/CallProvider';
 import { doc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebase.init';
 import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
+import { useNavigate } from 'react-router-dom';
 // const CallUI = ({ status, callEndingId, UID}) => {
   const CallUI = () => {
 
@@ -11,6 +12,8 @@ import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
     UID,
     callStatus,
     callLeavingUID, leaveChannel} = useContext(CallContext);
+
+  const navigate = useNavigate();
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
@@ -91,6 +94,8 @@ import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
         "subscription.callLimit": increment(-seconds / 60), // Convert seconds to minutes
     });
 
+    
+
   };
 
   const openBoard = () => {
@@ -98,7 +103,7 @@ import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
   }
 
   const hideCallView = () => {
-    setShowCallUi(false);
+    navigate("/user/chat")
     setCallStatus("Ringing");
   }
 
