@@ -34,46 +34,19 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
     });
     return response.data;
   };
-  const [joined, setJoined] = useState(false);
 
-  // useEffect(() => {
-  //   rtc.client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-
-  //   rtc.client.on('user-published', async (user, mediaType) => {
-  //     console.log('Remote user published:', user.uid);
-  //     await rtc.client.subscribe(user, mediaType);
-  //     console.log('Subscribed to remote user');
-
-  //     if (mediaType === 'audio') {
-  //       user.audioTrack.play();
-  //     }
-  //   });
-
-  //   rtc.client.on('user-unpublished', user => {
-  //     console.log('User unpublished:', user.uid);
-  //   });
-
-  //   return () => {
-  //     // Clean up
-  //     if (rtc.localAudioTrack) {
-  //       rtc.localAudioTrack.stop();
-  //       rtc.localAudioTrack.close();
-  //     }
-  //     if (rtc.client) {
-  //       rtc.client.leave();
-  //     }
-  //   };
-  // }, []);
+  
 
   const joinChannel = async () => {
     try {
     const { token, uid } = await getAgoraToken(channel);
+    console.log(token);
+    
 
       await rtc.client.join(APP_ID, channel, token, uid);
       rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
       await rtc.client.publish([rtc.localAudioTrack]);
       console.log('Local user published audio');
-      setJoined(true);
     } catch (err) {
       console.error('Error joining channel:', err);
     }
@@ -107,6 +80,9 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
+
+    console.log(token);
+    
 
     
 
@@ -190,11 +166,6 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
           </div>
         </div>
 
-{joined ? (
-        <button>Leave Channel</button>
-      ) : (
-        <button onClick={joinChannel}>Join Channel</button>
-      )}
         <div className="right d-flex align-items-center">
           {
             receiverRole == 'teacher' && (

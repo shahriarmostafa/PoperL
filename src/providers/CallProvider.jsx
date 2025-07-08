@@ -392,18 +392,15 @@ const playRingtone = () => {
     //   console.error("Error joining channel:", error);
     // }
 
-    await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
-  localTrack = await AgoraRTC.createMicrophoneAudioTrack();
-  await rtc.client.publish([localTrack]);
-  console.log("Published local audio");
+    try {
 
-  rtc.client.on("user-published", async (user, mediaType) => {
-    await client.subscribe(user, mediaType);
-    console.log("Subscribed to remote user");
-    if (mediaType === "audio") {
-      user.audioTrack.play();
+      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+      rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+      await rtc.client.publish([rtc.localAudioTrack]);
+      console.log('Local user published audio');
+    } catch (err) {
+      console.error('Error joining channel:', err);
     }
-  });
   }
 
   // Publish local audio
