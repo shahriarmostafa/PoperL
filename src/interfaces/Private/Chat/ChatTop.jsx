@@ -146,7 +146,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
           </div>
         </div>
 
-        <button className="btn btn-danger" onClick={() => acceptCall(callData)}>receive</button>
+        {/* <button className="btn btn-danger" onClick={() => acceptCall(callData)}>receive</button> */}
 
         <div className="right d-flex align-items-center">
           {
