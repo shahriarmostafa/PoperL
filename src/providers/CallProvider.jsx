@@ -173,13 +173,15 @@ const playRingtone = () => {
     return onSnapshot(callDocRef, (docSnapshot) => {
       if (docSnapshot.exists()) {
         const callData = docSnapshot.data();
+        
 
         if (callData.status === "ringing") {
+                  console.log("listening");
           listenForCallEnd(UID);
           setCallStatus("ringing");
           setCallData(callData);
           setShowCallUi(true);
-          // playRingtone();
+          playRingtone();
 
         }
       }
@@ -200,6 +202,8 @@ const playRingtone = () => {
     if (!UID) return;
     if(checkTeacher(UID)){
         listenForCalls(UID);
+        console.log(UID);
+        
     }
   }, [UID]);
 
@@ -218,10 +222,10 @@ const playRingtone = () => {
 
 
 
-      // if (!window.ringtoneAudio) {
-      //   window.ringtoneAudio = new Audio("/ringbacktone.mp3");
-      //   window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
-      // }
+      if (!window.ringtoneAudio) {
+        window.ringtoneAudio = new Audio("/ringbacktone.mp3");
+        window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+      }
 
       startTimeout(receiverId); // Starts the timeout
       };

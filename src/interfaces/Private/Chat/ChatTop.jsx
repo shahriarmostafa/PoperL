@@ -45,8 +45,8 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
   const initiateCall = async (callerId, receiverId) => {
 
-    setCallLeavingUID(receiverId);
-    setShowCallUi(true);
+    // setCallLeavingUID(receiverId);
+    // setShowCallUi(true);
 
     const studentRef = doc(db, "studentCollection", callerId);
     const studentSnap = await getDoc(studentRef);
