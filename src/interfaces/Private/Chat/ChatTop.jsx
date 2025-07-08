@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
 import { db } from "../../../firebase/firebase.init";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useContext } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { CallContext } from "../../../providers/CallProvider";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import AgoraRTC from 'agora-rtc-sdk-ng';
 
 export default function ChatTop({channel, callerID, receiver, callerName, receiverRole}) {
 
@@ -16,24 +17,15 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
   const axiosSecure = useAxiosSecure();
 
-  //nottification information
 
-  //sending nottification
-  const sendNottification = async (nottificationToken) => {
-    
-      
-      if(!nottificationToken || !callerID || !callerName){
-          console.log("FCM and token not found");
-          return;
-      }
-      await axiosSecure.post("/send-call-notification", { nottificationToken, callerName, callerID });
-      
-  }
+
+  //test block
+  const APP_ID = 'ed128ef97bbd4d7c9c59b9ec7e4f1372';
 
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID, acceptCall, callData } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, setShowCallUi, setCallLeavingUID, startTimeout, setCallStatus, listenForCallReceive, rtc } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axiosSecure.post("/generate-token", {
@@ -42,11 +34,58 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
     });
     return response.data;
   };
+  const [joined, setJoined] = useState(false);
+
+  // useEffect(() => {
+  //   rtc.client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+
+  //   rtc.client.on('user-published', async (user, mediaType) => {
+  //     console.log('Remote user published:', user.uid);
+  //     await rtc.client.subscribe(user, mediaType);
+  //     console.log('Subscribed to remote user');
+
+  //     if (mediaType === 'audio') {
+  //       user.audioTrack.play();
+  //     }
+  //   });
+
+  //   rtc.client.on('user-unpublished', user => {
+  //     console.log('User unpublished:', user.uid);
+  //   });
+
+  //   return () => {
+  //     // Clean up
+  //     if (rtc.localAudioTrack) {
+  //       rtc.localAudioTrack.stop();
+  //       rtc.localAudioTrack.close();
+  //     }
+  //     if (rtc.client) {
+  //       rtc.client.leave();
+  //     }
+  //   };
+  // }, []);
+
+  const joinChannel = async () => {
+    try {
+    const { token, uid } = await getAgoraToken(channel);
+
+      await rtc.client.join(APP_ID, channel, token, uid);
+      rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+      await rtc.client.publish([rtc.localAudioTrack]);
+      console.log('Local user published audio');
+      setJoined(true);
+    } catch (err) {
+      console.error('Error joining channel:', err);
+    }
+  };
+
+  const navigate = useNavigate();
+
 
   const initiateCall = async (callerId, receiverId) => {
 
-    // setCallLeavingUID(receiverId);
-    // setShowCallUi(true);
+    setCallLeavingUID(receiverId);
+    navigate("/user/callui");
 
     const studentRef = doc(db, "studentCollection", callerId);
     const studentSnap = await getDoc(studentRef);
@@ -66,26 +105,17 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
       }
 
 
-
-
-
-
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
 
     
 
     const callRef = doc(db, "calls", receiverId);
-
-    // Fetch the current document to check if it exists
     const docSnap = await getDoc(callRef);
-
-    
 
     if (!docSnap.exists()) {
       const gotData = await getWhiteBoardRoomUUID();
       const UUID = gotData.uuid;
-      // If the document does not exist, add all data including uuid
       await setDoc(callRef, {
         callerId,
         channelName,
@@ -98,7 +128,6 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
       });
       setUUID(UUID);
     } else {
-      // If the document exists, update the fields but keep the uuid unchanged
       await setDoc(callRef, {
         callerId,
         channelName,
@@ -107,23 +136,38 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
         receiverId,
         timestamp: Date.now(),
         status: "ringing"
-      }, { merge: true }); // The merge flag ensures uuid isn't overwritten
+      }, { merge: true });
 
       if(docSnap.data().uuid){
         setUUID(docSnap.data().uuid)
       }
 
     }
-
-    console.log("Token from chatTop: " + token);
-    
-
     listenForCallEnd(receiverId); // Listen for call termination
     startAudioCallUI(channelName, token, receiverId, uid);
-
     // sendNottification(FCMToken);
     
   };
+  
+
+  // Updated UI to open whiteboard from context
+    const startAudioCallUI = (channelName, token, receiverId, uid) => {
+
+      setCallStatus("Ringing")
+      listenForCallReceive(receiverId);
+      
+      joinChannel(channelName, token, uid);
+      
+
+
+
+      if (!window.ringtoneAudio) {
+        window.ringtoneAudio = new Audio("/ringbacktone.mp3");
+        window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+      }
+
+      startTimeout(receiverId); // Starts the timeout
+      };
 
   
 
@@ -146,8 +190,11 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
           </div>
         </div>
 
-        <button className="btn btn-danger" onClick={() => acceptCall(callData)}>receive</button>
-
+{joined ? (
+        <button>Leave Channel</button>
+      ) : (
+        <button onClick={joinChannel}>Join Channel</button>
+      )}
         <div className="right d-flex align-items-center">
           {
             receiverRole == 'teacher' && (

@@ -7,7 +7,6 @@ import { AuthContext } from "./AuthProvider";
 import WhiteBoard from "../interfaces/Private/Shared/WhiteBoard/WhiteBoardCall";
 import CallUI from "../interfaces/Private/Shared/CallUi/CallUi";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { useNavigate, useNavigation } from "react-router-dom";
 
 export const CallContext = createContext();
 
@@ -43,69 +42,40 @@ export default function CallProvider({ children }) {
 
   const AGORA_APP_ID = "ed128ef97bbd4d7c9c59b9ec7e4f1372";
 
-  useEffect(() => {
-    rtc.client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+  function initializeClient() {
 
-    rtc.client.on('user-published', async (user, mediaType) => {
-      console.log('Remote user published:', user.uid);
+    // rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    
+
+    rtc.client.on("user-published", async (user, mediaType) => {
+      console.log("user publishing");
+      console.log("user publishing");
+      
       await rtc.client.subscribe(user, mediaType);
-      console.log('Subscribed to remote user');
+      console.log("Subscribe success");
 
-      if (mediaType === 'audio') {
+      if (mediaType === "audio") {
         user.audioTrack.play();
       }
     });
 
-    rtc.client.on('user-unpublished', user => {
-      console.log('User unpublished:', user.uid);
+    rtc.client.on("user-unpublished", async (user) => {
+      await rtc.client.unsubscribe(user);
     });
 
-    return () => {
-      // Clean up
-      if (rtc.localAudioTrack) {
-        rtc.localAudioTrack.stop();
-        rtc.localAudioTrack.close();
-      }
-      if (rtc.client) {
-        rtc.client.leave();
-      }
-    };
-  }, []);
 
-  // function initializeClient() {
+      rtc.client.on("join-channel-success", (channel, uid, elapsed) => {
+        console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
+          console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
 
-  //   // rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-    
-
-  //   rtc.client.on("user-published", async (user, mediaType) => {
-  //     console.log("user publishing");
-  //     console.log("user publishing");
-      
-  //     await rtc.client.subscribe(user, mediaType);
-  //     console.log("Subscribe success");
-
-  //     if (mediaType === "audio") {
-  //       user.audioTrack.play();
-  //     }
-  //   });
-
-  //   rtc.client.on("user-unpublished", async (user) => {
-  //     await rtc.client.unsubscribe(user);
-  //   });
+      });
 
 
-  //     rtc.client.on("join-channel-success", (channel, uid, elapsed) => {
-  //       console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
-  //         console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
-
-  //     });
-
-
-  //   rtc.client.on("connection-state-change", evt => console.log(evt));
-  // }
-  // useEffect(() => {
-  //   initializeClient();
-  // }, [])
+    rtc.client.on("connection-state-change", evt => console.log(evt));
+  }
+  useEffect(() => {
+    initializeClient();
+  }, [])
 
 
 
@@ -192,8 +162,9 @@ const playRingtone = () => {
   
 
   
-  const navigate = useNavigate()
+
   
+
   const listenForCalls = (userId) => {
     if (!userId) return;
     setCallLeavingUID(userId);
@@ -205,11 +176,11 @@ const playRingtone = () => {
         
 
         if (callData.status === "ringing") {
+                  console.log("listening");
+          listenForCallEnd(UID);
           setCallStatus("ringing");
           setCallData(callData);
           setShowCallUi(true);
-          listenForCallEnd(UID);
-          navigate("/user/callui")
           // playRingtone();
 
         }
@@ -240,7 +211,24 @@ const playRingtone = () => {
 
 
 
+  // Updated UI to open whiteboard from context
+    const startAudioCallUI = (channelName, token, receiverId, uid) => {
 
+      setCallStatus("Ringing")
+      listenForCallReceive(receiverId);
+      
+      joinChannel(channelName, token, uid);
+      
+
+
+
+      if (!window.ringtoneAudio) {
+        window.ringtoneAudio = new Audio("/ringbacktone.mp3");
+        window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
+      }
+
+      startTimeout(receiverId); // Starts the timeout
+      };
 
   
 
@@ -280,6 +268,7 @@ const playRingtone = () => {
 
       //set call status
       setCallStatus("accepted");
+      listenForCallEnd(UID);
 
     } catch (error) {
       console.error("Error accepting call:", error);
@@ -299,17 +288,9 @@ const playRingtone = () => {
 
   const listenForCallEnd = (userId) => {
     const callRef = doc(db, "calls", userId);
-    console.log("called first");
-    
-    
     return onSnapshot(callRef, async (docSnapshot) => {
       if (docSnapshot.exists() && docSnapshot.data().status === "ended") {
-        console.log("found ended");
-        console.log("found ended");
-        console.log("found ended");
         setCallStatus("ended");
-
-        
         if (window.ringtoneAudio) {
           window.ringtoneAudio.pause();
           window.ringtoneAudio.currentTime = 0;
@@ -317,16 +298,9 @@ const playRingtone = () => {
           
         }
         if (rtc.localAudioTrack) {
-          console.log("turned off");
-          
           rtc.localAudioTrack.close();
-          rtc.localAudioTrack.stop();
         }
         if (rtc.client) {
-          console.log("left the chhaneel");
-          console.log("left the chhanneel");
-          console.log("left the chhanneel");
-
           await rtc.client.leave();
         }
 
@@ -375,9 +349,9 @@ const playRingtone = () => {
     // //   initializeClient();
     // // }
     // setChannel(channelName);
-    if (rtc.client.connectionState !== "DISCONNECTED") {
-      await leaveChannel(uid);  // Leave the existing call first
-    }
+    // // if (rtc.client.connectionState !== "DISCONNECTED") {
+    // //   await leaveChannel(uid);  // Leave the existing call first
+    // // }
 
     //     console.log("Token from join channel: " + token);
 
@@ -412,22 +386,30 @@ const playRingtone = () => {
     await rtc.client.publish([rtc.localAudioTrack]);
   }
 
-  const leaveChannel = async (userId) => {
-    setCallStatus("ended")
-    console.log(rtc.localAudioTrack);
-    
-    rtc.localAudioTrack.stop();
-    rtc.localAudioTrack.close();
-    await rtc.client.leave();
-    await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
-  };
+  // Leave the call
+  async function leaveChannel(userId) {
+    console.log("called");
+    if (!userId) return;
 
-  
+    if (rtc.localAudioTrack) {
+      rtc.localAudioTrack.close();
+    }
+    
+    if(!rtc.client){
+      initializeClient()
+    }
+
+    await rtc.client.leave();
+
+    await setDoc(doc(db, "calls", userId), { status: "ended" }, { merge: true });
+  }
 
   //share data to pages through context
   const callContextUtility = {
+    startAudioCallUI,
     joinChannel,
     listenForCallEnd,
+    leaveChannel,
     setShowWhiteboard,
     showWhiteboard, // Provide state here to manage whiteboard visibility
     setUUID,
@@ -437,14 +419,7 @@ const playRingtone = () => {
     acceptCall,
     rejectCall,
     setCallStatus,
-    startTimeout,
-    callData,
-    listenForCallReceive,
-    UID,
-    callStatus,
-    callLeavingUID,
-    leaveChannel,
-    rtc
+    callData
   };
   
   return (

@@ -32,6 +32,8 @@ import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
 import CheckOwner from "./CheckOwner";
+import CallUI from "../interfaces/Private/Shared/CallUi/CallUi";
+import CallProvider from "../providers/CallProvider";
 
 
 const router = createBrowserRouter([
@@ -60,7 +62,7 @@ const router = createBrowserRouter([
     },
     {
       path: 'user',
-      element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
+      element: <CallProvider><UserPrivateRouter><Main></Main></UserPrivateRouter></CallProvider> ,
       errorElement: <Error></Error>,
 
       children: [
@@ -90,6 +92,10 @@ const router = createBrowserRouter([
           path: 'profile',
           element: <Profile></Profile>
         },
+        {
+          path: 'callui',
+          element: <CallUI></CallUI>
+        }
       ]
     },
     {

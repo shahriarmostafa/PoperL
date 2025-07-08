@@ -4,22 +4,28 @@ import { CallContext } from '../../../../providers/CallProvider';
 import { doc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebase.init';
 import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
-const CallUI = ({ status, callEndingId, UID}) => {
+// const CallUI = ({ status, callEndingId, UID}) => {
+  const CallUI = () => {
+
+    const {setShowWhiteboard, acceptCall, rejectCall, setShowCallUi, setCallStatus, callData,
+    UID,
+    callStatus,
+    callLeavingUID, leaveChannel} = useContext(CallContext);
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [disabledReview, setDisabledReview] = useState(false);
-  const callerName = status == "Ringing"? "Teacher" : "Student";
+  const callerName = callStatus == "Ringing"? "Teacher" : "Student";
 
   useEffect(() => {
-    if (status === "accepted" && !intervalId) {
+    if (callStatus === "accepted" && !intervalId) {
       const id = setInterval(() => {
         setSeconds(prev => prev + 1);
       }, 1000);
       setIntervalId(id);
     }
 
-    if (status === "ended" && intervalId) {
+    if (callStatus === "ended" && intervalId) {
       clearInterval(intervalId);
       setIntervalId(null);
     }
@@ -27,7 +33,7 @@ const CallUI = ({ status, callEndingId, UID}) => {
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [status]);
+  }, [callStatus]);
 
 
   const formatTime = (secs) => {
@@ -36,7 +42,9 @@ const CallUI = ({ status, callEndingId, UID}) => {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
-  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi, setCallStatus, callData} = useContext(CallContext);
+  
+
+  
 
   const acceptCallHandler = () => {
     stopRingtone();
@@ -45,7 +53,7 @@ const CallUI = ({ status, callEndingId, UID}) => {
   }
   const rejectCallHandler = () => {
     stopRingtone();
-    rejectCall(callEndingId);    
+    rejectCall(callLeavingUID);    
   }
 
   const endCall = async () => {
@@ -62,21 +70,21 @@ const CallUI = ({ status, callEndingId, UID}) => {
     else if (seconds >= 1200 && seconds < 1500) callPoints = 15; // 21-25 min
     else if (seconds >= 1500) callPoints = 20; // 26-30 min
 
-    await leaveChannel(callEndingId);
+    leaveChannel(callLeavingUID);
 
     // Update teacher's points if callPoints > 0
 
 
     
     if (callPoints > 0) {
-      const teacherRef = doc(db, "teacherCollection", callEndingId);
+      const teacherRef = doc(db, "teacherCollection", callLeavingUID);
       
       await updateDoc(teacherRef, {
           points: increment(callPoints),
       });
     }
 
-    const studentId = UID == callEndingId? callData.callerId : UID;
+    const studentId = UID == callLeavingUID? callData.callerId : UID;
 
     const studentRef = doc(db, "studentCollection", studentId);
     await updateDoc(studentRef, {
@@ -91,7 +99,7 @@ const CallUI = ({ status, callEndingId, UID}) => {
 
   const hideCallView = () => {
     setShowCallUi(false);
-    setCallStatus("Ringing")
+    setCallStatus("Ringing");
   }
 
 
@@ -106,12 +114,12 @@ const CallUI = ({ status, callEndingId, UID}) => {
   //review for teacher
   const handleLike = () => {
     setDisabledReview(true);
-    setTeacherFeedback(callEndingId, true, null, null);
+    setTeacherFeedback(callLeavingUID, true, null, null);
   
   };
   const handleDislike = () => {
     setDisabledReview(true)
-    setTeacherFeedback(callEndingId, false, null, null)
+    setTeacherFeedback(callLeavingUID, false, null, null)
   };
 
 
@@ -125,20 +133,20 @@ const CallUI = ({ status, callEndingId, UID}) => {
         <div className="center">
           <div className="call-duration">
             {
-              (status !== "ringing" && status !== "Ringing") && formatTime(seconds)
+              (callStatus !== "ringing" && callStatus !== "Ringing") && formatTime(seconds)
             }
           </div>
-          <div className="status">{status.toUpperCase() + "..."}</div>
+          <div className="status">{callStatus + "..."}</div>
         </div>
         {
-          status === "ringing" && 
+          callStatus === "ringing" && 
           <div className="accept-reject d-flex justify-content-center">
             <button onClick={acceptCallHandler} className="accept btn btn-primary mx-2">Accept</button>
             <button onClick={rejectCallHandler} className="reject btn btn-danger">Reject</button>
           </div> 
         }
         {
-          status === "Ringing" && 
+          callStatus === "Ringing" && 
           <div className="call-actions">
             <button onClick={endCall} className="end-call-button">
               <MdCallEnd></MdCallEnd>
@@ -147,10 +155,10 @@ const CallUI = ({ status, callEndingId, UID}) => {
         }
 
         {
-          status === "accepted" &&
+          callStatus === "accepted" &&
           (<>
             {
-              callEndingId != UID && (
+              callLeavingUID != UID && (
                 <div className="feedback  my-2">
                   <h3 className='text-center'>Add a Review?</h3>
                   <button onClick={handleLike} className="dislike btn btn-success mx-1" disabled={disabledReview}>Good Teacher</button>
@@ -171,7 +179,7 @@ const CallUI = ({ status, callEndingId, UID}) => {
         }
         
         {
-          (status === "rejected" ||  status === "ended" || status === "missed") &&
+          (callStatus === "rejected" ||  callStatus === "ended" || callStatus === "missed") &&
           <div onClick={hideCallView} className="ok-button">
             <button className="btn btn-danger">Done</button>
           </div>
