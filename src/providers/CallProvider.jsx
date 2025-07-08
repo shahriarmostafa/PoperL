@@ -60,6 +60,14 @@ export default function CallProvider({ children }) {
       await rtc.client.unsubscribe(user);
     });
 
+
+      rtc.client.on("join-channel-success", (channel, uid, elapsed) => {
+        console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
+          console.log(`✅ Joined channel ${channel} as ${uid} in ${elapsed}ms`);
+
+      });
+
+
     rtc.client.on("connection-state-change", evt => console.log(evt));
   }
   useEffect(() => {
@@ -146,40 +154,7 @@ const playRingtone = () => {
 
 
 
-  //for future
 
-  // useEffect(() => {
-  //   if (!UID) return;
-    
-  //   const handleVisibilityChange = async () => {
-  //     if (document.hidden && callStatus === "Ringing") {
-  //       console.log("User switched screen during ringing, marking as missed...");
-  //       await setDoc(doc(db, "calls", UID), { status: "missed" }, { merge: true });
-  //       setCallStatus("missed");
-  //     }
-  //   };
-  
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-  
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, [UID, callStatus]);
-  // useEffect(() => {
-  //   const handleAppExit = async () => {
-  //     if (callStatus === "ringing") {
-  //       console.log("App closed or refreshed during ringing, marking as missed...");
-  //       await setDoc(doc(db, "calls", UID), { status: "missed" }, { merge: true });
-  //       setCallStatus("missed");
-  //     }
-  //   };
-  
-  //   window.addEventListener("beforeunload", handleAppExit);
-  
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleAppExit);
-  //   };
-  // }, [UID, callStatus]);
   
   
 
@@ -253,6 +228,13 @@ const playRingtone = () => {
   const acceptCall = async (callData) => {
     try {
       await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
+
+
+
+      
+
+
+
       
       const callRef = doc(db, "calls", UID);
 
