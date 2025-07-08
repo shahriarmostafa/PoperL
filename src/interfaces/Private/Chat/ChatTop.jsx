@@ -92,6 +92,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
         callerId,
         channelName,
         agoraToken: token,
+        receiverId,
         uid,
         timestamp: Date.now(),
         status: "ringing",
@@ -105,6 +106,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
         channelName,
         agoraToken: token,
         uid,
+        receiverId,
         timestamp: Date.now(),
         status: "ringing"
       }, { merge: true }); // The merge flag ensures uuid isn't overwritten

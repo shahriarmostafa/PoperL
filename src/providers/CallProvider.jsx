@@ -48,6 +48,9 @@ export default function CallProvider({ children }) {
     
 
     rtc.client.on("user-published", async (user, mediaType) => {
+      console.log("user publishing");
+      console.log("user publishing");
+      
       await rtc.client.subscribe(user, mediaType);
       console.log("Subscribe success");
 
