@@ -343,28 +343,41 @@ const playRingtone = () => {
       }
     })
   }
-
+  let localTrack;
   async function joinChannel(channelName, token, uid) {
-    // if(!rtc.client){
-    //   initializeClient();
-    // }
-    setChannel(channelName);
-    // if (rtc.client.connectionState !== "DISCONNECTED") {
-    //   await leaveChannel(uid);  // Leave the existing call first
-    // }
+    // // if(!rtc.client){
+    // //   initializeClient();
+    // // }
+    // setChannel(channelName);
+    // // if (rtc.client.connectionState !== "DISCONNECTED") {
+    // //   await leaveChannel(uid);  // Leave the existing call first
+    // // }
 
-        console.log("Token from join channel: " + token);
+    //     console.log("Token from join channel: " + token);
 
     
-    try {
-      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);      
-      await publishLocalAudio();
+    // try {
+    //   await rtc.client.join(AGORA_APP_ID, channelName, token, uid);      
+    //   await publishLocalAudio();
 
-    } catch (error) {
-      console.log(token);
+    // } catch (error) {
+    //   console.log(token);
       
-      console.error("Error joining channel:", error);
+    //   console.error("Error joining channel:", error);
+    // }
+
+    await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+  localTrack = await AgoraRTC.createMicrophoneAudioTrack();
+  await rtc.client.publish([localTrack]);
+  console.log("Published local audio");
+
+  rtc.client.on("user-published", async (user, mediaType) => {
+    await client.subscribe(user, mediaType);
+    console.log("Subscribed to remote user");
+    if (mediaType === "audio") {
+      user.audioTrack.play();
     }
+  });
   }
 
   // Publish local audio
