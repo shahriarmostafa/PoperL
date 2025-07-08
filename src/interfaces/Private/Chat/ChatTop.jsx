@@ -21,7 +21,6 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
   //sending nottification
   const sendNottification = async (nottificationToken) => {
     
-      console.log(nottificationToken, callerID, callerName);
       
       if(!nottificationToken || !callerID || !callerName){
           console.log("FCM and token not found");
@@ -34,7 +33,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, startAudioCallUI, setShowCallUi, setCallLeavingUID, acceptCall, callData } = useContext(CallContext);
 
   const getAgoraToken = async (channelName) => {
     const response = await axiosSecure.post("/generate-token", {
@@ -73,8 +72,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
     const channelName = channel; // Unique channel name
     const { token, uid } = await getAgoraToken(channelName);
-    console.log("Token: " + token);
-    console.log("RId: " + uid);
+
     
 
     const callRef = doc(db, "calls", receiverId);
@@ -117,8 +115,11 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
     }
 
+    console.log("Token from chatTop: " + token);
+    
+
     listenForCallEnd(receiverId); // Listen for call termination
-    startAudioCallUI(channelName, token, uid);
+    startAudioCallUI(channelName, token, receiverId, uid);
 
     sendNottification(FCMToken);
     
@@ -144,6 +145,8 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
             <b>{usedName}</b>
           </div>
         </div>
+
+        <button className="btn btn-danger" onClick={() => acceptCall(callData)}>receive</button>
 
         <div className="right d-flex align-items-center">
           {

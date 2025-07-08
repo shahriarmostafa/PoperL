@@ -208,12 +208,12 @@ const playRingtone = () => {
 
 
   // Updated UI to open whiteboard from context
-    const startAudioCallUI = (channelName, token, uid) => {
+    const startAudioCallUI = (channelName, token, receiverId, uid) => {
 
       setCallStatus("Ringing")
-      listenForCallReceive(uid);
+      listenForCallReceive(receiverId);
+      
       joinChannel(channelName, token, uid);
-      console.log("Start Call id: " + uid);
       
 
 
@@ -223,7 +223,7 @@ const playRingtone = () => {
         window.ringtoneAudio.play().catch((e) => console.error("Auto-play blocked:", e));
       }
 
-      startTimeout(uid); // Starts the timeout
+      startTimeout(receiverId); // Starts the timeout
       };
 
   
@@ -348,13 +348,17 @@ const playRingtone = () => {
     // if (rtc.client.connectionState !== "DISCONNECTED") {
     //   await leaveChannel(uid);  // Leave the existing call first
     // }
+
+        console.log("Token from join channel: " + token);
+
     
     try {
       await rtc.client.join(AGORA_APP_ID, channelName, token, uid);      
       await publishLocalAudio();
-      console.log("Working");
 
     } catch (error) {
+      console.log(token);
+      
       console.error("Error joining channel:", error);
     }
   }
@@ -397,14 +401,15 @@ const playRingtone = () => {
     setCallLeavingUID,
     acceptCall,
     rejectCall,
-    setCallStatus
+    setCallStatus,
+    callData
   };
   
   return (
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {showCallUi && <CallUI UID={UID} callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>}
+    {/* {showCallUi && <CallUI UID={UID} callData={callData} status={callStatus} callEndingId={callLeavingUID}></CallUI>} */}
   </CallContext.Provider>
   );
 }
