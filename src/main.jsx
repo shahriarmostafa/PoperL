@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PageTransition>
-          {/* <CallProvider> */}
+          <CallProvider>
             <RouterProvider router={router}></RouterProvider>
-          {/* </CallProvider> */}
+          </CallProvider>
         </PageTransition>
       </AuthProvider>
     </QueryClientProvider>

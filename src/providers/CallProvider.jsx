@@ -192,7 +192,6 @@ const playRingtone = () => {
   
 
   
-  const navigate = useNavigate()
   
   const listenForCalls = (userId) => {
     if (!userId) return;
@@ -209,7 +208,6 @@ const playRingtone = () => {
           setCallData(callData);
           setShowCallUi(true);
           listenForCallEnd(UID);
-          navigate("/user/callui")
           // playRingtone();
 
         }
@@ -245,8 +243,11 @@ const playRingtone = () => {
   
 
   const acceptCall = async (callData) => {
+
+    console.log(callData);
+    
     try {
-      await joinChannel(callData.channelName, callData.agoraToken, callData.uid);
+      await joinChannel(callData.channelName);
 
 
 
@@ -369,15 +370,43 @@ const playRingtone = () => {
       }
     })
   }
-  let localTrack;
-  async function joinChannel(channelName, token, uid) {
-    // // if(!rtc.client){
-    // //   initializeClient();
-    // // }
-    // setChannel(channelName);
-    if (rtc.client.connectionState !== "DISCONNECTED") {
-      await leaveChannel(uid);  // Leave the existing call first
+
+  const getAgoraToken = async (channelName) => {    
+    const receiverID = "uselessdata";
+    
+    const response = await axiosSecure.post("/generate-token", {
+      channelName,
+      receiverID,
+    });
+    return response.data;
+  };
+
+  
+
+  const joinChannel = async (channelName) => {
+    
+    try {
+    const { token, uid } = await getAgoraToken(channelName);
+    console.log(token);
+    
+
+      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+      rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+      await rtc.client.publish([rtc.localAudioTrack]);
+      console.log('Local user published audio');
+    } catch (err) {
+      console.error('Error joining channel:', err);
     }
+  };
+
+  // async function joinChannel(channelName, token, uid) {
+  //   // // if(!rtc.client){
+  //   // //   initializeClient();
+  //   // // }
+  //   // setChannel(channelName);
+  //   if (rtc.client.connectionState !== "DISCONNECTED") {
+  //     await leaveChannel(uid);  // Leave the existing call first
+  //   }
 
     //     console.log("Token from join channel: " + token);
 
@@ -392,16 +421,16 @@ const playRingtone = () => {
     //   console.error("Error joining channel:", error);
     // }
 
-    try {
+  //   try {
 
-      await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
-      rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-      await rtc.client.publish([rtc.localAudioTrack]);
-      console.log('Local user published audio');
-    } catch (err) {
-      console.error('Error joining channel:', err);
-    }
-  }
+  //     await rtc.client.join(AGORA_APP_ID, channelName, token, uid);
+  //     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+  //     await rtc.client.publish([rtc.localAudioTrack]);
+  //     console.log('Local user published audio');
+  //   } catch (err) {
+  //     console.error('Error joining channel:', err);
+  //   }
+  // }
 
   // Publish local audio
   async function publishLocalAudio() {
@@ -435,7 +464,6 @@ const playRingtone = () => {
     rejectCall,
     setCallStatus,
     startTimeout,
-    callData,
     listenForCallReceive,
     UID,
     callStatus,
@@ -448,7 +476,7 @@ const playRingtone = () => {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {/* {showCallUi && <CallUI UID={UID} status={callStatus} callEndingId={callLeavingUID}></CallUI>} */}
+    {showCallUi && <CallUI UID={UID} status={callStatus} callEndingId={callLeavingUID} callData={callData}></CallUI>}
   </CallContext.Provider>
   );
 }

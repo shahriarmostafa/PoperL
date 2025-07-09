@@ -4,31 +4,22 @@ import { CallContext } from '../../../../providers/CallProvider';
 import { doc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase/firebase.init';
 import {setTeacherFeedback} from "../../../../Hooks/setTeacherFeedBack"
-import { useNavigate } from 'react-router-dom';
-// const CallUI = ({ status, callEndingId, UID}) => {
-  const CallUI = () => {
-
-    const {setShowWhiteboard, acceptCall, rejectCall, setShowCallUi, setCallStatus, callData,
-    UID,
-    callStatus,
-    callLeavingUID, leaveChannel} = useContext(CallContext);
-
-  const navigate = useNavigate();
+const CallUI = ({ status, callEndingId, callData, UID}) => {
 
   const [seconds, setSeconds] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [disabledReview, setDisabledReview] = useState(false);
-  const callerName = callStatus == "Ringing"? "Teacher" : "Student";
+  const callerName = status == "Ringing"? "Teacher" : "Student";
 
   useEffect(() => {
-    if (callStatus === "accepted" && !intervalId) {
+    if (status === "accepted" && !intervalId) {
       const id = setInterval(() => {
         setSeconds(prev => prev + 1);
       }, 1000);
       setIntervalId(id);
     }
 
-    if (callStatus === "ended" && intervalId) {
+    if (status === "ended" && intervalId) {
       clearInterval(intervalId);
       setIntervalId(null);
     }
@@ -36,7 +27,7 @@ import { useNavigate } from 'react-router-dom';
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [callStatus]);
+  }, [status]);
 
 
   const formatTime = (secs) => {
@@ -45,9 +36,7 @@ import { useNavigate } from 'react-router-dom';
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
-  
-
-  
+  const {setShowWhiteboard, leaveChannel, acceptCall, rejectCall, setShowCallUi, setCallStatus} = useContext(CallContext);
 
   const acceptCallHandler = () => {
     stopRingtone();
@@ -56,7 +45,7 @@ import { useNavigate } from 'react-router-dom';
   }
   const rejectCallHandler = () => {
     stopRingtone();
-    rejectCall(callLeavingUID);    
+    rejectCall(callEndingId);    
   }
 
   const endCall = async () => {
@@ -73,28 +62,26 @@ import { useNavigate } from 'react-router-dom';
     else if (seconds >= 1200 && seconds < 1500) callPoints = 15; // 21-25 min
     else if (seconds >= 1500) callPoints = 20; // 26-30 min
 
-    leaveChannel(callLeavingUID);
+    await leaveChannel(callEndingId);
 
     // Update teacher's points if callPoints > 0
 
 
     
     if (callPoints > 0) {
-      const teacherRef = doc(db, "teacherCollection", callLeavingUID);
+      const teacherRef = doc(db, "teacherCollection", callEndingId);
       
       await updateDoc(teacherRef, {
           points: increment(callPoints),
       });
     }
 
-    const studentId = UID == callLeavingUID? callData.callerId : UID;
+    const studentId = UID == callEndingId? callData.callerId : UID;
 
     const studentRef = doc(db, "studentCollection", studentId);
     await updateDoc(studentRef, {
         "subscription.callLimit": increment(-seconds / 60), // Convert seconds to minutes
     });
-
-    
 
   };
 
@@ -103,8 +90,8 @@ import { useNavigate } from 'react-router-dom';
   }
 
   const hideCallView = () => {
-    navigate("/user/chat")
-    setCallStatus("Ringing");
+    setShowCallUi(false);
+    setCallStatus("Ringing")
   }
 
 
@@ -119,12 +106,12 @@ import { useNavigate } from 'react-router-dom';
   //review for teacher
   const handleLike = () => {
     setDisabledReview(true);
-    setTeacherFeedback(callLeavingUID, true, null, null);
+    setTeacherFeedback(callEndingId, true, null, null);
   
   };
   const handleDislike = () => {
     setDisabledReview(true)
-    setTeacherFeedback(callLeavingUID, false, null, null)
+    setTeacherFeedback(callEndingId, false, null, null)
   };
 
 
@@ -138,20 +125,20 @@ import { useNavigate } from 'react-router-dom';
         <div className="center">
           <div className="call-duration">
             {
-              (callStatus !== "ringing" && callStatus !== "Ringing") && formatTime(seconds)
+              (status !== "ringing" && status !== "Ringing") && formatTime(seconds)
             }
           </div>
-          <div className="status">{callStatus + "..."}</div>
+          <div className="status">{status.toUpperCase() + "..."}</div>
         </div>
         {
-          callStatus === "ringing" && 
+          status === "ringing" && 
           <div className="accept-reject d-flex justify-content-center">
             <button onClick={acceptCallHandler} className="accept btn btn-primary mx-2">Accept</button>
             <button onClick={rejectCallHandler} className="reject btn btn-danger">Reject</button>
           </div> 
         }
         {
-          callStatus === "Ringing" && 
+          status === "Ringing" && 
           <div className="call-actions">
             <button onClick={endCall} className="end-call-button">
               <MdCallEnd></MdCallEnd>
@@ -160,10 +147,10 @@ import { useNavigate } from 'react-router-dom';
         }
 
         {
-          callStatus === "accepted" &&
+          status === "accepted" &&
           (<>
             {
-              callLeavingUID != UID && (
+              callEndingId != UID && (
                 <div className="feedback  my-2">
                   <h3 className='text-center'>Add a Review?</h3>
                   <button onClick={handleLike} className="dislike btn btn-success mx-1" disabled={disabledReview}>Good Teacher</button>
@@ -184,7 +171,7 @@ import { useNavigate } from 'react-router-dom';
         }
         
         {
-          (callStatus === "rejected" ||  callStatus === "ended" || callStatus === "missed") &&
+          (status === "rejected" ||  status === "ended" || status === "missed") &&
           <div onClick={hideCallView} className="ok-button">
             <button className="btn btn-danger">Done</button>
           </div>

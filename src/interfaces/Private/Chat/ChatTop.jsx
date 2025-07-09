@@ -1,12 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import avatar from "../../../assests/avatar.avif";
 import { db } from "../../../firebase/firebase.init";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext } from "react";
 import { CallContext } from "../../../providers/CallProvider";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import AgoraRTC from 'agora-rtc-sdk-ng';
 
 export default function ChatTop({channel, callerID, receiver, callerName, receiverRole}) {
 
@@ -15,50 +13,24 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
   const profileImg = receiver?.photoURL;
   const FCMToken = receiver?.FCMToken;
 
-  const axiosSecure = useAxiosSecure();
 
 
 
   //test block
-  const APP_ID = 'ed128ef97bbd4d7c9c59b9ec7e4f1372';
 
   const usedName = userName ? userName.split(/\s+/).slice(0, 2).join(" ") : userName;
 
   // Calling context info
-  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, setShowCallUi, setCallLeavingUID, startTimeout, setCallStatus, listenForCallReceive, rtc } = useContext(CallContext);
+  const {listenForCallEnd, setUUID, getWhiteBoardRoomUUID, setShowCallUi, setCallLeavingUID, startTimeout, setCallStatus, listenForCallReceive, joinChannel } = useContext(CallContext);
 
-  const getAgoraToken = async (channelName) => {
-    const response = await axiosSecure.post("/generate-token", {
-      channelName,
-      receiverID,
-    });
-    return response.data;
-  };
 
-  
 
-  const joinChannel = async () => {
-    try {
-    const { token, uid } = await getAgoraToken(channel);
-    console.log(token);
-    
-
-      await rtc.client.join(APP_ID, channel, token, uid);
-      rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-      await rtc.client.publish([rtc.localAudioTrack]);
-      console.log('Local user published audio');
-    } catch (err) {
-      console.error('Error joining channel:', err);
-    }
-  };
-
-  const navigate = useNavigate();
 
 
   const initiateCall = async (callerId, receiverId) => {
 
     setCallLeavingUID(receiverId);
-    navigate("/user/callui");
+    setShowCallUi(true);
 
     const studentRef = doc(db, "studentCollection", callerId);
     const studentSnap = await getDoc(studentRef);
@@ -77,11 +49,6 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
         return;
       }
 
-
-    const channelName = channel; // Unique channel name
-    const { token, uid } = await getAgoraToken(channelName);
-
-    console.log(token);
     
 
     
@@ -95,9 +62,7 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
       await setDoc(callRef, {
         callerId,
         channelName,
-        agoraToken: token,
         receiverId,
-        uid,
         timestamp: Date.now(),
         status: "ringing",
         uuid: UUID// Your function to generate UUID
@@ -105,11 +70,6 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
       setUUID(UUID);
     } else {
       await setDoc(callRef, {
-        callerId,
-        channelName,
-        agoraToken: token,
-        uid,
-        receiverId,
         timestamp: Date.now(),
         status: "ringing"
       }, { merge: true });
@@ -120,19 +80,20 @@ export default function ChatTop({channel, callerID, receiver, callerName, receiv
 
     }
     listenForCallEnd(receiverId); // Listen for call termination
-    startAudioCallUI(channelName, token, receiverId, uid);
+    
+    startAudioCallUI(channel, receiverId);
     // sendNottification(FCMToken);
     
   };
   
 
   // Updated UI to open whiteboard from context
-    const startAudioCallUI = (channelName, token, receiverId, uid) => {
+    const startAudioCallUI = (channelName, receiverId) => {
 
       setCallStatus("Ringing")
       listenForCallReceive(receiverId);
       
-      joinChannel(channelName, token, uid);
+      joinChannel(channelName);
       
 
 
