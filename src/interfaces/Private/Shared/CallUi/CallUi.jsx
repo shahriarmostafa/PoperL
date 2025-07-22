@@ -53,8 +53,7 @@ const CallUI = ({ status, callEndingId, callData, UID}) => {
 
     // Determine call points based on duration
     let callPoints = 0;
-    if (seconds >= 10 && seconds < 40) callPoints = 1;   // 1-2 min
-    else if (seconds >= 40 && seconds < 180) callPoints = 2;   // 1-2 min
+    if (seconds >= 40 && seconds < 180) callPoints = 2;   // 1-2 min
     else if (seconds >= 180 && seconds < 300) callPoints = 3;   // 3-5 min
     else if (seconds >= 300 && seconds < 600) callPoints = 5;  // 6-10 min
     else if (seconds >= 600 && seconds < 900) callPoints = 8;  // 11-15 min

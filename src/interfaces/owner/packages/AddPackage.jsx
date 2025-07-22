@@ -13,9 +13,11 @@ export default function AddPackage(){
     const onSubmit = async (data) =>{
         const item = {
             name: data.name,
+            category: data.category,
+            type: data.type,
             durationDays: Number(data.duration),
             price: Number(data.price),
-            dailyMinutesLimit: Number(data.dailyMinutesLimit)
+            credits: Number(data.credits)
         }   
         await axiosSecure.post('/pack', item)
         navigate("/maintainance/packages")
@@ -27,7 +29,17 @@ export default function AddPackage(){
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input {...register("name")} name="name" type="text" placeholder="Enter Package Name"/>
                     <input {...register("duration")} name="duration" type="number" placeholder="Enter duration(Hour)"/>
-                    <input {...register("dailyMinutesLimit")} name="dailyMinutesLimit" type="number" placeholder="Call Limit (minutes)"/>
+                    <input {...register("credits")} name="credits" type="number" placeholder="Credits"/>
+                    <select {...register("category", { required: "Please select a category" })}>
+                        <option value="">-- Select a category --</option>
+                        <option value="school/college">School/College</option>
+                        <option value="university">University</option>
+                     </select>
+                     <select {...register("type", { required: "Please select a type" })}>
+                        <option value="">-- Select a type --</option>
+                        <option value="general">General</option>
+                        <option value="special">Special</option>
+                     </select>
                     <input {...register("price")} name="price" type="number" placeholder="Enter the price"/>
                     <input type="submit" className="show-all"/>
                 </form>
