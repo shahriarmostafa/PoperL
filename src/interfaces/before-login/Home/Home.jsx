@@ -170,7 +170,7 @@ export default function Home(){
                 <div className="logo">
                   <img src={logo} alt="" />
                 </div>
-                <button className="btn btn-light"><Link to="/signin">Go Home</Link></button>
+                <button className="btn btn-light">Go Home</button>
                 </div>
               </header>
 
