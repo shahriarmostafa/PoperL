@@ -42,6 +42,10 @@ const router = createBrowserRouter([
       errorElement: <Error></Error>
     },
     {
+      path: "/payment-done",
+      element: <PaymentDone></PaymentDone>
+    },
+    {
       path: "/appHome",
       element: <AppHome></AppHome>,
       errorElement: <Error></Error>
