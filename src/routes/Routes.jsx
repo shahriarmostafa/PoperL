@@ -32,18 +32,12 @@ import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
 import CheckOwner from "./CheckOwner";
-import PaymentDone from "../interfaces/general/PaymentDone";
-
 const router = createBrowserRouter([
   
     {
       path: "/",
       element: <Home></Home>,
       errorElement: <Error></Error>
-    },
-    {
-      path: "/payment-done",
-      element: <PaymentDone></PaymentDone>
     },
     {
       path: "/appHome",
