@@ -32,7 +32,7 @@ import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
 import CheckOwner from "./CheckOwner";
-import PaymentDone from "../interfaces/general/payment-done";
+import PaymentDone from "../interfaces/general/PaymentDone";
 
 const router = createBrowserRouter([
   
