@@ -17,7 +17,7 @@ export default function AddPackage(){
             type: data.type,
             durationDays: Number(data.duration),
             price: Number(data.price),
-            credits: Number(data.credits)
+            credit: Number(data.credit)
         }   
         await axiosSecure.post('/pack', item)
         navigate("/maintainance/packages")
@@ -29,10 +29,11 @@ export default function AddPackage(){
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input {...register("name")} name="name" type="text" placeholder="Enter Package Name"/>
                     <input {...register("duration")} name="duration" type="number" placeholder="Enter duration(Hour)"/>
-                    <input {...register("credits")} name="credits" type="number" placeholder="Credits"/>
+                    <input {...register("credit")} name="credits" type="number" placeholder="Credits"/>
                     <select {...register("category", { required: "Please select a category" })}>
                         <option value="">-- Select a category --</option>
-                        <option value="school/college">School/College</option>
+                        <option value="school">School</option>
+                        <option value="college">College</option>
                         <option value="university">University</option>
                      </select>
                      <select {...register("type", { required: "Please select a type" })}>

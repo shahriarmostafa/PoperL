@@ -36,8 +36,10 @@ export default function Packages(){
             <div className="packages">
                 {packageData.map(x => {
                     return <Pack 
-                    id={x._id} 
-                    callDuration={x.dailyMinutesLimit} 
+                    id={x._id}
+                    category={x.category}
+                    type={x.type}
+                    credit={x.credit}
                     key={x._id} 
                     packName={x.name} 
                     price={x.price} 

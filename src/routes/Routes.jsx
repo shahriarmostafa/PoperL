@@ -138,7 +138,7 @@ const router = createBrowserRouter([
                 element: <AddPackage></AddPackage>
               },
               {
-                path: 'pack/:id/:name/:price/:packageLimit/:callDuration',
+                path: 'pack/:id/:name/:price/:packageLimit/:credit',
                 element: <EditPack></EditPack>
               },
               {
