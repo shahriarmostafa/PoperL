@@ -117,24 +117,24 @@ export default function SignIn(){
                       
                     const response = await signInWithGoogle()
                     
-                    const userInDataBase = {
-                      uid: response.user?.uid,
-                      email: response.user?.email,
-                      displayName: response.user?.displayName,
-                      photoURL: response.user?.providerData[0]?.photoURL,
-                      FCMToken: await requestForToken() || null,
-                      subscription: null
-                    };
-                    Swal.resumeTimer();
-                  Swal.stopTimer();
+                  //   const userInDataBase = {
+                  //     uid: response.user?.uid,
+                  //     email: response.user?.email,
+                  //     displayName: response.user?.displayName,
+                  //     photoURL: response.user?.providerData[0]?.photoURL,
+                  //     FCMToken: await requestForToken() || null,
+                  //     subscription: null
+                  //   };
+                  //   Swal.resumeTimer();
+                  // Swal.stopTimer();
                     
-                    const checkTeacher = await axiosSecure.post("/newTeacher", userInDataBase);
-                      if(!checkTeacher.data.success){
-                        await axiosSecure.post("/newStudent", userInDataBase);
-                      }
-                    Swal.resumeTimer();
+                  //   const checkTeacher = await axiosSecure.post("/newTeacher", userInDataBase);
+                  //     if(!checkTeacher.data.success){
+                  //       await axiosSecure.post("/newStudent", userInDataBase);
+                  //     }
+                  //   Swal.resumeTimer();
               
-                    navigate("/user/chat");
+                  //   navigate("/user/chat");
                       }catch (err){
                         Swal.update({
                           icon: "error",

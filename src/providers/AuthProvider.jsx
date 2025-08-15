@@ -1,13 +1,20 @@
-import { createUserWithEmailAndPassword, 
-    onAuthStateChanged, 
-    signInWithEmailAndPassword, 
-    signInWithPopup, 
-    signOut, 
-    updateProfile,
-    GoogleAuthProvider } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    updateProfile
+} from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import auth, { db } from "../firebase/firebase.init";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+
+//notification
+
+
+
 
 
 export const AuthContext = createContext(null);
@@ -18,6 +25,10 @@ export default function AuthProvider({children}){
     //provider sign up
 
     const googleProvider = new GoogleAuthProvider();
+
+    
+
+  
 
 
     const signInWithGoogle = () => {
