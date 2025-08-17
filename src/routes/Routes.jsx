@@ -62,40 +62,40 @@ const router = createBrowserRouter([
       path: '/signin',
       element: <UserPublicRouter><SignIn></SignIn></UserPublicRouter> 
     },
-    {
-      path: 'user',
-      element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
-      errorElement: <Error></Error>,
+    // {
+    //   path: 'user',
+    //   element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
+    //   errorElement: <Error></Error>,
 
-      children: [
-        //teacher page
+    //   children: [
+    //     //teacher page
         
-        {
-          path: 'subscription',
-          element: <Subscription></Subscription>
-        },
-        {
-          path: 'complain',
-          element: <Complain></Complain>
-        },
-        {
-          path: 'teachers',
-          element: <TeacherList></TeacherList>
-        },
-        {
-          path: 'chat',
-          element: <Chat></Chat>
-        },
-        {
-          path: 'chat/:chatId',
-          element: <ChatBox></ChatBox>
-        },
-        {
-          path: 'profile',
-          element: <Profile></Profile>
-        }
-      ]
-    },
+    //     {
+    //       path: 'subscription',
+    //       element: <Subscription></Subscription>
+    //     },
+    //     {
+    //       path: 'complain',
+    //       element: <Complain></Complain>
+    //     },
+    //     {
+    //       path: 'teachers',
+    //       element: <TeacherList></TeacherList>
+    //     },
+    //     {
+    //       path: 'chat',
+    //       element: <Chat></Chat>
+    //     },
+    //     {
+    //       path: 'chat/:chatId',
+    //       element: <ChatBox></ChatBox>
+    //     },
+    //     {
+    //       path: 'profile',
+    //       element: <Profile></Profile>
+    //     }
+    //   ]
+    // },
     {
         path: 'maintainance',
         element: <CheckOwner><Maintainance></Maintainance></CheckOwner>,

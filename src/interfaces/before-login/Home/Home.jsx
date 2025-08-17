@@ -11,6 +11,7 @@ import sliderImg3 from "../../../assests/slider-image-3.jpg";
 
 import Pack from './Pack';
 import Swal from 'sweetalert2';
+import Countdown from './Countdown';
 
 export default function Home(){
   
@@ -29,28 +30,9 @@ export default function Home(){
     };
   }, []);
 
-  const [params] = useSearchParams();
-  const order_id = params.get("order_id");
+  
 
-  useEffect(() => {
-    const finalize = async () => {
-      const response = await fetch("https://backend-yege.onrender.com/finalize-subscription", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ order_id }),
-      });
-
-      const res = await response.json();
-      if (response.ok) {
-        // Deep link back to app
-        window.location.href = "poperl://subscription-success";
-      } else {
-        alert("Subscription failed: " + res.error);
-      }
-    };
-
-    if (order_id) finalize();
-  }, [order_id]);
+  
 
   
   // check install option
@@ -80,21 +62,7 @@ export default function Home(){
     return () => clearInterval(interval);
   }, [currentSlide]);
 
-  useEffect(() => {
-    if(installPrompt){
-      Swal.fire({
-        title: "Install PoperL!",
-        text: "Download now?",
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonText: "Install"
-      }).then((result) => {
-        if(result.isConfirmed){
-          handleInstallClick()
-        }
-      })
-    }
-  }, [installPrompt])
+  
 
 
 
@@ -174,9 +142,7 @@ export default function Home(){
             </div>
           );
         }
-        else if(order_id){
-          return <h2>Finalizing your subscription...</h2>
-        }
+        
         else{
           return(
             <div className="min-vh-100 bg-dark text-white d-flex flex-column align-items-center">
@@ -197,15 +163,13 @@ export default function Home(){
                 <div className="logo">
                   <img src={logo} alt="" />
                 </div>
-                <button className="btn btn-light">Go Home</button>
+                  <Link to='/teacherSignUp'><button className="btn btn-light">Apply as a teacher</button></Link>
                 </div>
               </header>
 
               {/* Hero Section */}
               <section className="text-center mt-5 position-relative z-index-1 hero-section">
-                <h2 className="display-4 text-light">Learn Anytime, Anywhere</h2>
-                <p className="lead text-secondary">Connect with expert teachers on-demand.</p>
-                <button className="btn btn-danger">Download</button>
+                <Countdown />
               </section>
             </div>
 

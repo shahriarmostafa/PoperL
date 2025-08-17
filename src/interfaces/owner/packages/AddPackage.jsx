@@ -29,7 +29,7 @@ export default function AddPackage(){
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input {...register("name")} name="name" type="text" placeholder="Enter Package Name"/>
                     <input {...register("duration")} name="duration" type="number" placeholder="Enter duration(Hour)"/>
-                    <input {...register("credit")} name="credits" type="number" placeholder="Credits"/>
+                    <input {...register("credit")} name="credit" type="number" placeholder="Credits"/>
                     <select {...register("category", { required: "Please select a category" })}>
                         <option value="">-- Select a category --</option>
                         <option value="school">School</option>

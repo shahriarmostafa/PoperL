@@ -225,14 +225,14 @@ const playRingtone = () => {
 
 
 
-  useEffect(() => {
-    if (!UID) return;
-    if(checkTeacher(UID)){
-        listenForCalls(UID);
-        console.log(UID);
+  // useEffect(() => {
+  //   if (!UID) return;
+  //   if(checkTeacher(UID)){
+  //       listenForCalls(UID);
+  //       console.log(UID);
         
-    }
-  }, [UID]);
+  //   }
+  // }, [UID]);
 
   
 
@@ -476,7 +476,7 @@ const playRingtone = () => {
     <CallContext.Provider value={callContextUtility}>
     {children}
     {showWhiteboard && UUID && <WhiteBoard UUID={UUID} />}
-    {showCallUi && <CallUI UID={UID} status={callStatus} callEndingId={callLeavingUID} callData={callData}></CallUI>}
+    {/* {showCallUi && <CallUI UID={UID} status={callStatus} callEndingId={callLeavingUID} callData={callData}></CallUI>} */}
   </CallContext.Provider>
   );
 }

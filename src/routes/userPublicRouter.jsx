@@ -8,10 +8,11 @@ export default function UserPublicRouter({children}) {
     if(userProfileLoading){
         return "Loading..."
     }
-    if(!user){
-        return children;
-    }
-    else{
-        return <Navigate state={location.pathname} to="/user/chat"></Navigate>
-    }
+    // if(!user){
+    //     return children;
+    // }
+    // else{
+    //     return <Navigate state={location.pathname} to="/user/chat"></Navigate>
+    // }
+    return children
 }

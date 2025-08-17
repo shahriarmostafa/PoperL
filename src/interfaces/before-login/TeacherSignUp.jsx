@@ -68,7 +68,7 @@ export default function TeacherSignUp(){
           const userInDataBase = {
             uid: res.user?.uid,
             email: res.user?.email,
-            displayName: res.user?.displayName,
+            displayName: data.name,
             photoURL: res.user?.providerData[0]?.photoURL,
             whatsapp: data.phone, // Collect WhatsApp number
             experience: 0,
@@ -82,8 +82,10 @@ export default function TeacherSignUp(){
             ownerOfGroup: null,
             groupMembers: 0,
             approved: false, // Default approval status
-            FCMToken: await requestForToken(),
-            isOnline: false
+            FCMToken: null,
+            isOnline: false,
+            isActive: false,
+            role: 'teacher'
           };
       
           // Step 4: Add user data to the database
@@ -93,11 +95,11 @@ export default function TeacherSignUp(){
       
           // Step 5: Navigate to chat after successful completion
           Swal.resumeTimer();
-          navigate("/user/chat");
+          navigate("/");
       
           Swal.update({
             icon: "success",
-            title: "Teacher account created successfully!",
+            title: "Teacher application done successfully.. wait for response",
           });
         } catch (error) {
           console.error(error);
@@ -110,7 +112,6 @@ export default function TeacherSignUp(){
       
           Swal.stopTimer();
         }
-
       };
 
 
@@ -120,7 +121,8 @@ export default function TeacherSignUp(){
             html:
               '<input id="swal-input1" type="number" class="swal2-input" placeholder="WhatsApp Number">' +
               '<select id="swal-input2" class="swal2-select">' +
-                '<option value="school/college">School/College</option>' +
+                '<option value="school">School</option>' +
+                '<option value="college">College</option>' +
                 '<option value="university">University</option>' +
               '</select>',
             showCancelButton: true,
@@ -178,8 +180,10 @@ export default function TeacherSignUp(){
               ownerOfGroup: null,
               groupMembers: 0,
               approved: false, // Default approval status
-              FCMToken: await requestForToken(),
-              isOnline: false
+              FCMToken: null,
+              isOnline: false,
+              isActive: false,
+              role: 'teacher'
             };
             Swal.resumeTimer();
           Swal.stopTimer();
@@ -187,7 +191,11 @@ export default function TeacherSignUp(){
             await axiosSecure.post("/newTeacher", userInDataBase);
             Swal.resumeTimer();
       
-            navigate("/user/chat");
+            navigate("/");
+            Swal.update({
+                icon: "success",
+                title: "Teacher application done successfully.. wait for response",
+              });
               }catch (err){
                 Swal.update({
                   icon: "error",
