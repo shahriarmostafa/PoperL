@@ -148,7 +148,7 @@ export default function SignUp(){
     }
     return (
         <div className="sign-up auth-page">
-            <div className="form container">
+            <div className="form">
                 <h1 className="headline">Sign Up</h1>
                 {/* the form */}
                 <form onSubmit={handleSubmit(onSubmit)}>

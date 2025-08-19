@@ -221,7 +221,7 @@ export default function TeacherSignUp(){
     }
     return (
         <div className="sign-up auth-page">
-            <div className="form container">
+            <div className="form">
                 <h1 className="headline">Sign Up as a teacher</h1>
                 {/* the form */}
                 <form onSubmit={handleSubmit(teacherOnSubmit)}>
@@ -229,7 +229,8 @@ export default function TeacherSignUp(){
                     <input {...register("email", {required: true})} type="email" placeholder='Enter your email' required />
                     <input {...register("phone", {required: true})} type="number" placeholder='Whatsapp number' required />
                     <select {...register("category")} name="" id="">
-                      <option value="school/college">School/College</option>
+                      <option value="school">School</option>
+                      <option value="college">College</option>
                       <option value="university">University</option>
                     </select>
                     <div className="password-box">                            
