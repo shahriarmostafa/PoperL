@@ -33,12 +33,18 @@ import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
 import CheckOwner from "./CheckOwner";
 import PaymentDone from "../interfaces/general/PaymentDone";
+import PoperlCurrency from "../interfaces/currency/PoperlCurrency";
 
 const router = createBrowserRouter([
   
     {
       path: "/",
       element: <Home></Home>,
+      errorElement: <Error></Error>
+    },
+    {
+      path: "/perPointValue",
+      element: <PoperlCurrency></PoperlCurrency>,
       errorElement: <Error></Error>
     },
     {

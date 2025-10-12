@@ -1,0 +1,38 @@
+.crypto-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  color: #ffd700; // golden theme
+  text-align: center;
+  padding: 2rem;
+
+  .crypto-number {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8),
+                 0 0 40px rgba(255, 215, 0, 0.5),
+                 0 0 60px rgba(255, 215, 0, 0.3);
+  }
+
+  .crypto-table {
+    background: #111;
+
+    th, td {
+      color: #ffd700;
+      text-align: center;
+    }
+
+    th {
+      background: #222;
+      font-weight: bold;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 215, 0, 0.1);
+    }
+
+    button {
+      font-weight: bold;
+    }
+  }
+}

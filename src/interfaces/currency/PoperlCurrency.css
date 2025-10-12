@@ -1,0 +1,30 @@
+.crypto-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  color: #ffd700;
+  text-align: center;
+  padding: 2rem;
+}
+.crypto-page .crypto-number {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3);
+}
+.crypto-page .crypto-table {
+  background: #111;
+}
+.crypto-page .crypto-table th, .crypto-page .crypto-table td {
+  color: #ffd700;
+  text-align: center;
+}
+.crypto-page .crypto-table th {
+  background: #222;
+  font-weight: bold;
+}
+.crypto-page .crypto-table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+.crypto-page .crypto-table button {
+  font-weight: bold;
+}/*# sourceMappingURL=PoperlCurrency.css.map */

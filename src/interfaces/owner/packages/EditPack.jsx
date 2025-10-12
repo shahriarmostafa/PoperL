@@ -17,7 +17,7 @@ export default function EditPack(){
 
     const onSubmit = async (data) => {
 
-        const details = {name: data.packageName, price: data.price, credit: data.credit};        
+        const details = {name: data.packageName, price: Number(data.price), credit: Number(data.credit)};        
         
         await axiosSecure.put(`/pack/${id}`, details)
         navigate('/maintainance/packages')
