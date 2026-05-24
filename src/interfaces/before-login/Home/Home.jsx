@@ -1,235 +1,268 @@
-import { useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaArrowRight,
+  FaBookOpen,
+  FaCalendarAlt,
+  FaChalkboardTeacher,
+  FaCheckCircle,
+  FaComments,
+  FaMobileAlt,
+  FaShieldAlt,
+  FaVideo,
+} from "react-icons/fa";
 import "./home.css";
 import logo from "/logo-text.png";
-import { FaChalkboardTeacher, FaCalendarAlt, FaComments } from 'react-icons/fa'; // React Icons for features
 import sliderImg1 from "../../../assests/slider-image-1.jpg";
-import sliderImg2 from "../../../assests/slider-image-2.jpg";
-import sliderImg3 from "../../../assests/slider-image-3.jpg";
- import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Pack from "./Pack";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-import Pack from './Pack';
-import Countdown from './Countdown';
+const packages = [
+  { packageId: "houry", name: "Basic Hour", price: 50, durationDays: 1, credit: 120 },
+  { packageId: "daily", name: "Daily Focus", price: 120, durationDays: 24, credit: 250 },
+  { packageId: "weekly", name: "Weekly Scholar's", price: 550, durationDays: 168, credit: 1200 },
+  { packageId: "monthly", name: "Path To Mastery", price: 2000, durationDays: 720, credit: 5000 },
+];
 
-export default function Home(){
-  
+const subjects = [
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "English",
+  "Biology",
+  "ICT",
+  "Bangla",
+  "Economics",
+];
 
-    const [installPrompt, setInstallPrompt] = useState(null);
+const highlights = [
+  {
+    icon: <FaChalkboardTeacher />,
+    title: "Verified teachers",
+    text: "Learn one-on-one with teachers screened for subject skill, communication, and reliability.",
+  },
+  {
+    icon: <FaVideo />,
+    title: "Live classroom",
+    text: "Use video, chat, and whiteboard tools in one focused session without extra setup.",
+  },
+  {
+    icon: <FaCalendarAlt />,
+    title: "Flexible plans",
+    text: "Start small, top up when needed, or choose a weekly/monthly package for regular learning.",
+  },
+  {
+    icon: <FaShieldAlt />,
+    title: "Safer learning",
+    text: "Private sessions, secure payments, and simple progress visibility for students and parents.",
+  },
+];
 
-    useEffect(() => {
-        const handleBeforeInstallPrompt = (event) => {
-        event.preventDefault();
-        setInstallPrompt(event);
-        console.log('beforeinstallprompt event captured');
-        };
-        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
+const steps = [
+  "Create a student account",
+  "Choose a package",
+  "Pick a teacher or subject",
+  "Join the live session",
+];
 
-  
+export default function Home() {
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
-  
-
-  
-  // check install option
-  const handleInstallClick = async () => {
-    if (installPrompt) {
-      installPrompt.prompt(); // Show the install prompt
-      const choiceResult = await installPrompt.userChoice;      
-      setInstallPrompt(null);
+  const downloadPoperl = async () => {
+    try {
+      const res = await axiosSecure.get("/download-link");
+      const link = document.createElement("a");
+      link.href = res.data.url;
+      link.setAttribute("download", "PoperL.apk");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Download failed", err);
     }
   };
 
-  const navigate = useNavigate()
-
-
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const sliderImages = document.querySelectorAll('.slider-image');
-    const totalSlides = sliderImages.length;
-
-    const interval = setInterval(() => {
-      sliderImages[currentSlide].classList.remove('active');
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-      sliderImages[(currentSlide + 1) % totalSlides].classList.add('active');
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [currentSlide]);
-
-  
-
-
-
-  const packages = [
-    {
-      packageId: "houry",
-      name: "Basic Hour",
-      price: 50,
-      durationDays: 1,
-      credit: 120,
-    },
-    {
-      packageId: "daily",
-      name: "Daily Focus",
-      price: 120,
-      durationDays: 24,
-      credit: 250,
-    },
-    {
-      packageId: "weekly",
-      name: "Weekly Scholar's",
-      price: 550,
-      durationDays: 168,
-      credit: 1000,
-    },
-    {
-      packageId: "monthly",
-      name: "Path To Mastery",
-      price: 2000,
-      durationDays: 720,
-      credit: 4500,
-    },
-  ];
-  const axiosSecure = useAxiosSecure()
-
-  const downloadPoperl = async() => {
-      try {
-    const res = await axiosSecure.get("/download-link");
-    const apkUrl = res.data.url;
-
-    // Create a temporary <a> to trigger download
-    const link = document.createElement("a");
-    link.href = apkUrl;
-    link.setAttribute("download", "PoperL.apk"); // optional, browser may use original filename
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch (err) {
-    console.error("Failed to get download link", err);
-  }
-  }
-  
-
-
-
-
-    
-
-    
-
-
-
-
-        // if(window.ReactNativeWebView){
-        //   return(
-        //     <div className="education-page-home vh-100 d-flex flex-column justify-content-center align-items-center text-center text-white p-4 position-relative overflow-hidden">
-        //       {/* Header with Logo and Menu Icon */}
-        //       <div className="header position-absolute top-0 start-0 end-0 d-flex justify-content-between align-items-center p-3">
-        //         <img src="/512.png" alt="PoperL Logo" className="nav-logo" style={{ width: "40px" }} />
-        //         <div className="menu-icon fs-4 cursor-pointer" style={{ transition: "0.3s" }}>☰</div>
-        //       </div>
-        //       {/* Background with Gradient Animation */}
-        //       <div className="background position-absolute top-0 start-0 w-100 h-100"></div>
-        //       {/* Floating Shapes */}
-        //       <div className="shape shape1 position-absolute rounded-circle" style={{ width: "120px", height: "120px", background: "rgba(255, 255, 255, 0.2)", filter: "blur(40px)", top: "10%", left: "5%" }}></div>
-        //       <div className="shape shape2 position-absolute rounded-circle" style={{ width: "120px", height: "120px", background: "rgba(255, 255, 255, 0.2)", filter: "blur(40px)", bottom: "15%", right: "10%" }}></div>
-        //       {/* Hero Image with Parallax Effect */}
-        //       <img src="/logo-text.png" alt="Learning" className="hero-img mb-4" style={{ width: "75%", maxWidth: "280px", animation: "float 3s ease-in-out infinite" }} />
-        //       {/* Glassmorphism Message Box */}
-        //       <div className="message-box bg-white bg-opacity-10 p-4 rounded-4 backdrop-filter blur-10 shadow w-90 max-w-350 text-center mb-4">
-        //         <h2 className="fs-1 fw-bold">Unlock Your Potential with <span className="highlight" style={{ color: "#ffcc00" }}>PoperL</span></h2>
-        //         <p className="fs-5 opacity-90 mt-2">Gain expert knowledge anytime, anywhere.</p>
-        //       </div>
-        //       {/* Call to Action Button with Animation */}
-        //       <button className="cta-btn btn btn-warning fw-bold fs-5 px-4 py-2 rounded-pill shadow-lg" onClick={() => navigate("/signin")}>
-        //         Start Learning →
-        //       </button>
-        //     </div>
-        //   );
-        // }
-        
-        // else{
-          return(
-            <div className="min-vh-100 bg-dark text-white d-flex flex-column align-items-center">
-            {/* Header and Hero Section with Slider Background */}
-            <div className="header-hero-container position-relative w-100">
-              {/* Slider Background */}
-              <div className="slider-container position-absolute w-100 h-100">
-                <div className="slider">
-                  <img src={sliderImg1} alt="Slide 1" className="slider-image active" />
-                  <img src={sliderImg2} alt="Slide 2" className="slider-image" />
-                  <img src={sliderImg3} alt="Slide 3" className="slider-image" />
-                </div>
-              </div>
-
-              {/* Header */}
-              <header className="w-100  py-3 px-4 shadow-sm position-relative z-index-1">
-                <div className="container d-flex justify-content-between align-items-center">
-                <div className="logo">
-                  <img src={logo} alt="" />
-                </div>
-                  <Link to='/teacherSignUp'><button className="btn btn-light">Apply as a teacher</button></Link>
-                </div>
-              </header>
-
-              {/* Hero Section */}
-              <section className="text-center mt-5 position-relative z-index-1 hero-section">
-                <Countdown />
-                  {/* <h2 className="display-4 text-light">Learn Anytime, Anywhere</h2>
-                  <p className="lead text-secondary">Connect with expert teachers on-demand.</p>
-                  <button onClick={downloadPoperl} className="btn btn-danger">Download</button> */}
-              </section>
-            </div>
-
-      {/* Features */}
-      <div className="container mt-5">
-        <div className="row">
-          {[
-            { title: "Instant Tutoring", icon: <FaChalkboardTeacher size={40} /> },
-            { title: "Flexible Packages", icon: <FaCalendarAlt size={40} /> },
-            { title: "Interactive Whiteboard", icon: <FaComments size={40} /> },
-          ].map((feature, index) => (
-            <div key={index} className="col-md-4 text-center mb-4">
-              <div className="feature-box p-4 bg-dark border border-danger rounded shadow-lg">
-                <div className="icon text-danger mb-3">{feature.icon}</div>
-                <h3 className="text-light">{feature.title}</h3>
-                <p className="text-secondary">Seamless experience for students and teachers.</p>
-              </div>
-            </div>
-          ))}
+  return (
+    <div className="poperl-home">
+      <header className="site-header">
+        <div className="header-inner">
+          <Link to="/" className="logo" aria-label="PoperL home">
+            <img src={logo} alt="PoperL" />
+          </Link>
+          <nav className="header-nav">
+            <a href="#subjects">Subjects</a>
+            <a href="#packages">Pricing</a>
+            <Link to="/about">About</Link>
+            <Link to="/teacherSignUp">Teach</Link>
+          </nav>
+          <button className="btn-outline-white" onClick={() => navigate("/signin")}>
+            Sign in
+          </button>
         </div>
-      </div>
+      </header>
 
-      <div className="packages-section bg-dark text-white py-5">
-      <div className="container">
-        <h2 className="text-center mb-4">Choose Your Package</h2>
-        <div className="row">
-          {packages.map((pkg) => (
-            <div key={pkg.packageId} className="col-md-4 mb-4">
-              <Pack
-                name={pkg.name}
-                duration={pkg.durationDays}
-                credit={pkg.credit}
-                price={pkg.price}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-      {/* Footer */}
-      <footer className="mt-5 py-3 bg-danger text-center w-100">
-        <p className="text-white">&copy; {new Date().getFullYear()} PoperL. All rights reserved.</p>
-      </footer>
+      <main>
+        <section className="hero-section">
+          <div className="hero-media" aria-hidden="true">
+            <img src={sliderImg1} alt="" />
           </div>
-          )
-        // }
-        
-}
+          <div className="container hero-grid">
+            <div className="hero-copy">
+              <span className="section-label">Online tutoring for Bangladesh</span>
+              <h1>Learn live with the right teacher, when you need help.</h1>
+              <p>
+                PoperL connects students with verified tutors for focused video sessions, shared whiteboard work,
+                and direct chat across core school, college, and skill subjects.
+              </p>
+              <div className="hero-ctas">
+                <button className="btn-hero-primary" onClick={() => navigate("/signin")}>
+                  Start learning <FaArrowRight />
+                </button>
+                <button className="btn-hero-secondary" onClick={downloadPoperl}>
+                  <FaMobileAlt /> Download app
+                </button>
+              </div>
+            </div>
 
+            <div className="hero-panel">
+              <div className="panel-row">
+                <FaBookOpen />
+                <span>50+ subjects</span>
+              </div>
+              <div className="panel-row">
+                <FaComments />
+                <span>Chat and whiteboard support</span>
+              </div>
+              <div className="panel-row">
+                <FaCheckCircle />
+                <span>Pay only for the plan you choose</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="stats-section" aria-label="PoperL stats">
+          <div className="stat-card">
+            <strong>500+</strong>
+            <span>Teacher profiles</span>
+          </div>
+          <div className="stat-card">
+            <strong>50+</strong>
+            <span>Subjects covered</span>
+          </div>
+          <div className="stat-card">
+            <strong>24/7</strong>
+            <span>Learning access</span>
+          </div>
+          <div className="stat-card">
+            <strong>1:1</strong>
+            <span>Private sessions</span>
+          </div>
+        </section>
+
+        <section className="why-section">
+          <div className="container">
+            <span className="section-label">Why PoperL</span>
+            <h2 className="section-title">A cleaner way to get unstuck.</h2>
+            <div className="why-grid">
+              {highlights.map((item) => (
+                <article className="why-card" key={item.title}>
+                  <div className="why-icon">{item.icon}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="subjects-section" id="subjects">
+          <div className="container split-section">
+            <div>
+              <span className="section-label">Subjects</span>
+              <h2 className="section-title">Find help for the class you are in right now.</h2>
+            </div>
+            <div className="subjects-grid">
+              {subjects.map((subject) => (
+                <button className="subject-card" key={subject} onClick={() => navigate("/signin")}>
+                  {subject}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="how-section">
+          <div className="container">
+            <span className="section-label">How it works</span>
+            <h2 className="section-title">From question to session in four steps.</h2>
+            <div className="steps-grid">
+              {steps.map((step, index) => (
+                <article className="step-card" key={step}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{step}</h3>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="packages-section" id="packages">
+          <div className="container">
+            <span className="section-label">Pricing</span>
+            <h2 className="section-title">Choose a package that matches your pace.</h2>
+            <div className="packages-grid">
+              {packages.map((pkg) => (
+                <Pack key={pkg.packageId} {...pkg} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="app-section">
+          <div className="container app-inner">
+            <div>
+              <span className="section-label">Mobile app</span>
+              <h2 className="section-title">Take the classroom with you.</h2>
+              <p>
+                Download the Android app for fast access to teachers, session chat, and learning packages from your
+                phone.
+              </p>
+            </div>
+            <div className="app-actions">
+              <button className="btn-hero-primary" onClick={downloadPoperl}>
+                <FaMobileAlt /> Download APK
+              </button>
+              <Link className="btn-hero-secondary" to="/about">
+                Learn about PoperL <FaArrowRight />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="cta-section">
+          <div className="container cta-inner">
+            <div>
+              <h2>Ready to learn with a real teacher?</h2>
+              <p>Create an account, choose your package, and start with the subject you need most.</p>
+            </div>
+            <button className="btn-hero-primary" onClick={() => navigate("/signin")}>
+              Get started <FaArrowRight />
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer className="site-footer">
+        <div className="container footer-inner">
+          <img src={logo} alt="PoperL" />
+          <div>
+            <Link to="/about">About</Link>
+            <Link to="/teacherSignUp">Become a teacher</Link>
+            <Link to="/signin">Sign in</Link>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": ["/assets/*", "/images/*", "/favicon.ico", "/*.css", "/*.js", "/*.svg", "/*.png", "/*.woff2"],
+  "fallback": "/index.html"
+}

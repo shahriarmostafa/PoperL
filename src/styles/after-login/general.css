@@ -51,34 +51,34 @@
   color: #5468FF;
 }
 
-nav {
+nav.nav {
   background: #5468FF;
   padding: 8px 5px;
 }
-nav .container {
+nav.nav .container {
   position: relative;
   justify-content: space-between;
   align-items: center;
 }
-nav .container .logo {
+nav.nav .container .logo {
   max-width: 120px;
 }
-nav .container .logo img {
+nav.nav .container .logo img {
   width: 100%;
 }
-nav .container .pages ul {
+nav.nav .container .pages ul {
   display: flex;
   align-items: center;
 }
-nav .container .pages ul li {
+nav.nav .container .pages ul li {
   list-style-type: none;
 }
-nav .container .pages ul li a {
+nav.nav .container .pages ul li a {
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
 }
-nav .container .profile-pic {
+nav.nav .container .profile-pic {
   position: relative;
   width: 60px;
   height: 60px;
@@ -89,10 +89,10 @@ nav .container .profile-pic {
   justify-content: center;
   border: 5px solid #0A0F1E;
 }
-nav .container .profile-pic:active {
+nav.nav .container .profile-pic:active {
   transform: scale(0.8);
 }
-nav .container .profile-pic .inner {
+nav.nav .container .profile-pic .inner {
   display: block;
   position: absolute;
   width: 55px;
@@ -102,10 +102,10 @@ nav .container .profile-pic .inner {
   z-index: 2342;
   justify-content: center;
 }
-nav .container .profile-pic .inner img {
+nav.nav .container .profile-pic .inner img {
   width: 100%;
 }
-nav .container .dropdown {
+nav.nav .container .dropdown {
   position: static;
   right: 8px;
   top: 85px;
@@ -113,28 +113,28 @@ nav .container .dropdown {
   z-index: 99;
   display: none;
 }
-nav .container .dropdown ul {
+nav.nav .container .dropdown ul {
   padding: 0;
   margin: 0;
 }
-nav .container .dropdown ul li {
+nav.nav .container .dropdown ul li {
   list-style: none;
   padding: 20px;
   color: #ffffff;
   transition: 0.5s;
 }
-nav .container .dropdown ul li a {
+nav.nav .container .dropdown ul li a {
   text-decoration: none;
   display: flex;
   align-items: center;
   color: #ffffff;
 }
-nav .container .dropdown ul li a svg {
+nav.nav .container .dropdown ul li a svg {
   width: 18px;
   fill: #ffffff;
   margin-right: 38px;
 }
-nav .container .dropdown ul li button {
+nav.nav .container .dropdown ul li button {
   padding: 8px 25px;
   border: none;
   background: #0A0F1E;
@@ -143,28 +143,28 @@ nav .container .dropdown ul li button {
   border-radius: 8px;
   transition: 0.1s;
 }
-nav .container .dropdown ul li button:active {
+nav.nav .container .dropdown ul li button:active {
   transform: scale(80%);
 }
-nav .container .dropdown ul li .switch {
+nav.nav .container .dropdown ul li .switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 21px;
   margin-right: 13px;
 }
-nav .container .dropdown ul li .switch input {
+nav.nav .container .dropdown ul li .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-nav .container .dropdown ul li .switch input:checked + .slider {
+nav.nav .container .dropdown ul li .switch input:checked + .slider {
   background-color: #EAEEF2;
 }
-nav .container .dropdown ul li .switch input:checked + .slider:before {
+nav.nav .container .dropdown ul li .switch input:checked + .slider:before {
   transform: translateX(-17px);
 }
-nav .container .dropdown ul li .switch .slider {
+nav.nav .container .dropdown ul li .switch .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -175,7 +175,7 @@ nav .container .dropdown ul li .switch .slider {
   transition: 0.4s;
   border-radius: 20px;
 }
-nav .container .dropdown ul li .switch .slider:before {
+nav.nav .container .dropdown ul li .switch .slider:before {
   position: absolute;
   content: "";
   height: 15px;
@@ -186,7 +186,7 @@ nav .container .dropdown ul li .switch .slider:before {
   transition: 0.4s;
   border-radius: 50%;
 }
-nav .container .dropdown ul hr {
+nav.nav .container .dropdown ul hr {
   color: #ffffff;
   margin: 0;
 }
@@ -348,9 +348,6 @@ section.education-page .container .filter-tabs .button-29.active {
 section.education-page .container .filter-tabs .button-29:active {
   box-shadow: #3c4fe0 0 3px 7px inset;
 }
-section.education-page .container .filter-dropdown {
-  /* Option styling */
-}
 section.education-page .container .filter-dropdown h5 {
   color: #ffffff;
   margin-top: 15px;
@@ -383,6 +380,9 @@ section.education-page .container .filter-dropdown select {
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 18px;
+}
+section.education-page .container .filter-dropdown {
+  /* Option styling */
 }
 section.education-page .container .filter-dropdown select option {
   background-color: #ffffff;

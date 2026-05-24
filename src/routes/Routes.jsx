@@ -3,10 +3,10 @@ import Main from "../Layout/Main";
 
 
 import Home from '../interfaces/before-login/Home/Home';
+import About from '../interfaces/before-login/Home/About';
 import SignIn from '../interfaces/before-login/SignIn';
 import SignUp from '../interfaces/before-login/SignUp';
 import Error from "../interfaces/before-login/shared/Error";
-import AppHome from "../interfaces/before-login/Home/AppHome";
 // owner pages
 import Change from '../interfaces/owner/admin-change/Change';
 import AddAdmin from '../interfaces/owner/admin-change/add-admin/AddAdmin';
@@ -53,7 +53,12 @@ const router = createBrowserRouter([
     },
     {
       path: "/appHome",
-      element: <AppHome></AppHome>,
+      element: <About></About>,
+      errorElement: <Error></Error>
+    },
+    {
+      path: "/about",
+      element: <About></About>,
       errorElement: <Error></Error>
     },
     {

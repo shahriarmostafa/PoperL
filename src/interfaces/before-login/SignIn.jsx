@@ -18,8 +18,7 @@ export default function SignIn(){
 
     const location = useLocation()
     const navigate = useNavigate();
-
-        const axiosSecure = useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
     
 
     

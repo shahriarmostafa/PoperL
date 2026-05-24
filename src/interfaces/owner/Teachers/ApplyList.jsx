@@ -5,7 +5,6 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import useApplicantList from '../../../Hooks/useApplicantList';
 import { FaCheck, FaEdit } from 'react-icons/fa';
-import axios from 'axios';
 
 
 

@@ -55,11 +55,11 @@ section.complain form.complain-form input[type=submit] {
 section.complain form.complain-form input[type=submit]:hover {
   background: #4E73DF;
 }
-section.complain .view-complains {
-  margin-top: 50px;
-}
 section.complain .view-complains h3 {
   color: #ffffff;
+}
+section.complain .view-complains {
+  margin-top: 50px;
 }
 section.complain .view-complains ul {
   max-width: 100%;

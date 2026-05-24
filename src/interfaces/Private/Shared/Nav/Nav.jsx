@@ -37,7 +37,7 @@ export default function Nav() {
 
     
     return(
-        <nav>
+        <nav className="nav">
             <div className="container d-flex">
                 <Link to="/TeacherList">
                     <div className="logo">
