@@ -10,13 +10,13 @@ export default function Pack({packName, packageLimit, price, credit, id, deleteF
 
                 <ul>
                     <li>Category: {category}</li>
-                    <li>Category: {type}</li>
+                    <li>Subcategory: {type}</li>
                     <li>Package validity: {packageLimit}</li>
                     <li>Price: {price}</li>
                     <li>Credit: {credit}</li>
                 </ul>
                 <div className="redi-buttons">
-                    <Link to={`/maintainance/pack/${id}/${packName}/${price}/${packageLimit}/${credit}`}>
+                    <Link to={`/maintainance/pack/${id}/${packName}/${price}/${packageLimit}/${credit}/${type}`}>
                         <button className="">Edit Package</button>
                     </Link>
                 </div>

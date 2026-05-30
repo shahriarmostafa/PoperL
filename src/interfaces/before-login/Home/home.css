@@ -28,9 +28,6 @@
   border-bottom: 1px solid #1e2d47;
   backdrop-filter: blur(16px);
 }
-.site-header .logo img {
-  filter: brightness(3);
-}
 
 .header-inner {
   width: min(1120px, 100% - 32px);
@@ -39,6 +36,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 8px 16px;
   gap: 24px;
 }
 
@@ -47,8 +45,7 @@
   align-items: center;
 }
 .logo img {
-  height: 34px;
-  width: auto;
+  width: 50px;
 }
 
 .header-nav {
@@ -553,7 +550,6 @@
 }
 .footer-inner img {
   height: 30px;
-  filter: brightness(3);
 }
 .footer-inner div {
   display: flex;

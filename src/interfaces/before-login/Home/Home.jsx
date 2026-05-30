@@ -11,7 +11,7 @@ import {
   FaVideo,
 } from "react-icons/fa";
 import "./home.css";
-import logo from "/logo-text.png";
+import logo from "/logo-blue.png";
 import sliderImg1 from "../../../assests/slider-image-1.jpg";
 import Pack from "./Pack";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";

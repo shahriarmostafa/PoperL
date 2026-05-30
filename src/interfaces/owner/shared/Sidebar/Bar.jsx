@@ -1,4 +1,4 @@
-import { FaHome, FaAngry, FaEdit, FaHistory, FaMoneyBill, FaUserCheck } from "react-icons/fa";
+import { FaHome, FaAngry, FaEdit, FaHistory, FaMoneyBill, FaUserCheck, FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 // import './sidebar.css';
 export default function Bar(){
@@ -51,6 +51,14 @@ export default function Bar(){
                                 <FaMoneyBill></FaMoneyBill>
                             </div>
                             <p>Salary</p>
+                        </div>
+                    </NavLink>
+                    <NavLink to="/maintainance/add-user-package">
+                        <div className="item container d-flex">
+                            <div className="icon">
+                                <FaUserPlus />
+                            </div>
+                            <p>Add User Package</p>
                         </div>
                     </NavLink>
                     {/* <NavLink to="/">

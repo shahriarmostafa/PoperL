@@ -42,9 +42,7 @@ $dark: #0a1020;
   border-bottom: 1px solid $line;
   backdrop-filter: blur(16px);
 
-  .logo img {
-    filter: brightness(3);
-  }
+
 }
 
 .header-inner {
@@ -54,6 +52,7 @@ $dark: #0a1020;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 8px 16px;
   gap: 24px;
 }
 
@@ -62,8 +61,7 @@ $dark: #0a1020;
   align-items: center;
 
   img {
-    height: 34px;
-    width: auto;
+    width: 50px;
   }
 }
 
@@ -596,7 +594,6 @@ $dark: #0a1020;
 
   img {
     height: 30px;
-    filter: brightness(3);
   }
 
   div {

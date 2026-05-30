@@ -17,20 +17,16 @@ import Maintainance from "../Layout/Maintainance";
 import Teachers from "../interfaces/owner/Teachers/Teachers";
 
 //Student after login
-import Chat from "../interfaces/Private/Chat/Chat";
-import ChatBox from "../interfaces/Private/Chat/ChatBox";
-import TeacherList from "../interfaces/general/TeacherList/TeacherList";
-import Subscription from '../interfaces/general/Subscription';
+
 import UserPrivateRouter from './UserPrivateRouter';
-import Complain from '../interfaces/Private/Complain';
 import TeacherSignUp from "../interfaces/before-login/TeacherSignUp";
 import ApplyList from "../interfaces/owner/Teachers/ApplyList";
 import UserPublicRouter from "./userPublicRouter";
-import Profile from "../interfaces/Private/Profile/Profile";
 import Dashboard from "../interfaces/owner/dashboard/Dashboard";
 import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
+import AddUserPackage from "../interfaces/owner/AddUserPackage/AddPackage";
 import CheckOwner from "./CheckOwner";
 import PaymentDone from "../interfaces/general/PaymentDone";
 import PoperlCurrency from "../interfaces/currency/PoperlCurrency";
@@ -52,11 +48,6 @@ const router = createBrowserRouter([
       element: <PaymentDone></PaymentDone>
     },
     {
-      path: "/appHome",
-      element: <About></About>,
-      errorElement: <Error></Error>
-    },
-    {
       path: "/about",
       element: <About></About>,
       errorElement: <Error></Error>
@@ -73,40 +64,7 @@ const router = createBrowserRouter([
       path: '/signin',
       element: <UserPublicRouter><SignIn></SignIn></UserPublicRouter> 
     },
-    // {
-    //   path: 'user',
-    //   element: <UserPrivateRouter><Main></Main></UserPrivateRouter>,
-    //   errorElement: <Error></Error>,
-
-    //   children: [
-    //     //teacher page
-        
-    //     {
-    //       path: 'subscription',
-    //       element: <Subscription></Subscription>
-    //     },
-    //     {
-    //       path: 'complain',
-    //       element: <Complain></Complain>
-    //     },
-    //     {
-    //       path: 'teachers',
-    //       element: <TeacherList></TeacherList>
-    //     },
-    //     {
-    //       path: 'chat',
-    //       element: <Chat></Chat>
-    //     },
-    //     {
-    //       path: 'chat/:chatId',
-    //       element: <ChatBox></ChatBox>
-    //     },
-    //     {
-    //       path: 'profile',
-    //       element: <Profile></Profile>
-    //     }
-    //   ]
-    // },
+   
     {
         path: 'maintainance',
         element: <CheckOwner><Maintainance></Maintainance></CheckOwner>,
@@ -149,15 +107,19 @@ const router = createBrowserRouter([
                 element: <AddPackage></AddPackage>
               },
               {
-                path: 'pack/:id/:name/:price/:packageLimit/:credit',
+                path: 'pack/:id/:name/:price/:packageLimit/:credit/:type',
                 element: <EditPack></EditPack>
               },
               {
                 path: 'add-admin',
                 element: <AddAdmin></AddAdmin>
+              },
+              {
+                path: 'add-user-package',
+                element: <AddUserPackage></AddUserPackage>
               }
 
-              
+
         ]
     }
 ])

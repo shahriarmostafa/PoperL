@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom';
 import AuthProvider from './providers/AuthProvider';
 import PageTransition from './providers/PageTransition';
-import CallProvider from './providers/CallProvider';
 
 import router from './routes/Routes';
 
@@ -20,9 +19,7 @@ createRoot(document.getElementById('root')).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PageTransition>
-          <CallProvider>
             <RouterProvider router={router}></RouterProvider>
-          </CallProvider>
         </PageTransition>
       </AuthProvider>
     </QueryClientProvider>

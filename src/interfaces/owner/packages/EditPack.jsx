@@ -10,15 +10,15 @@ export default function EditPack(){
     const { register, handleSubmit } = useForm();
     
 
-    const {id, name, price, packageLimit, credit} = useParams();
+    const {id, name, price, packageLimit, credit, type} = useParams();
 
     const axiosSecure = useAxiosSecure();
 
 
     const onSubmit = async (data) => {
 
-        const details = {name: data.packageName, price: Number(data.price), credit: Number(data.credit)};        
-        
+        const details = {name: data.packageName, price: Number(data.price), credit: Number(data.credit), type: data.type};
+
         await axiosSecure.put(`/pack/${id}`, details)
         navigate('/maintainance/packages')
 
@@ -32,6 +32,11 @@ export default function EditPack(){
                     <input {...register("packageName")} defaultValue={name} name="packageName" type="text" placeholder="Enter the new name"/>
                     <input {...register("credit")} defaultValue={credit} name="credit" type="number" placeholder="Enter the credit number"/>
                     <input {...register("price")} defaultValue={price} name="price" type="number" placeholder="Enter the new price"/>
+                    <select {...register("type", { required: "Please select a type" })} defaultValue={type}>
+                        <option value="">-- Select a type --</option>
+                        <option value="english_medium">English Medium</option>
+                        <option value="bangla_medium">Bangla Medium</option>
+                    </select>
                     <input type="submit" className="show-all"/>
                 </form>
             </div>

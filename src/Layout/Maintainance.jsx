@@ -7,7 +7,6 @@ export default function Maintainance() {
             <div className="display d-flex">
                 <Bar></Bar>
                 <div className="view">
-                    <Nav></Nav>
                     <Outlet></Outlet>
                 </div>
             </div>

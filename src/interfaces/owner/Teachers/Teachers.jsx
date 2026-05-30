@@ -36,7 +36,7 @@ export default function Teachers(){
             confirmButtonText: "Delete"
         }).then( async (res) => {
             if(res.isConfirmed){
-                const result = await axios.delete(`http://localhost:5000/deleteUser/${uid}`);
+                const result = await axiosSecure.delete(`/deleteUser/${uid}`);
                 refetch();
             }
         }) 
