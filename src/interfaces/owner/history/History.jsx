@@ -1,7 +1,7 @@
 import HistoryItem from "./HistoryItem";
 import useHistoryData from "../../../Hooks/useHistoryData";
 export default function History (){
-    const [isLoading, salaryData, refetch] = useHistoryData();
+    const [isLoading, historyData, refetch] = useHistoryData();
 
     return(
         <div className="analytics">
@@ -16,8 +16,8 @@ export default function History (){
                                     <th>Year</th>
                                 </tr>
                                 {
-                                    salaryData.map((item, index) => {
-                                        return <HistoryItem key={index} serial={index + 1} enrolls={item.enrols} revenue={item.totalRevenue} date={item.createdAt}></HistoryItem>
+                                    historyData.map((item, index) => {
+                                        return <HistoryItem key={index} serial={index + 1} enrolls={item.thisMonthEnrollments} revenue={item.thisMonthRevenue} month={item.month} year={item.year}></HistoryItem>
                                     })
                                 }
                             </tbody>

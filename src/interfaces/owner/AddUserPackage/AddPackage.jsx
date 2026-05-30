@@ -13,6 +13,8 @@ export default function AddUserPackage() {
                 durationHours: Number(data.durationHours),
                 credit: Number(data.credit),
                 amountReceived: Number(data.amountReceived),
+                category: data.category,
+                type: data.type,
             });
 
             const { type } = res.data;
@@ -65,6 +67,17 @@ export default function AddUserPackage() {
                         type="number"
                         min="0"
                     />
+                    <select {...register("category", { required: true })}>
+                        <option value="">-- Select a category --</option>
+                        <option value="school">School</option>
+                        <option value="college">College</option>
+                        <option value="university">University</option>
+                    </select>
+                    <select {...register("type", { required: true })}>
+                        <option value="">-- Select a type --</option>
+                        <option value="bangla_medium">Bangla Medium</option>
+                        <option value="english_medium">English Medium</option>
+                    </select>
                     <input type="submit" value="Add Package" />
                 </form>
             </div>

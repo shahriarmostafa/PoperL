@@ -181,6 +181,27 @@ section.admin .display .view .analytics .st-and-te .difference {
 section.admin .display .view .analytics .st-and-te .difference .icon {
   background: #DC2626;
 }
+section.admin .display .view .analytics .st-and-te .money-in-platform {
+  border-bottom: 4px solid #7C3AED;
+  background: linear-gradient(#EDE9FE, #F3E8FF);
+}
+section.admin .display .view .analytics .st-and-te .money-in-platform .icon {
+  background: #7C3AED;
+}
+section.admin .display .view .analytics .st-and-te .available-credit {
+  border-bottom: 4px solid #06B6D4;
+  background: linear-gradient(#CFFAFE, #E0F2FE);
+}
+section.admin .display .view .analytics .st-and-te .available-credit .icon {
+  background: #06B6D4;
+}
+section.admin .display .view .analytics .st-and-te .withdrawals {
+  border-bottom: 4px solid #EA580C;
+  background: linear-gradient(#FFEDD5, #FEF3C7);
+}
+section.admin .display .view .analytics .st-and-te .withdrawals .icon {
+  background: #EA580C;
+}
 section.admin .display .view .analytics .st-and-te .box {
   border-radius: 10px;
   box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.2);

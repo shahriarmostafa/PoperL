@@ -1,5 +1,4 @@
-export default function HistoryItem ({serial, enrolls, revenue, date}){
-
+export default function HistoryItem ({serial, enrolls, revenue, month, year}){
 
     const monthNames = [
         "January", "February", "March", "April", "May", "June", 
@@ -11,8 +10,8 @@ export default function HistoryItem ({serial, enrolls, revenue, date}){
             <td>{serial}</td>
             <td>{enrolls}</td>
             <td>{revenue} Tk</td>
-            <td>{monthNames[new Date(date).getMonth()]}</td>
-            <td>{new Date(date).getFullYear()}</td>
+            <td>{monthNames[month - 1] || monthNames[0]}</td>
+            <td>{year}</td>
         </tr>
     )
 }

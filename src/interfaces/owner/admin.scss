@@ -195,6 +195,27 @@ section.admin{
                             background: #DC2626;
                         }
                     }
+                    .money-in-platform{
+                        border-bottom: 4px solid #7C3AED;
+                        background: linear-gradient(#EDE9FE, #F3E8FF);
+                        .icon{
+                            background: #7C3AED;
+                        }
+                    }
+                    .available-credit{
+                        border-bottom: 4px solid #06B6D4;
+                        background: linear-gradient(#CFFAFE, #E0F2FE);
+                        .icon{
+                            background: #06B6D4;
+                        }
+                    }
+                    .withdrawals{
+                        border-bottom: 4px solid #EA580C;
+                        background: linear-gradient(#FFEDD5, #FEF3C7);
+                        .icon{
+                            background: #EA580C;
+                        }
+                    }
                     .box{
                         border-radius: 10px;
                         box-shadow: 1px 1px 25px rgb(0, 0, 0, 0.2);
