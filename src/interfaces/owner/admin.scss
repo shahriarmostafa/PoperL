@@ -1147,3 +1147,236 @@ section.admin{
     }
   }
 }
+
+// ============================================================
+// Responsive — Tablet (≤ 992px)
+// ============================================================
+@media (max-width: 992px) {
+  section.admin {
+    .display {
+      .sidebar {
+        width: 26%;
+        .display-names a .item {
+          padding: 16px 12px;
+          p { font-size: 10px; }
+        }
+      }
+      .view {
+        width: 74%;
+        nav .container .logo { width: 150px; }
+        .analytics {
+          padding: 30px 18px;
+          .st-and-te .box { width: 44%; }
+          .packages .package { width: 44%; }
+        }
+      }
+    }
+  }
+}
+
+// ============================================================
+// Responsive — Mobile (≤ 768px)
+// ============================================================
+@media (max-width: 768px) {
+  section.admin {
+    height: auto;
+
+    .headline { font-size: 22px; }
+
+    .display {
+      display: flex !important;
+      flex-direction: column !important;
+
+      // Sidebar becomes a horizontal scrollable nav bar
+      .sidebar {
+        width: 100% !important;
+        height: auto;
+        min-height: unset;
+        resize: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        .display-names {
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+
+          a {
+            flex-shrink: 0;
+
+            .item {
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 10px 14px;
+              text-align: center;
+              transform: none !important;
+
+              .icon {
+                width: 18px;
+                margin-right: 0;
+                margin-bottom: 5px;
+              }
+
+              p { font-size: 9px; white-space: nowrap; }
+            }
+          }
+        }
+      }
+
+      // View becomes full width
+      .view {
+        width: 100% !important;
+        height: auto;
+
+        nav .container {
+          padding: 10px 16px;
+          .logo { width: 120px; }
+          .profile {
+            width: 36px;
+            .dropdown { right: 0; padding: 14px 30px; }
+          }
+        }
+
+        .analytics {
+          padding: 20px 14px;
+
+          // Dashboard stat cards — stack to full width
+          .st-and-te {
+            margin-bottom: 20px;
+            .box {
+              width: 100%;
+              padding: 14px 20px;
+              margin-bottom: 14px;
+            }
+          }
+
+          // Action buttons — wrap and stretch
+          .redi-buttons {
+            flex-wrap: wrap;
+            gap: 8px;
+            button {
+              margin-left: 0;
+              margin-bottom: 8px;
+              padding: 10px 24px;
+              flex: 1;
+              min-width: 120px;
+              text-align: center;
+              a { display: block; }
+            }
+          }
+
+          // Package cards — stack
+          .packages .package {
+            width: 100%;
+            padding: 30px 24px;
+          }
+
+          // Centered form — full width on mobile
+          .form {
+            max-width: 100%;
+            margin: 20px 0;
+            padding: 24px 18px;
+          }
+
+          // Tables — horizontal scroll
+          .table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            table { min-width: 540px; }
+          }
+
+          // Close-calculation big button
+          .close-calculation-btn button {
+            width: 100%;
+            font-size: 20px;
+            padding: 30px;
+          }
+        }
+
+        // Salary stats bar — stack vertically
+        .salary-stats-row {
+          flex-direction: column;
+          .salary-stat { width: 100%; }
+        }
+
+        // Active packages
+        .active-packages-page {
+          .ap-edit-grid { grid-template-columns: 1fr; }
+          .ap-toggles { flex-wrap: wrap; gap: 12px; }
+          .ap-stats-bar { gap: 10px; }
+          .ap-search-bar { flex-direction: column; button { width: 100%; } }
+          .ap-filter-row select { min-width: 100%; }
+          .ap-edit-actions {
+            flex-direction: column;
+            button { width: 100%; justify-content: center; }
+          }
+        }
+
+        // Manage subjects / study rooms
+        .manage-subjects {
+          max-width: 100%;
+
+          .subjects-filter-row {
+            flex-direction: column;
+            align-items: flex-start;
+            .filter-label { width: auto; margin-bottom: 4px; }
+          }
+
+          .subjects-add-form {
+            flex-direction: column;
+            button[type="submit"] { width: 100%; justify-content: center; }
+          }
+        }
+      }
+    }
+  }
+
+  // Study rooms — already has 1100px query, reinforce for mobile
+  .manage-study-rooms {
+    .study-room-admin-form { grid-template-columns: 1fr; }
+    .admin-room-layout { grid-template-columns: 1fr; }
+    .admin-room-inline-form {
+      grid-template-columns: 1fr;
+      button { width: 100%; }
+    }
+  }
+}
+
+// ============================================================
+// Responsive — Small mobile (≤ 480px)
+// ============================================================
+@media (max-width: 480px) {
+  section.admin {
+    .headline { font-size: 18px; }
+
+    .display {
+      .sidebar .display-names a .item {
+        padding: 8px 10px;
+        p { display: none; }
+        .icon { margin-bottom: 0; }
+      }
+
+      .view {
+        nav .container .logo { width: 100px; }
+
+        .analytics {
+          padding: 12px 8px;
+
+          .st-and-te .box {
+            padding: 12px 14px;
+            .icon { width: 52px; height: 52px; svg { font-size: 22px; } }
+            .subject .number { font-size: 22px; }
+          }
+
+          .table table {
+            font-size: 10px;
+            th, td { padding: 8px 6px; }
+          }
+
+          .redi-buttons button { padding: 9px 16px; font-size: 11px; }
+        }
+      }
+    }
+  }
+}
