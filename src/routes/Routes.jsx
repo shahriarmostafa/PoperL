@@ -30,6 +30,7 @@ import AddUserPackage from "../interfaces/owner/AddUserPackage/AddPackage";
 import ManageSubjects from "../interfaces/owner/Subjects/ManageSubjects";
 import ManageActivePackages from "../interfaces/owner/ActivePackages/ManageActivePackages";
 import ManagePublicQuizzes from "../interfaces/owner/PublicQuizzes/ManagePublicQuizzes";
+import ManageStudyRooms from "../interfaces/owner/StudyRooms/ManageStudyRooms";
 import CheckOwner from "./CheckOwner";
 import PaymentDone from "../interfaces/general/PaymentDone";
 import PoperlCurrency from "../interfaces/currency/PoperlCurrency";
@@ -132,6 +133,10 @@ const router = createBrowserRouter([
               {
                 path: 'public-quizzes',
                 element: <ManagePublicQuizzes></ManagePublicQuizzes>
+              },
+              {
+                path: 'study-rooms',
+                element: <ManageStudyRooms></ManageStudyRooms>
               }
 
 
