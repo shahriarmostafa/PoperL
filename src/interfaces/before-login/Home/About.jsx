@@ -9,7 +9,7 @@ import {
   FaVideo,
 } from "react-icons/fa";
 import "./home.css";
-import logo from "/logo-text.png";
+import logo from "/logo-blue.png";
 
 const appDetails = [
   {

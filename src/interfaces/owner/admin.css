@@ -386,4 +386,617 @@ section.admin .display .view .analytics .close-calculation-btn button:hover {
 section.admin .display .view .analytics .close-calculation-btn button:active {
   box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.5), inset 0px 4px 8px rgba(0, 0, 0, 0.5), inset 0px 8px 16px rgba(0, 0, 0, 0.5);
   transform: translateY(10px);
+}
+section.admin .display .view .salary-stats-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+section.admin .display .view .salary-stats-row .salary-stat {
+  flex: 1;
+  min-width: 140px;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 3px 3px 10px rgba(78, 114, 223, 0.3882352941), -3px -3px 10px #ffffff;
+  background: #E3EDF7;
+}
+section.admin .display .view .salary-stats-row .salary-stat span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #9aafc0;
+  margin-bottom: 6px;
+}
+section.admin .display .view .salary-stats-row .salary-stat b {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: #34495E;
+  margin-bottom: 3px;
+}
+section.admin .display .view .salary-stats-row .salary-stat small {
+  font-size: 13px;
+  font-weight: 700;
+}
+section.admin .display .view .salary-stats-row .salary-stat.pending {
+  border-left: 4px solid #d97706;
+}
+section.admin .display .view .salary-stats-row .salary-stat.pending small {
+  color: #d97706;
+}
+section.admin .display .view .salary-stats-row .salary-stat.paid {
+  border-left: 4px solid #059669;
+}
+section.admin .display .view .salary-stats-row .salary-stat.paid small {
+  color: #059669;
+}
+section.admin .display .view .salary-stats-row .salary-stat.total {
+  border-left: 4px solid #4E73DF;
+}
+section.admin .display .view .salary-stats-row .salary-stat.total b {
+  color: #4E73DF;
+}
+section.admin .display .view .salary-row-pending td {
+  background: rgba(217, 119, 6, 0.04);
+}
+section.admin .display .view .salary-row-paid td {
+  opacity: 0.72;
+}
+section.admin .display .view .active-packages-page .ap-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+section.admin .display .view .active-packages-page .ap-page-header .ap-page-icon {
+  font-size: 22px;
+  color: #4E73DF;
+}
+section.admin .display .view .active-packages-page .ap-page-header .headline {
+  margin: 0;
+}
+section.admin .display .view .active-packages-page .ap-filters {
+  background: #E3EDF7;
+  border-radius: 10px;
+  padding: 18px 22px;
+  box-shadow: 4px 4px 10px rgba(78, 114, 223, 0.3882352941), -4px -4px 10px #ffffff;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+section.admin .display .view .active-packages-page .ap-search-bar {
+  display: flex;
+  gap: 8px;
+}
+section.admin .display .view .active-packages-page .ap-search-bar input {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+  font-weight: 500;
+  background: #E3EDF7;
+  box-shadow: inset 4px 4px 8px rgba(78, 114, 223, 0.3882352941), inset -4px -4px 8px #ffffff;
+  color: #34495E;
+}
+section.admin .display .view .active-packages-page .ap-search-bar input::-moz-placeholder {
+  color: #9aafc0;
+}
+section.admin .display .view .active-packages-page .ap-search-bar input::placeholder {
+  color: #9aafc0;
+}
+section.admin .display .view .active-packages-page .ap-search-bar button {
+  padding: 10px 18px;
+  background: #4E73DF;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941);
+  transition: 0.2s;
+}
+section.admin .display .view .active-packages-page .ap-search-bar button:hover {
+  transform: translateY(-1px);
+}
+section.admin .display .view .active-packages-page .ap-filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+section.admin .display .view .active-packages-page .ap-filter-row select {
+  flex: 1;
+  min-width: 130px;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 12px;
+  font-weight: 600;
+  background: #E3EDF7;
+  box-shadow: inset 3px 3px 6px rgba(78, 114, 223, 0.3882352941), inset -3px -3px 6px #ffffff;
+  color: #34495E;
+  cursor: pointer;
+}
+section.admin .display .view .active-packages-page .ap-stats-bar {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+section.admin .display .view .active-packages-page .ap-stats-bar .ap-stat {
+  font-size: 12px;
+  font-weight: 600;
+  color: #34495E;
+}
+section.admin .display .view .active-packages-page .ap-stats-bar .ap-stat b {
+  font-size: 15px;
+  color: #4E73DF;
+}
+section.admin .display .view .active-packages-page .ap-stats-bar .ap-stat.valid b {
+  color: #059669;
+}
+section.admin .display .view .active-packages-page .ap-stats-bar .ap-stat.expired b {
+  color: #BD2130;
+}
+section.admin .display .view .active-packages-page .ap-edit-panel {
+  background: #E3EDF7;
+  border-radius: 12px;
+  box-shadow: 6px 6px 14px rgba(78, 114, 223, 0.3882352941), -6px -6px 14px #ffffff;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  border-left: 4px solid #4E73DF;
+}
+section.admin .display .view .active-packages-page .ap-edit-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+section.admin .display .view .active-packages-page .ap-edit-user .ap-edit-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #34495E;
+  margin-bottom: 2px;
+}
+section.admin .display .view .active-packages-page .ap-edit-user .ap-edit-email {
+  font-size: 12px;
+  color: #4E73DF;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+section.admin .display .view .active-packages-page .ap-edit-user .ap-edit-uid {
+  font-size: 11px;
+  color: #9aafc0;
+  font-family: monospace;
+}
+section.admin .display .view .active-packages-page .ap-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #E3EDF7;
+  box-shadow: 3px 3px 6px rgba(78, 114, 223, 0.3882352941), -3px -3px 6px #ffffff;
+  color: #34495E;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+section.admin .display .view .active-packages-page .ap-close-btn:hover {
+  color: #BD2130;
+}
+section.admin .display .view .active-packages-page .ap-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+section.admin .display .view .active-packages-page .ap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+section.admin .display .view .active-packages-page .ap-field span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9aafc0;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+section.admin .display .view .active-packages-page .ap-field input, section.admin .display .view .active-packages-page .ap-field select {
+  padding: 9px 13px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+  font-weight: 500;
+  background: #E3EDF7;
+  box-shadow: inset 3px 3px 6px rgba(78, 114, 223, 0.3882352941), inset -3px -3px 6px #ffffff;
+  color: #34495E;
+  width: 100%;
+}
+section.admin .display .view .active-packages-page .ap-toggles {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  grid-column: 1/-1;
+}
+section.admin .display .view .active-packages-page .ap-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+section.admin .display .view .active-packages-page .ap-toggle input[type=checkbox] {
+  display: none;
+}
+section.admin .display .view .active-packages-page .ap-toggle .ap-toggle-track {
+  width: 38px;
+  height: 21px;
+  border-radius: 999px;
+  background: #c5d0dc;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+  position: relative;
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+section.admin .display .view .active-packages-page .ap-toggle .ap-toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
+}
+section.admin .display .view .active-packages-page .ap-toggle input:checked + .ap-toggle-track {
+  background: #4E73DF;
+}
+section.admin .display .view .active-packages-page .ap-toggle input:checked + .ap-toggle-track::after {
+  transform: translateX(17px);
+}
+section.admin .display .view .active-packages-page .ap-toggle .ap-toggle-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #34495E;
+}
+section.admin .display .view .active-packages-page .ap-edit-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+section.admin .display .view .active-packages-page .ap-cancel-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #E3EDF7;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941), -3px -3px 8px #ffffff;
+  color: #34495E;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+section.admin .display .view .active-packages-page .ap-cancel-btn:hover {
+  box-shadow: 4px 4px 10px rgba(78, 114, 223, 0.3882352941), -4px -4px 10px #ffffff;
+}
+section.admin .display .view .active-packages-page .ap-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #4E73DF;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941);
+  transition: 0.2s;
+}
+section.admin .display .view .active-packages-page .ap-save-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 5px 5px 12px rgba(78, 114, 223, 0.3882352941);
+}
+section.admin .display .view .active-packages-page .ap-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+section.admin .display .view .active-packages-page .ap-row-expired td {
+  opacity: 0.65;
+}
+section.admin .display .view .active-packages-page .ap-sub-text {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: #9aafc0;
+  margin-top: 2px;
+}
+section.admin .display .view .active-packages-page .ap-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  margin: 1px 2px;
+}
+section.admin .display .view .active-packages-page .ap-badge.cat {
+  background: #C1DCFE;
+  color: #1e40af;
+  text-transform: capitalize;
+}
+section.admin .display .view .active-packages-page .ap-badge.type {
+  background: #D1FAE5;
+  color: #065f46;
+}
+section.admin .display .view .active-packages-page .ap-badge.unlimited {
+  background: #EDE9FE;
+  color: #6d28d9;
+  font-size: 13px;
+}
+section.admin .display .view .active-packages-page .ap-badge.expired {
+  background: #FECACA;
+  color: #991b1b;
+}
+section.admin .display .view .active-packages-page .ap-badge.active-badge {
+  background: #D1FAE5;
+  color: #065f46;
+}
+section.admin .display .view .active-packages-page .ap-badge.inactive-badge {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+section.admin .display .view .manage-subjects {
+  max-width: 720px;
+}
+section.admin .display .view .manage-subjects .subjects-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+section.admin .display .view .manage-subjects .subjects-header .subjects-header-icon {
+  font-size: 24px;
+  color: #4E73DF;
+}
+section.admin .display .view .manage-subjects .subjects-header .headline {
+  margin: 0;
+}
+section.admin .display .view .manage-subjects .subjects-filters {
+  background: #E3EDF7;
+  border-radius: 10px;
+  padding: 20px 24px;
+  box-shadow: 4px 4px 10px rgba(78, 114, 223, 0.3882352941), -4px -4px 10px #ffffff;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+section.admin .display .view .manage-subjects .subjects-filters .subjects-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+section.admin .display .view .manage-subjects .subjects-filters .subjects-filter-row .filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #34495E;
+  width: 70px;
+  flex-shrink: 0;
+}
+section.admin .display .view .manage-subjects .subjects-filters .subjects-filter-row .filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+section.admin .display .view .manage-subjects .subjects-filters .filter-btn {
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background: #ffffff;
+  color: #34495E;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 2px 2px 6px rgba(78, 114, 223, 0.3882352941);
+}
+section.admin .display .view .manage-subjects .subjects-filters .filter-btn:hover {
+  border-color: #4E73DF;
+  color: #4E73DF;
+}
+section.admin .display .view .manage-subjects .subjects-filters .filter-btn.active {
+  background: #4E73DF;
+  color: #ffffff;
+  border-color: #4E73DF;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941);
+}
+section.admin .display .view .manage-subjects .subjects-add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+section.admin .display .view .manage-subjects .subjects-add-form input,
+section.admin .display .view .manage-subjects .subjects-add-form select {
+  flex: 1;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+  font-weight: 500;
+  background: #E3EDF7;
+  box-shadow: inset 4px 4px 8px rgba(78, 114, 223, 0.3882352941), inset -4px -4px 8px #ffffff;
+  color: #34495E;
+}
+section.admin .display .view .manage-subjects .subjects-add-form input::-moz-placeholder, section.admin .display .view .manage-subjects .subjects-add-form select::-moz-placeholder {
+  color: #9aafc0;
+  font-weight: 400;
+}
+section.admin .display .view .manage-subjects .subjects-add-form input::placeholder,
+section.admin .display .view .manage-subjects .subjects-add-form select::placeholder {
+  color: #9aafc0;
+  font-weight: 400;
+}
+section.admin .display .view .manage-subjects .subjects-add-form select {
+  cursor: pointer;
+  min-width: 150px;
+}
+section.admin .display .view .manage-subjects .subjects-add-form button[type=submit] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: #4E73DF;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941);
+}
+section.admin .display .view .manage-subjects .subjects-add-form button[type=submit]:hover:not(:disabled) {
+  box-shadow: 5px 5px 12px rgba(78, 114, 223, 0.3882352941), -3px -3px 8px #ffffff;
+  transform: translateY(-1px);
+}
+section.admin .display .view .manage-subjects .subjects-add-form button[type=submit]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+section.admin .display .view .manage-subjects .subjects-context-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+section.admin .display .view .manage-subjects .subjects-context-tag .context-pill {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+section.admin .display .view .manage-subjects .subjects-context-tag .category-pill {
+  background: #C1DCFE;
+  color: #1e40af;
+}
+section.admin .display .view .manage-subjects .subjects-context-tag .type-pill {
+  background: #D1FAE5;
+  color: #065f46;
+}
+section.admin .display .view .manage-subjects .subjects-context-tag .subjects-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9aafc0;
+  margin-left: auto;
+}
+section.admin .display .view .manage-subjects .subjects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+section.admin .display .view .manage-subjects .subjects-list .subjects-loading,
+section.admin .display .view .manage-subjects .subjects-list .subjects-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9aafc0;
+  font-size: 13px;
+  font-weight: 500;
+}
+section.admin .display .view .manage-subjects .subjects-list .subjects-loading svg,
+section.admin .display .view .manage-subjects .subjects-list .subjects-empty svg {
+  font-size: 28px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.4;
+}
+section.admin .display .view .manage-subjects .subjects-list .subjects-loading p,
+section.admin .display .view .manage-subjects .subjects-list .subjects-empty p {
+  margin: 0;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: #E3EDF7;
+  border-radius: 8px;
+  box-shadow: 3px 3px 8px rgba(78, 114, 223, 0.3882352941), -3px -3px 8px #ffffff;
+  transition: 0.15s;
+  gap: 12px;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item:hover {
+  box-shadow: 4px 4px 10px rgba(78, 114, 223, 0.3882352941), -4px -4px 10px #ffffff;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #34495E;
+  flex: 1;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-edit-input {
+  flex: 1;
+  padding: 6px 12px;
+  border: 2px solid #4E73DF;
+  border-radius: 6px;
+  outline: none;
+  font-size: 13px;
+  font-weight: 600;
+  background: #ffffff;
+  color: #34495E;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-actions {
+  display: flex;
+  gap: 6px;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: 0.2s;
+  box-shadow: 2px 2px 5px rgba(78, 114, 223, 0.3882352941);
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn svg {
+  fill: #ffffff;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn:hover {
+  transform: scale(1.12);
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn.edit-btn {
+  background: #4E73DF;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn.delete-btn {
+  background: #BD2130;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn.save-btn {
+  background: #059669;
+}
+section.admin .display .view .manage-subjects .subjects-list .subject-item .subject-btn.cancel-btn {
+  background: #6c757d;
 }/*# sourceMappingURL=admin.css.map */

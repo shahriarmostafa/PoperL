@@ -8,11 +8,8 @@ const PACK_FEATURES = {
   monthly: ["More than 800 minutes of live session", "Audio session + whiteboard", "All subjects", "Session recordings (not available for now)", "Priority matching", "Monthly progress report", "Parent dashboard"],
 };
 
-const POPULAR = "weekly";
-
-export default function Pack({ packageId, name, price, durationDays, credit }) {
+export default function Pack({ packageId, name, price, durationDays, credit, isPopular = false }) {
   const navigate = useNavigate();
-  const isPopular = packageId === POPULAR;
   const features = PACK_FEATURES[packageId] ?? [];
 
   return (
@@ -52,3 +49,4 @@ export default function Pack({ packageId, name, price, durationDays, credit }) {
     </div>
   );
 }
+

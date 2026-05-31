@@ -26,41 +26,53 @@ export default function Dashboard (){
     const [error, setError] = useState(null);
     const [pointValueLoading, setPointValueLoading] = useState(false);
     const [generatingHistory, setGeneratingHistory] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedType, setSelectedType] = useState("");
+
+    const getScopeQuery = () => {
+        const params = new URLSearchParams();
+        if (selectedCategory) params.append("category", selectedCategory);
+        if (selectedType) params.append("type", selectedType);
+        const query = params.toString();
+        return query ? `?${query}` : "";
+    };
+
+    const applyStats = (payload) => {
+        const { totalTeachers, totalStudents, platformMoneySummary } = payload;
+        setStats({
+            totalTeachers,
+            totalStudents,
+            totalMoney: platformMoneySummary?.totalMoney || 0,
+            totalAvailableCreditWorth: platformMoneySummary?.totalAvailableCreditWorth || 0,
+            totalWithdrawals: platformMoneySummary?.totalWithdrawals || 0,
+            moneyInPlatform: platformMoneySummary?.moneyInPlatform || 0,
+            totalTeacherPoints: platformMoneySummary?.totalTeacherPoints || 0,
+            thisMonthRevenue: platformMoneySummary?.thisMonthRevenue || 0,
+            lastMonthRevenue: platformMoneySummary?.lastMonthRevenue || 0,
+            revenueChange: platformMoneySummary?.revenueChange || 0,
+            thisMonthEnrollments: platformMoneySummary?.thisMonthEnrollments || 0,
+            lastMonthEnrollments: platformMoneySummary?.lastMonthEnrollments || 0,
+            enrollmentChange: platformMoneySummary?.enrollmentChange || 0
+        });
+    };
+
+    const fetchDashboardStats = async () => {
+        try {
+            setLoading(true);
+            const response = await axiosSecure.get(`/dashboard-stats${getScopeQuery()}`);
+            if (response.data.success) applyStats(response.data.data);
+            setError(null);
+        } catch (err) {
+            console.error("Error fetching dashboard stats:", err);
+            setError("Failed to load dashboard data");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchDashboardStats = async () => {
-            try {
-                setLoading(true);
-                const response = await axiosSecure.get('/dashboard-stats');
-                if (response.data.success) {
-                    const { totalTeachers, totalStudents, platformMoneySummary } = response.data.data;
-                    setStats({
-                        totalTeachers,
-                        totalStudents,
-                        totalMoney: platformMoneySummary?.totalMoney || 0,
-                        totalAvailableCreditWorth: platformMoneySummary?.totalAvailableCreditWorth || 0,
-                        totalWithdrawals: platformMoneySummary?.totalWithdrawals || 0,
-                        moneyInPlatform: platformMoneySummary?.moneyInPlatform || 0,
-                        totalTeacherPoints: platformMoneySummary?.totalTeacherPoints || 0,
-                        thisMonthRevenue: platformMoneySummary?.thisMonthRevenue || 0,
-                        lastMonthRevenue: platformMoneySummary?.lastMonthRevenue || 0,
-                        revenueChange: platformMoneySummary?.revenueChange || 0,
-                        thisMonthEnrollments: platformMoneySummary?.thisMonthEnrollments || 0,
-                        lastMonthEnrollments: platformMoneySummary?.lastMonthEnrollments || 0,
-                        enrollmentChange: platformMoneySummary?.enrollmentChange || 0
-                    });
-                }
-                setError(null);
-            } catch (err) {
-                console.error("Error fetching dashboard stats:", err);
-                setError("Failed to load dashboard data");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchDashboardStats();
-    }, [axiosSecure]);
+    }, [axiosSecure, selectedCategory, selectedType]);
 
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-US', {
@@ -73,7 +85,7 @@ export default function Dashboard (){
     const handleShowPointValue = async () => {
         try {
             setPointValueLoading(true);
-            const response = await axiosSecure.get('/point-value');
+            const response = await axiosSecure.get(`/point-value${getScopeQuery()}`);
             if (response.data?.pointValue) {
                 Swal.fire({
                     title: 'Point Value',
@@ -106,7 +118,10 @@ export default function Dashboard (){
     const handleGenerateMonthlyHistory = async () => {
         try {
             setGeneratingHistory(true);
-            const response = await axiosSecure.post('/generate-monthly-history');
+            const response = await axiosSecure.post('/generate-monthly-history', {
+                category: selectedCategory,
+                type: selectedType,
+            });
             if (response.data.success) {
                 Swal.fire({
                     title: 'Success',
@@ -116,24 +131,9 @@ export default function Dashboard (){
                     confirmButtonText: 'Close'
                 });
                 // Refresh dashboard data
-                const statsResponse = await axiosSecure.get('/dashboard-stats');
+                const statsResponse = await axiosSecure.get(`/dashboard-stats${getScopeQuery()}`);
                 if (statsResponse.data.success) {
-                    const { totalTeachers, totalStudents, platformMoneySummary } = statsResponse.data.data;
-                    setStats({
-                        totalTeachers,
-                        totalStudents,
-                        totalMoney: platformMoneySummary?.totalMoney || 0,
-                        totalAvailableCreditWorth: platformMoneySummary?.totalAvailableCreditWorth || 0,
-                        totalWithdrawals: platformMoneySummary?.totalWithdrawals || 0,
-                        moneyInPlatform: platformMoneySummary?.moneyInPlatform || 0,
-                        totalTeacherPoints: platformMoneySummary?.totalTeacherPoints || 0,
-                        thisMonthRevenue: platformMoneySummary?.thisMonthRevenue || 0,
-                        lastMonthRevenue: platformMoneySummary?.lastMonthRevenue || 0,
-                        revenueChange: platformMoneySummary?.revenueChange || 0,
-                        thisMonthEnrollments: platformMoneySummary?.thisMonthEnrollments || 0,
-                        lastMonthEnrollments: platformMoneySummary?.lastMonthEnrollments || 0,
-                        enrollmentChange: platformMoneySummary?.enrollmentChange || 0
-                    });
+                    applyStats(statsResponse.data.data);
                 }
             } else {
                 Swal.fire({
@@ -159,7 +159,26 @@ export default function Dashboard (){
     return(
         <div className="analytics">
             <div className="container">
-                <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
+                <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <select
+                        value={selectedCategory}
+                        onChange={(event) => setSelectedCategory(event.target.value)}
+                        style={{ padding: '10px 12px', borderRadius: '5px', border: '1px solid #d1d5db', fontSize: '14px' }}
+                    >
+                        <option value="">All Categories</option>
+                        <option value="school">School</option>
+                        <option value="college">College</option>
+                        <option value="university">University</option>
+                    </select>
+                    <select
+                        value={selectedType}
+                        onChange={(event) => setSelectedType(event.target.value)}
+                        style={{ padding: '10px 12px', borderRadius: '5px', border: '1px solid #d1d5db', fontSize: '14px' }}
+                    >
+                        <option value="">All Types</option>
+                        <option value="bangla_medium">Bangla Medium</option>
+                        <option value="english_medium">English Medium</option>
+                    </select>
                     <button 
                         onClick={handleShowPointValue}
                         disabled={pointValueLoading}

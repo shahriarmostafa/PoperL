@@ -27,6 +27,9 @@ import Salary from "../interfaces/owner/salary/Salary";
 import History from "../interfaces/owner/history/History";
 import ComplainList from "../interfaces/owner/complains/ComplainList";
 import AddUserPackage from "../interfaces/owner/AddUserPackage/AddPackage";
+import ManageSubjects from "../interfaces/owner/Subjects/ManageSubjects";
+import ManageActivePackages from "../interfaces/owner/ActivePackages/ManageActivePackages";
+import ManagePublicQuizzes from "../interfaces/owner/PublicQuizzes/ManagePublicQuizzes";
 import CheckOwner from "./CheckOwner";
 import PaymentDone from "../interfaces/general/PaymentDone";
 import PoperlCurrency from "../interfaces/currency/PoperlCurrency";
@@ -117,6 +120,18 @@ const router = createBrowserRouter([
               {
                 path: 'add-user-package',
                 element: <AddUserPackage></AddUserPackage>
+              },
+              {
+                path: 'subjects',
+                element: <ManageSubjects></ManageSubjects>
+              },
+              {
+                path: 'active-packages',
+                element: <ManageActivePackages></ManageActivePackages>
+              },
+              {
+                path: 'public-quizzes',
+                element: <ManagePublicQuizzes></ManagePublicQuizzes>
               }
 
 

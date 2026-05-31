@@ -739,4 +739,223 @@
   .about-hero {
     padding: 58px 0;
   }
+}
+.install-guide-section {
+  padding: 76px 0;
+  background: #0a1020;
+  border-bottom: 1px solid #1e2d47;
+}
+
+.install-guide-head {
+  max-width: 760px;
+}
+.install-guide-head p {
+  margin: 18px 0 0;
+  color: #8b9ab8;
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.install-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.install-step-card {
+  min-height: 220px;
+  padding: 20px;
+  background: #192034;
+  border: 1px solid #1e2d47;
+  border-radius: 8px;
+}
+.install-step-card span {
+  display: inline-flex;
+  margin-top: 16px;
+  color: #7b8dfa;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.install-step-card h3 {
+  margin: 10px 0 8px;
+  color: #ffffff;
+  font-size: 1.02rem;
+}
+.install-step-card p {
+  margin: 0;
+  color: #8b9ab8;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.install-step-icon,
+.install-modal-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(79, 99, 246, 0.14);
+  color: #7b8dfa;
+}
+
+.install-warning,
+.install-modal-warning {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid rgba(34, 200, 122, 0.28);
+  border-radius: 8px;
+  background: rgba(34, 200, 122, 0.08);
+  color: #ffffff;
+}
+.install-warning svg,
+.install-modal-warning svg {
+  flex: 0 0 auto;
+  color: #22c87a;
+  margin-top: 3px;
+}
+.install-warning p,
+.install-modal-warning p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.65;
+}
+
+.install-warning {
+  max-width: 900px;
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.install-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: end center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.install-modal {
+  width: min(520px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 24px;
+  background: #192034;
+  border: 1px solid #1e2d47;
+  border-radius: 12px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+.install-modal h2 {
+  margin: 18px 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.45rem, 6vw, 2rem);
+  line-height: 1.15;
+}
+.install-modal > p {
+  margin: 0;
+  color: #8b9ab8;
+  line-height: 1.7;
+}
+
+.install-modal-warning {
+  margin-top: 18px;
+  padding: 14px;
+}
+
+.install-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.install-modal-actions button {
+  width: 100%;
+}
+
+@media (max-width: 980px) {
+  .install-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .install-guide-section {
+    padding: 58px 0;
+  }
+  .install-steps-grid,
+  .install-modal-actions {
+    grid-template-columns: 1fr;
+  }
+  .install-step-card {
+    min-height: auto;
+  }
+  .install-modal-backdrop {
+    align-items: end;
+    padding: 10px;
+  }
+  .install-modal {
+    border-radius: 12px 12px 0 0;
+    padding: 20px;
+  }
+}
+.package-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.package-tab-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #1e2d47;
+  border-radius: 8px;
+}
+.package-tab-group button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #8b9ab8;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.package-tab-group button:hover, .package-tab-group button.active {
+  background: rgba(79, 99, 246, 0.16);
+  border-color: rgba(79, 99, 246, 0.38);
+  color: #ffffff;
+}
+
+.package-status {
+  grid-column: 1/-1;
+  padding: 24px;
+  background: #192034;
+  border: 1px solid #1e2d47;
+  border-radius: 8px;
+  color: #8b9ab8;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .package-tabs,
+  .package-tab-group {
+    width: 100%;
+  }
+  .package-tab-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }/*# sourceMappingURL=home.css.map */

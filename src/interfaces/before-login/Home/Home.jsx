@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaArrowRight,
@@ -6,6 +7,9 @@ import {
   FaChalkboardTeacher,
   FaCheckCircle,
   FaComments,
+  FaDownload,
+  FaExclamationTriangle,
+  FaFolderOpen,
   FaMobileAlt,
   FaShieldAlt,
   FaVideo,
@@ -15,13 +19,56 @@ import logo from "/logo-blue.png";
 import sliderImg1 from "../../../assests/slider-image-1.jpg";
 import Pack from "./Pack";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import usePackages from "../../../Hooks/usePackages";
 
-const packages = [
-  { packageId: "houry", name: "Basic Hour", price: 50, durationDays: 1, credit: 120 },
-  { packageId: "daily", name: "Daily Focus", price: 120, durationDays: 24, credit: 250 },
-  { packageId: "weekly", name: "Weekly Scholar's", price: 550, durationDays: 168, credit: 1200 },
-  { packageId: "monthly", name: "Path To Mastery", price: 2000, durationDays: 720, credit: 5000 },
+const fallbackPackages = [
+  { packageId: "houry", name: "Basic Hour", price: 50, durationDays: 1, credit: 120, category: "school", type: "bangla_medium" },
+  { packageId: "daily", name: "Daily Focus", price: 120, durationDays: 24, credit: 250, category: "school", type: "bangla_medium" },
+  { packageId: "weekly", name: "Weekly Scholar's", price: 550, durationDays: 168, credit: 1200, category: "school", type: "bangla_medium" },
+  { packageId: "monthly", name: "Path To Mastery", price: 2000, durationDays: 720, credit: 5000, category: "school", type: "bangla_medium" },
 ];
+
+const CATEGORY_LABELS = {
+  school: "School",
+  college: "College",
+  university: "University",
+};
+
+const TYPE_LABELS = {
+  bangla_medium: "Bangla Medium",
+  english_medium: "English Medium",
+};
+
+const formatLabel = (value) => {
+  if (!value) return "All";
+  return value
+    .split("_")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+};
+
+const getPackageId = (durationDays = 0) => {
+  if (durationDays <= 1) return "houry";
+  if (durationDays < 48) return "daily";
+  if (durationDays < 200) return "weekly";
+  return "monthly";
+};
+
+const normalizePackage = (pkg) => {
+  const durationDays = Number(pkg.durationDays) || 0;
+
+  return {
+    cardId: pkg._id || pkg.packageId || pkg.name,
+    packageId: pkg.packageId || getPackageId(durationDays),
+    name: pkg.name,
+    price: Number(pkg.price) || 0,
+    durationDays,
+    credit: Number(pkg.credit) || 0,
+    category: pkg.category,
+    type: pkg.type,
+  };
+};
 
 const subjects = [
   "Mathematics",
@@ -64,9 +111,63 @@ const steps = [
   "Join the live session",
 ];
 
+const installSteps = [
+  {
+    icon: <FaDownload />,
+    title: "Download",
+    text: "Tap the Download APK button and wait until the download finishes.",
+  },
+  {
+    icon: <FaFolderOpen />,
+    title: "Find the file",
+    text: "Open File Manager, Files, or Downloads on your phone.",
+  },
+  {
+    icon: <FaMobileAlt />,
+    title: "Tap the APK",
+    text: "Tap the downloaded PoperL APK file to begin installing.",
+  },
+  {
+    icon: <FaShieldAlt />,
+    title: "Allow if asked",
+    text: "If Android asks, allow install permission only for the browser or file manager you are using.",
+  },
+  {
+    icon: <FaCheckCircle />,
+    title: "Install and open",
+    text: "Tap Install, then open PoperL after the installation is complete.",
+  },
+];
+
 export default function Home() {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+  const [isPackageLoading, packageData] = usePackages();
+  const [showInstallModal, setShowInstallModal] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("school");
+  const [activeType, setActiveType] = useState("bangla_medium");
+
+  const realPackages = useMemo(() => {
+    return packageData.length ? packageData.map(normalizePackage) : fallbackPackages;
+  }, [packageData]);
+
+  const categories = useMemo(() => {
+    return [...new Set(realPackages.map((pkg) => pkg.category).filter(Boolean))];
+  }, [realPackages]);
+
+  const types = useMemo(() => {
+    return [...new Set(realPackages.map((pkg) => pkg.type).filter(Boolean))];
+  }, [realPackages]);
+
+  const visiblePackages = useMemo(() => {
+    const filtered = realPackages.filter((pkg) => {
+      const categoryMatches = !activeCategory || pkg.category === activeCategory;
+      const typeMatches = !activeType || pkg.type === activeType;
+      return categoryMatches && typeMatches;
+    });
+
+    return filtered.length ? filtered : realPackages;
+  }, [activeCategory, activeType, realPackages]);
 
   const downloadPoperl = async () => {
     try {
@@ -79,7 +180,16 @@ export default function Home() {
       link.remove();
     } catch (err) {
       console.error("Download failed", err);
+    } finally {
+      setShowInstallModal(true);
     }
+  };
+
+  const showInstallSteps = () => {
+    setShowInstallModal(false);
+    setTimeout(() => {
+      document.getElementById("install-guide")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   return (
@@ -93,6 +203,7 @@ export default function Home() {
             <a href="#subjects">Subjects</a>
             <a href="#packages">Pricing</a>
             <Link to="/about">About</Link>
+            <a href="#install-guide">How to install</a>
             <Link to="/teacherSignUp">Teach</Link>
           </nav>
           <button className="btn-outline-white" onClick={() => navigate("/signin")}>
@@ -211,10 +322,43 @@ export default function Home() {
           <div className="container">
             <span className="section-label">Pricing</span>
             <h2 className="section-title">Choose a package that matches your pace.</h2>
+            <div className="package-tabs" aria-label="Package category and medium filters">
+              <div className="package-tab-group">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={activeCategory === category ? "active" : ""}
+                    onClick={() => setActiveCategory(category)}
+                  >
+                    {CATEGORY_LABELS[category] || formatLabel(category)}
+                  </button>
+                ))}
+              </div>
+              <div className="package-tab-group">
+                {types.map((type) => (
+                  <button
+                    key={type}
+                    className={activeType === type ? "active" : ""}
+                    onClick={() => setActiveType(type)}
+                  >
+                    {TYPE_LABELS[type] || formatLabel(type)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="packages-grid">
-              {packages.map((pkg) => (
-                <Pack key={pkg.packageId} {...pkg} />
-              ))}
+              {isPackageLoading && !packageData.length ? (
+                <div className="package-status">Loading latest packages...</div>
+              ) : (
+                visiblePackages.map((pkg, index) => (
+                  <Pack
+                    key={pkg.cardId || pkg.packageId}
+                    {...pkg}
+                    isPopular={index === visiblePackages.length - 1}
+                  />
+                ))
+              )}
             </div>
           </div>
         </section>
@@ -236,6 +380,36 @@ export default function Home() {
               <Link className="btn-hero-secondary" to="/about">
                 Learn about PoperL <FaArrowRight />
               </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="install-guide-section" id="install-guide">
+          <div className="container">
+            <div className="install-guide-head">
+              <span className="section-label">APK help</span>
+              <h2 className="section-title">How to install the app</h2>
+              <p>
+                Android APK installation is simple, but your phone may ask for one extra permission because the app is
+                downloaded from the website instead of the Play Store.
+              </p>
+            </div>
+            <div className="install-steps-grid">
+              {installSteps.map((step, index) => (
+                <article className="install-step-card" key={step.title}>
+                  <div className="install-step-icon">{step.icon}</div>
+                  <span>Step {index + 1}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </article>
+              ))}
+            </div>
+            <div className="install-warning">
+              <FaExclamationTriangle />
+              <p>
+                This warning is normal for apps downloaded outside the Play Store. Only continue if you downloaded the
+                APK from the official PoperL website.
+              </p>
             </div>
           </div>
         </section>
@@ -263,6 +437,43 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {showInstallModal && (
+        <div className="install-modal-backdrop" role="presentation" onClick={() => setShowInstallModal(false)}>
+          <div
+            className="install-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="install-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="install-modal-icon">
+              <FaDownload />
+            </div>
+            <h2 id="install-modal-title">Your download has started</h2>
+            <p>
+              After it finishes, open your phone's File Manager or Downloads folder and tap the APK file to install
+              PoperL.
+            </p>
+            <div className="install-modal-warning">
+              <FaExclamationTriangle />
+              <p>
+                Your phone may show a security warning because the app is downloaded from our website instead of the
+                Play Store. This is normal for APK files. Please continue only if you downloaded it from the official
+                PoperL website.
+              </p>
+            </div>
+            <div className="install-modal-actions">
+              <button className="btn-hero-secondary" onClick={() => setShowInstallModal(false)}>
+                I understand
+              </button>
+              <button className="btn-hero-primary" onClick={showInstallSteps}>
+                Show install steps
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
