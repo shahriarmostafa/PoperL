@@ -59,7 +59,7 @@ export default function Dashboard (){
     const fetchDashboardStats = async () => {
         try {
             setLoading(true);
-            const response = await axiosSecure.get(`/dashboard-stats${getScopeQuery()}`);
+            const response = await axiosSecure.get('/dashboard-stats');
             if (response.data.success) applyStats(response.data.data);
             setError(null);
         } catch (err) {
@@ -72,7 +72,7 @@ export default function Dashboard (){
 
     useEffect(() => {
         fetchDashboardStats();
-    }, [axiosSecure, selectedCategory, selectedType]);
+    }, [axiosSecure]);
 
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-US', {
@@ -118,10 +118,7 @@ export default function Dashboard (){
     const handleGenerateMonthlyHistory = async () => {
         try {
             setGeneratingHistory(true);
-            const response = await axiosSecure.post('/generate-monthly-history', {
-                category: selectedCategory,
-                type: selectedType,
-            });
+            const response = await axiosSecure.post('/generate-monthly-history');
             if (response.data.success) {
                 Swal.fire({
                     title: 'Success',
@@ -131,7 +128,7 @@ export default function Dashboard (){
                     confirmButtonText: 'Close'
                 });
                 // Refresh dashboard data
-                const statsResponse = await axiosSecure.get(`/dashboard-stats${getScopeQuery()}`);
+                const statsResponse = await axiosSecure.get('/dashboard-stats');
                 if (statsResponse.data.success) {
                     applyStats(statsResponse.data.data);
                 }
