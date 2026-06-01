@@ -22,6 +22,7 @@ const defaultForm = {
   maxStudents: 10,
   freeAccess: true,
   creditExpenseEnabled: false,
+  quizExpenseEnabled: true,
   teacherControl: false,
 };
 
@@ -106,6 +107,7 @@ export default function ManageStudyRooms() {
       maxStudents: room.maxStudents || 10,
       freeAccess: room.freeAccess !== false,
       creditExpenseEnabled: room.creditExpenseEnabled === true,
+      quizExpenseEnabled: room.quizExpenseEnabled !== false,
       teacherControl: room.teacherControl === true,
     });
   };
@@ -219,6 +221,7 @@ export default function ManageStudyRooms() {
           <input type="number" min="1" value={form.maxStudents} onChange={(event) => setForm((prev) => ({ ...prev, maxStudents: event.target.value }))} placeholder="Max students" />
           <label className="admin-room-check"><input type="checkbox" checked={form.freeAccess} onChange={(event) => setForm((prev) => ({ ...prev, freeAccess: event.target.checked }))} /> Free access</label>
           <label className="admin-room-check"><input type="checkbox" checked={form.creditExpenseEnabled} onChange={(event) => setForm((prev) => ({ ...prev, creditExpenseEnabled: event.target.checked }))} /> Credit expense</label>
+          <label className="admin-room-check"><input type="checkbox" checked={form.quizExpenseEnabled} onChange={(event) => setForm((prev) => ({ ...prev, quizExpenseEnabled: event.target.checked }))} /> Quiz expense</label>
           <label className="admin-room-check"><input type="checkbox" checked={form.teacherControl} onChange={(event) => setForm((prev) => ({ ...prev, teacherControl: event.target.checked }))} /> Teacher control</label>
           <button type="submit" disabled={saving}>
             <FaPlus />

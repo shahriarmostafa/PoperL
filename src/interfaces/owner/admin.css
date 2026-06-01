@@ -1107,4 +1107,245 @@ section.admin .display .view .manage-subjects .subjects-list .subject-item .subj
   .manage-study-rooms .admin-room-layout {
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 992px) {
+  section.admin .display .sidebar {
+    width: 26%;
+  }
+  section.admin .display .sidebar .display-names a .item {
+    padding: 16px 12px;
+  }
+  section.admin .display .sidebar .display-names a .item p {
+    font-size: 10px;
+  }
+  section.admin .display .view {
+    width: 74%;
+  }
+  section.admin .display .view nav .container .logo {
+    width: 150px;
+  }
+  section.admin .display .view .analytics {
+    padding: 30px 18px;
+  }
+  section.admin .display .view .analytics .st-and-te .box {
+    width: 44%;
+  }
+  section.admin .display .view .analytics .packages .package {
+    width: 44%;
+  }
+}
+@media (max-width: 768px) {
+  section.admin {
+    height: auto;
+  }
+  section.admin .headline {
+    font-size: 22px;
+  }
+  section.admin .display {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  section.admin .display .sidebar {
+    width: 100% !important;
+    height: auto;
+    min-height: unset;
+    resize: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  section.admin .display .sidebar .display-names {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  section.admin .display .sidebar .display-names a {
+    flex-shrink: 0;
+  }
+  section.admin .display .sidebar .display-names a .item {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    text-align: center;
+    transform: none !important;
+  }
+  section.admin .display .sidebar .display-names a .item .icon {
+    width: 18px;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  section.admin .display .sidebar .display-names a .item p {
+    font-size: 9px;
+    white-space: nowrap;
+  }
+  section.admin .display .view {
+    width: 100% !important;
+    height: auto;
+  }
+  section.admin .display .view nav .container {
+    padding: 10px 16px;
+  }
+  section.admin .display .view nav .container .logo {
+    width: 120px;
+  }
+  section.admin .display .view nav .container .profile {
+    width: 36px;
+  }
+  section.admin .display .view nav .container .profile .dropdown {
+    right: 0;
+    padding: 14px 30px;
+  }
+  section.admin .display .view .analytics {
+    padding: 20px 14px;
+  }
+  section.admin .display .view .analytics .st-and-te {
+    margin-bottom: 20px;
+  }
+  section.admin .display .view .analytics .st-and-te .box {
+    width: 100%;
+    padding: 14px 20px;
+    margin-bottom: 14px;
+  }
+  section.admin .display .view .analytics .redi-buttons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  section.admin .display .view .analytics .redi-buttons button {
+    margin-left: 0;
+    margin-bottom: 8px;
+    padding: 10px 24px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+  section.admin .display .view .analytics .redi-buttons button a {
+    display: block;
+  }
+  section.admin .display .view .analytics .packages .package {
+    width: 100%;
+    padding: 30px 24px;
+  }
+  section.admin .display .view .analytics .form {
+    max-width: 100%;
+    margin: 20px 0;
+    padding: 24px 18px;
+  }
+  section.admin .display .view .analytics .table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  section.admin .display .view .analytics .table table {
+    min-width: 540px;
+  }
+  section.admin .display .view .analytics .close-calculation-btn button {
+    width: 100%;
+    font-size: 20px;
+    padding: 30px;
+  }
+  section.admin .display .view .salary-stats-row {
+    flex-direction: column;
+  }
+  section.admin .display .view .salary-stats-row .salary-stat {
+    width: 100%;
+  }
+  section.admin .display .view .active-packages-page .ap-edit-grid {
+    grid-template-columns: 1fr;
+  }
+  section.admin .display .view .active-packages-page .ap-toggles {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  section.admin .display .view .active-packages-page .ap-stats-bar {
+    gap: 10px;
+  }
+  section.admin .display .view .active-packages-page .ap-search-bar {
+    flex-direction: column;
+  }
+  section.admin .display .view .active-packages-page .ap-search-bar button {
+    width: 100%;
+  }
+  section.admin .display .view .active-packages-page .ap-filter-row select {
+    min-width: 100%;
+  }
+  section.admin .display .view .active-packages-page .ap-edit-actions {
+    flex-direction: column;
+  }
+  section.admin .display .view .active-packages-page .ap-edit-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  section.admin .display .view .manage-subjects {
+    max-width: 100%;
+  }
+  section.admin .display .view .manage-subjects .subjects-filter-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  section.admin .display .view .manage-subjects .subjects-filter-row .filter-label {
+    width: auto;
+    margin-bottom: 4px;
+  }
+  section.admin .display .view .manage-subjects .subjects-add-form {
+    flex-direction: column;
+  }
+  section.admin .display .view .manage-subjects .subjects-add-form button[type=submit] {
+    width: 100%;
+    justify-content: center;
+  }
+  .manage-study-rooms .study-room-admin-form {
+    grid-template-columns: 1fr;
+  }
+  .manage-study-rooms .admin-room-layout {
+    grid-template-columns: 1fr;
+  }
+  .manage-study-rooms .admin-room-inline-form {
+    grid-template-columns: 1fr;
+  }
+  .manage-study-rooms .admin-room-inline-form button {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  section.admin .headline {
+    font-size: 18px;
+  }
+  section.admin .display .sidebar .display-names a .item {
+    padding: 8px 10px;
+  }
+  section.admin .display .sidebar .display-names a .item p {
+    display: none;
+  }
+  section.admin .display .sidebar .display-names a .item .icon {
+    margin-bottom: 0;
+  }
+  section.admin .display .view nav .container .logo {
+    width: 100px;
+  }
+  section.admin .display .view .analytics {
+    padding: 12px 8px;
+  }
+  section.admin .display .view .analytics .st-and-te .box {
+    padding: 12px 14px;
+  }
+  section.admin .display .view .analytics .st-and-te .box .icon {
+    width: 52px;
+    height: 52px;
+  }
+  section.admin .display .view .analytics .st-and-te .box .icon svg {
+    font-size: 22px;
+  }
+  section.admin .display .view .analytics .st-and-te .box .subject .number {
+    font-size: 22px;
+  }
+  section.admin .display .view .analytics .table table {
+    font-size: 10px;
+  }
+  section.admin .display .view .analytics .table table th, section.admin .display .view .analytics .table table td {
+    padding: 8px 6px;
+  }
+  section.admin .display .view .analytics .redi-buttons button {
+    padding: 9px 16px;
+    font-size: 11px;
+  }
 }/*# sourceMappingURL=admin.css.map */
