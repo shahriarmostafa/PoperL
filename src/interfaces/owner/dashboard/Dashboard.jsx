@@ -13,7 +13,13 @@ export default function Dashboard (){
         totalMoney: 0,
         totalAvailableCreditWorth: 0,
         totalWithdrawals: 0,
+        pendingWithdrawals: 0,
         moneyInPlatform: 0,
+        availablePlatformBalance: 0,
+        platformProfit: 0,
+        thisMonthProfit: 0,
+        lastMonthProfit: 0,
+        profitChange: 0,
         totalTeacherPoints: 0,
         thisMonthRevenue: 0,
         lastMonthRevenue: 0,
@@ -45,7 +51,13 @@ export default function Dashboard (){
             totalMoney: platformMoneySummary?.totalMoney || 0,
             totalAvailableCreditWorth: platformMoneySummary?.totalAvailableCreditWorth || 0,
             totalWithdrawals: platformMoneySummary?.totalWithdrawals || 0,
+            pendingWithdrawals: platformMoneySummary?.pendingWithdrawals || 0,
             moneyInPlatform: platformMoneySummary?.moneyInPlatform || 0,
+            availablePlatformBalance: platformMoneySummary?.availablePlatformBalance || 0,
+            platformProfit: platformMoneySummary?.platformProfit || 0,
+            thisMonthProfit: platformMoneySummary?.thisMonthProfit || 0,
+            lastMonthProfit: platformMoneySummary?.lastMonthProfit || 0,
+            profitChange: platformMoneySummary?.profitChange || 0,
             totalTeacherPoints: platformMoneySummary?.totalTeacherPoints || 0,
             thisMonthRevenue: platformMoneySummary?.thisMonthRevenue || 0,
             lastMonthRevenue: platformMoneySummary?.lastMonthRevenue || 0,
@@ -223,7 +235,7 @@ export default function Dashboard (){
                     </div>
                     <div className="total-students box d-flex">
                         <div className="icon">
-                            <FaGraduationCap></FaGraduationCap>
+		                            <FaBangladeshiTakaSign></FaBangladeshiTakaSign>
                         </div>
                         <div className="subject">
                             <div className="text">
@@ -279,14 +291,49 @@ export default function Dashboard (){
                         </div>
                     </div>
                 </div>
-                <div className="st-and-te">
-                    <div className="this-month box d-flex">
-                        <div className="icon">
-                            <FaGraduationCap></FaGraduationCap>
-                        </div>
-                        <div className="subject">
-                            <div className="text">
-                                <h4>This Month Enrollments</h4>
+	                <div className="st-and-te">
+	                    <div className="this-month box d-flex">
+	                        <div className="icon">
+		                            <FaBangladeshiTakaSign></FaBangladeshiTakaSign>
+	                        </div>
+	                        <div className="subject">
+	                            <div className="text">
+	                                <h4>This Month Profit</h4>
+	                            </div>
+	                            <div className="number">{loading ? '...' : formatCurrency(stats.thisMonthProfit)}</div>
+	                        </div>
+	                    </div>
+	                    <div className="last-month box d-flex">
+	                        <div className="icon">
+	                            <FaClock></FaClock>
+	                        </div>
+	                        <div className="subject">
+	                            <div className="text">
+	                                <h4>Last Month Profit</h4>
+	                            </div>
+	                            <div className="number">{loading ? '...' : formatCurrency(stats.lastMonthProfit)}</div>
+	                        </div>
+	                    </div>
+	                    <div className="difference box d-flex">
+	                        <div className="icon">
+	                            <FaChartLine></FaChartLine>
+	                        </div>
+	                        <div className="subject">
+	                            <div className="text">
+	                                <h4>Profit Difference</h4>
+	                            </div>
+	                            <div className="number">{loading ? '...' : formatCurrency(stats.profitChange)}</div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div className="st-and-te">
+	                    <div className="this-month box d-flex">
+	                        <div className="icon">
+	                            <FaGraduationCap></FaGraduationCap>
+	                        </div>
+	                        <div className="subject">
+	                            <div className="text">
+	                                <h4>This Month Enrollments</h4>
                             </div>
                             <div className="number">{loading ? '...' : stats.thisMonthEnrollments}</div>
                         </div>
@@ -335,6 +382,41 @@ export default function Dashboard (){
                                 <h4>Available Credit Worth</h4>
                             </div>
                             <div className="number">{loading ? '...' : formatCurrency(stats.totalAvailableCreditWorth)}</div>
+                        </div>
+                    </div>
+                    <div className="money-in-platform box d-flex">
+                        <div className="icon">
+                            <FaChartLine></FaChartLine>
+                        </div>
+                        <div className="subject">
+                            <div className="text">
+                                <h4>Platform Profit</h4>
+                            </div>
+                            <div className="number">{loading ? '...' : formatCurrency(stats.platformProfit)}</div>
+                        </div>
+                    </div>
+                </div>
+                <div className="st-and-te">
+                    <div className="money-in-platform box d-flex">
+                        <div className="icon">
+                            <FaChartLine></FaChartLine>
+                        </div>
+                        <div className="subject">
+                            <div className="text">
+                                <h4>Available After Pending</h4>
+                            </div>
+                            <div className="number">{loading ? '...' : formatCurrency(stats.availablePlatformBalance)}</div>
+                        </div>
+                    </div>
+                    <div className="withdrawals box d-flex">
+                        <div className="icon">
+                            <FaClock></FaClock>
+                        </div>
+                        <div className="subject">
+                            <div className="text">
+                                <h4>Pending Withdrawals</h4>
+                            </div>
+                            <div className="number">{loading ? '...' : formatCurrency(stats.pendingWithdrawals)}</div>
                         </div>
                     </div>
                     <div className="withdrawals box d-flex">

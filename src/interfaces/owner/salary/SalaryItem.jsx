@@ -1,6 +1,7 @@
 import { FaCheck, FaClock } from "react-icons/fa";
 
-export default function SalaryItem({ serial, name, uid, bkashNumber, points, amount, requestedAt, paid, paidAt, payFunction, id }) {
+export default function SalaryItem({ serial, name, uid, bkashNumber, points, amount, requestedAt, paid, paidAt, status, rejectedAt, payFunction, rejectFunction, id }) {
+    const isRejected = status === "rejected";
 
     const formatDate = (d) => {
         if (!d) return "—";
@@ -24,6 +25,8 @@ export default function SalaryItem({ serial, name, uid, bkashNumber, points, amo
             <td>
                 {paid
                     ? <span style={{ color: "#059669", fontWeight: 700, fontSize: 12 }}><FaCheck style={{ marginRight: 4 }} />Paid<br /><small style={{ opacity: 0.65, fontWeight: 400 }}>{formatDate(paidAt)}</small></span>
+                    : isRejected
+                    ? <span style={{ color: "#dc2626", fontWeight: 700, fontSize: 12 }}>Rejected<br /><small style={{ opacity: 0.65, fontWeight: 400 }}>{formatDate(rejectedAt)}</small></span>
                     : <span style={{ color: "#d97706", fontWeight: 700, fontSize: 12 }}><FaClock style={{ marginRight: 4 }} />Pending</span>
                 }
             </td>
@@ -31,11 +34,19 @@ export default function SalaryItem({ serial, name, uid, bkashNumber, points, amo
                 <div className="redi-buttons d-flex">
                     <button
                         onClick={() => payFunction(id)}
-                        disabled={paid}
-                        className={paid ? "bg-secondary show-all" : "bg-success show-all"}
+                        disabled={paid || isRejected}
+                        className={paid || isRejected ? "bg-secondary show-all" : "bg-success show-all"}
                     >
-                        {paid ? "Paid" : "Mark Paid"}
+                        {paid ? "Paid" : isRejected ? "Rejected" : "Mark Paid"}
                     </button>
+                    {!paid && !isRejected && (
+                        <button
+                            onClick={() => rejectFunction(id)}
+                            className="bg-danger show-all"
+                        >
+                            Reject
+                        </button>
+                    )}
                 </div>
             </td>
         </tr>

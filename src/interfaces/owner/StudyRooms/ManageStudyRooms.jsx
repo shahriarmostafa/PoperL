@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { FaChalkboardTeacher, FaEdit, FaPlus, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
+import { FaCalculator, FaChalkboardTeacher, FaEdit, FaPlus, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const CATEGORIES = [
@@ -34,6 +34,7 @@ export default function ManageStudyRooms() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [selectedRoomId, setSelectedRoomId] = useState("");
+  const [roomQuizzes, setRoomQuizzes] = useState([]);
   const [studentEmail, setStudentEmail] = useState("");
   const [teacherForm, setTeacherForm] = useState({ teacherId: "", subject: "" });
   const [form, setForm] = useState(defaultForm);
@@ -84,6 +85,19 @@ export default function ManageStudyRooms() {
     }
   }, [axiosSecure, form.category, form.type, teacherForm.subject]);
 
+  const fetchRoomQuizzes = useCallback(async () => {
+    if (!selectedRoom?.id) {
+      setRoomQuizzes([]);
+      return;
+    }
+    try {
+      const res = await axiosSecure.get(`/api/admin/study-rooms/${selectedRoom.id}/quizzes`);
+      setRoomQuizzes(res.data.quizzes || []);
+    } catch {
+      setRoomQuizzes([]);
+    }
+  }, [axiosSecure, selectedRoom?.id]);
+
   useEffect(() => {
     fetchRooms();
   }, [fetchRooms]);
@@ -95,6 +109,10 @@ export default function ManageStudyRooms() {
   useEffect(() => {
     fetchTeachers();
   }, [fetchTeachers]);
+
+  useEffect(() => {
+    fetchRoomQuizzes();
+  }, [fetchRoomQuizzes]);
 
   const syncSelectedRoomToForm = (room) => {
     if (!room) return;
@@ -198,6 +216,34 @@ export default function ManageStudyRooms() {
     }
   };
 
+  const calculateRoomQuiz = async (quiz) => {
+    try {
+      await axiosSecure.post(`/api/admin/study-rooms/${selectedRoom.id}/quizzes/${quiz.id}/settle`, {});
+      await fetchRoomQuizzes();
+      Swal.fire({ title: "Rewards calculated", icon: "success", timer: 1400, showConfirmButton: false });
+    } catch (err) {
+      Swal.fire("Could not calculate", err.response?.data?.error || "Teacher may still need to submit marks.", "error");
+    }
+  };
+
+  const deleteRoomQuiz = async (quiz) => {
+    const result = await Swal.fire({
+      title: "Delete quiz?",
+      text: quiz.title || "This room quiz will be removed.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      confirmButtonColor: "#BD2130",
+    });
+    if (!result.isConfirmed) return;
+    try {
+      await axiosSecure.delete(`/api/admin/study-rooms/${selectedRoom.id}/quizzes/${quiz.id}`);
+      await fetchRoomQuizzes();
+    } catch (err) {
+      Swal.fire("Could not delete", err.response?.data?.error || "Please try again.", "error");
+    }
+  };
+
   return (
     <div className="analytics">
       <div className="manage-subjects manage-study-rooms">
@@ -295,6 +341,23 @@ export default function ManageStudyRooms() {
                     <button type="button" onClick={() => removeTeacher(session.chatId)}><FaTrash /></button>
                   </span>
                 ))}
+              </div>
+
+              <h3>Room quizzes</h3>
+              <div className="admin-room-member-list teacher-list">
+                {roomQuizzes.length ? roomQuizzes.map((quiz) => {
+                  const hasManualQuestions = (quiz.questions || []).some((question) => ["open", "image"].includes(question.type));
+                  const canCalculate = quiz.status !== "completed" && (!hasManualQuestions || quiz.markingCompletedAt);
+                  return (
+                    <span key={quiz.id}>
+                      {quiz.title || quiz.subject} - {quiz.status}
+                      {canCalculate && <button type="button" onClick={() => calculateRoomQuiz(quiz)}><FaCalculator /></button>}
+                      <button type="button" onClick={() => deleteRoomQuiz(quiz)}><FaTrash /></button>
+                    </span>
+                  );
+                }) : (
+                  <span>No room quizzes yet</span>
+                )}
               </div>
             </div>
           )}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { FaClipboardList, FaPlus, FaTrash } from "react-icons/fa";
+import { FaCalculator, FaClipboardList, FaPlus, FaTrash } from "react-icons/fa";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const CATEGORIES = [
@@ -131,6 +131,16 @@ export default function ManagePublicQuizzes() {
     }
   };
 
+  const calculateQuiz = async (quiz) => {
+    try {
+      await axiosSecure.post(`/api/admin/public-quizzes/${quiz.id}/settle`, {});
+      fetchQuizzes();
+      Swal.fire({ title: "Rewards calculated", icon: "success", timer: 1400, showConfirmButton: false });
+    } catch (err) {
+      Swal.fire("Could not calculate", err.response?.data?.error || "Teacher may still need to submit marks.", "error");
+    }
+  };
+
   const categoryLabel = CATEGORIES.find((item) => item.value === selectedCategory)?.label;
   const typeLabel = TYPES.find((item) => item.value === selectedType)?.label;
 
@@ -201,21 +211,28 @@ export default function ManagePublicQuizzes() {
         <div className="subjects-list">
           {loading ? (
             <div className="subjects-loading">Loading...</div>
-          ) : quizzes.length ? quizzes.map((quiz) => (
-            <div className="subject-item" key={quiz.id}>
-              <span className="subject-name">
-                {quiz.title || quiz.subject}
-                <small> · {quiz.subject} · {quiz.status} · {quiz.teacher?.displayName || quiz.teacherId}</small>
-              </span>
-              <div className="subject-actions">
-                {quiz.status !== "completed" && (
+          ) : quizzes.length ? quizzes.map((quiz) => {
+            const hasManualQuestions = (quiz.questions || []).some((question) => ["open", "image"].includes(question.type));
+            const canCalculate = quiz.status !== "completed" && (!hasManualQuestions || quiz.markingCompletedAt);
+            return (
+              <div className="subject-item" key={quiz.id}>
+                <span className="subject-name">
+                  {quiz.title || quiz.subject}
+                  <small> · {quiz.subject} · {quiz.status} · {quiz.teacher?.displayName || quiz.teacherId}</small>
+                </span>
+                <div className="subject-actions">
+                  {canCalculate && (
+                    <button className="subject-btn" type="button" onClick={() => calculateQuiz(quiz)} title="Calculate rewards">
+                      <FaCalculator />
+                    </button>
+                  )}
                   <button className="subject-btn delete-btn" type="button" onClick={() => deleteQuiz(quiz)} title="Delete">
                     <FaTrash />
                   </button>
-                )}
+                </div>
               </div>
-            </div>
-          )) : (
+            );
+          }) : (
             <div className="subjects-empty">
               <FaClipboardList />
               <p>No public quiz assigned for {categoryLabel} · {typeLabel}{selectedSubject ? ` · ${selectedSubject}` : ""}</p>

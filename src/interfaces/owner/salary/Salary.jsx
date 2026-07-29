@@ -7,13 +7,12 @@ export default function Salary() {
     const [isLoading, salaryData, refetch] = useSalaryData();
     const axiosSecure = useAxiosSecure();
 
-    const pendingCount = salaryData.filter((s) => !s.paid).length;
+    const pendingItems = salaryData.filter((s) => !s.paid && !["rejected", "cancelled"].includes(s.status));
+    const pendingCount = pendingItems.length;
     const totalPaid = salaryData
         .filter((s) => s.paid)
         .reduce((sum, s) => sum + Number(s.amount || 0), 0);
-    const totalPending = salaryData
-        .filter((s) => !s.paid)
-        .reduce((sum, s) => sum + Number(s.amount || 0), 0);
+    const totalPending = pendingItems.reduce((sum, s) => sum + Number(s.amount || 0), 0);
 
     const payHandler = (id) => {
         Swal.fire({
@@ -28,6 +27,23 @@ export default function Salary() {
                 await axiosSecure.patch(`/paySalary/${id}`);
                 refetch();
                 Swal.fire({ title: "Marked as paid", icon: "success", timer: 1400, showConfirmButton: false });
+            }
+        });
+    };
+
+    const rejectHandler = (id) => {
+        Swal.fire({
+            title: "Reject request?",
+            text: "This will release the reserved points back to the teacher.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc2626",
+            confirmButtonText: "Reject",
+        }).then(async (res) => {
+            if (res.isConfirmed) {
+                await axiosSecure.patch(`/rejectSalary/${id}`);
+                refetch();
+                Swal.fire({ title: "Rejected", icon: "success", timer: 1400, showConfirmButton: false });
             }
         });
     };
@@ -82,7 +98,10 @@ export default function Salary() {
                                     requestedAt={item.requestedAt}
                                     paid={item.paid}
                                     paidAt={item.paidAt}
+                                    status={item.status}
+                                    rejectedAt={item.rejectedAt}
                                     payFunction={payHandler}
+                                    rejectFunction={rejectHandler}
                                 />
                             ))}
                         </tbody>

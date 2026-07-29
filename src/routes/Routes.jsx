@@ -72,7 +72,7 @@ const router = createBrowserRouter([
    
     {
         path: 'maintainance',
-        element: <CheckOwner><Maintainance></Maintainance></CheckOwner>,
+        element: <Maintainance></Maintainance>,
         errorElement: <Error></Error>,
         children: [
               {
